@@ -6,18 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width" />
     <link href="~/libraries/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/libraries/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
-<body class="bg-dark p-2">
-    <div class="row m-2 bg-white text-center">
-        <h1 class="col text-black">Grande Gift</h1>
+<body class="bg-dark">
+    <div class="bg-white">
+        <div class="row">
+            <h1 class="col-4 text-black float-left pt-md-3 pb-md-3">Grande Gift</h1>
+            <div class="col-4"></div>
+            <div class="col-4 pt-md-3 pb-md-3"><span class="float-right"><input type="text" placeholder="Search Site for hampers" /> <i class="fa fa-search" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <div class="navbar row m-2">
+            <a class="col">Home <i class="fa fa-home" aria-hidden="true"></i></a>
+            <a class="col">Login <i class="fa fa-user" aria-hidden="true"></i><i class="fa fa-sign-in" aria-hidden="true"></i></a>
+            <a class="col">Register <i class="fa fa-user-circle" aria-hidden="true"></i></a>
+            <a class="col">About Us <i class="fa fa-info" aria-hidden="true"></i></a>
+            <a class="col">Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+        </div>
     </div>
-    <div class="navbar row bg-light m-2">
-        <a class="col">test</a>
-        <a class="col">test</a>
-        <a class="col">test</a>
-    </div>
-    <div class="container bg-light">
+    
+    <div class="bg-light container">
         @RenderBody()
     </div>
 
