@@ -3,34 +3,39 @@
 <html>
 <head>
     <meta cha'utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width" />
     <link href="~/libraries/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="~/libraries/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  
-    <link href="~/static/css/main.css" rel="stylesheet" />
+
+    <link href="~/static/css/nav.css" rel="stylesheet" />
+    <link href="~/static/css/footer.css" rel="stylesheet" />
+
+    <link href="~/static/css/layout.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
-<body class="bg-dark container-fluid">
+<body class="bg-dark wrap">
 
-    <div class="row navbar navbar-expand-md navbar-light bg-light mb-4 text-center">
+    <div class="section container-fluid navbar navbar-expand-md navbar-light bg-light mb-4">
         @{
             Html.RenderPartial("_NavMenu");
         }
+
     </div>
 
-    <main class="bg-light container-fluid">
-            @RenderBody()
+    <main class="main bg-light pt-4">
+        
+        @RenderBody()
     </main>
 
-    <footer class="bg-white">
-        <div>
-
-        </div>
+    <footer class="section footer footer-classic bg-light mt-4">
+        @{ 
+            Html.RenderPartial("_Footer");
+        }
     </footer>
+    <script src="~/libraries/jquery/jquery.js"></script>
+    <script src="~/libraries/popper.js/popper.js"></script>
     <script src="~/libraries/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/libraries/jquery/jquery.min.js"></script>
-    <script src="~/libraries/popper.js/popper.min.js"></script>
     <script src="~/static/js/nav.js"></script>
 </body>
 </html>
