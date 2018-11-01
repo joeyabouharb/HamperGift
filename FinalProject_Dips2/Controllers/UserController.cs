@@ -6,17 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject_Dips2.Controllers
 {
-    public class HomeController : Controller
+    public class UserController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult About()
-        {
-            return View();
-        }
-        public IActionResult Contact()
         {
             return View();
         }
