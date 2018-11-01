@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-
+using FinalProject_Dips2.services;
+using FinalProject_Dips2.Models;
 namespace FinalProject_Dips2
 {
     public class Startup
@@ -16,6 +17,9 @@ namespace FinalProject_Dips2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
+      
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

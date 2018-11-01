@@ -9,10 +9,8 @@ namespace FinalProject_Dips2.Models
     {
         public int CategoryId { get; set; }
 
-        public int ProductuctId { get; set; }
-
         public string CategoryName { get; set; }
-        
 
+        public ICollection<Hamper> Products { get; set; }
     }
 }

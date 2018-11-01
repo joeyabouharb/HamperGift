@@ -1,4 +1,4 @@
-﻿
+﻿@model HomeIndexViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -114,5 +114,17 @@
 <script src="~/static/js/carousel.js"></script>
 
 <div class="container mt-5 mb-4 justify-content-center">
-  
+    <table>
+        @{
+            foreach (var hamper in Model.Hampers)
+            {
+             
+                <tr>
+                    <th>@hamper.HamperName</th>
+                   
+                </tr>
+                    }
+    
+            }
+    </table>
 </div>
