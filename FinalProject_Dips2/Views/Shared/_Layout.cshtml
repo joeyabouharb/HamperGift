@@ -17,10 +17,9 @@
 <body class="bg-dark wrap">
 
     <div class="section container-fluid navbar navbar-expand-md navbar-light bg-light mb-4">
-        @{
-            Html.RenderPartial("_NavMenu");
-        }
 
+        <partial name="_NavMenu" />
+        <script src="~/static/js/nav.js"></script>
     </div>
 
     <main class="main bg-light pt-4">
@@ -29,13 +28,11 @@
     </main>
 
     <footer class="section footer footer-classic bg-light mt-4">
-        @{ 
-            Html.RenderPartial("_Footer");
-        }
+      <partial name="_Footer"/>
     </footer>
     <script src="~/libraries/jquery/jquery.js"></script>
     <script src="~/libraries/popper.js/popper.js"></script>
     <script src="~/libraries/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/static/js/nav.js"></script>
+   
 </body>
 </html>

@@ -7,12 +7,11 @@ namespace FinalProject_Dips2.Models
 {
     public class Product
     {  
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public string ProductName { get; set; }
+        public string productSize { get; set; }
 
-        public decimal CostPrice { get; set; }
-
-        public IList<HamperProduct> HamperProducts {get; set;}
+        public ICollection<HamperProduct> HamperProducts { get; set; }
     }
 }

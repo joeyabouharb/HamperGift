@@ -112,18 +112,39 @@
     </div>
 </div>
 <script src="~/static/js/carousel.js"></script>
-
+<link href="~/static/css/searchbar.css" rel="stylesheet" />
 <div class="container mt-5 mb-4 justify-content-center">
-    <table>
-        @{
-            foreach (var hamper in Model.Hampers)
-            {      
-                <tr>
-                    <th>@hamper.HamperName</th>
-                    <th><img src="/Home/ViewImage/@hamper.ImageId" /></th>
-                </tr>
-                    }
-    
+    <h4 class="row d-block mb-3">All Products</h4>
+    <div class="row justify-content-center mb-3">
+        <div class="col-12 col-md-10 col-lg-8">
+            <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
+                    </div>
+                    <!--end of col-->
+                    <div class="col">
+                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                    </div>
+                    <!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                    </div>
+                    <!--end of col-->
+                </div>
+            </form>
+        </div>
+    </div>
+        <table>
+            @{
+                foreach (var hamper in Model.Hampers)
+                {
+                    <tr>
+                        <th></th>
+                        <th class="h-25"><div class="d-block text-center">@hamper.HamperName</div><img class="img-fluid h-25" src="/Home/ViewImage/@hamper.ImageId" /></th>
+                    </tr>
+                }
+
             }
-    </table>
-</div>
+        </table>
+    </div>

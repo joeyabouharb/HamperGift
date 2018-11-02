@@ -14,11 +14,14 @@ namespace FinalProject_Dips2.Controllers
     {
         private IDataService<Hamper> _hamperDataService;
         private IDataService<Image> _imageDataService;
+
     public HomeController(IDataService<Hamper> HamperDataService, IDataService<Image> ImageDataService)
         {
             _hamperDataService = HamperDataService;
             _imageDataService = ImageDataService;
         } 
+
+        [HttpGet]
         public IActionResult Index(HomeIndexViewModel vm)
         {
             IEnumerable<Hamper> hampers = _hamperDataService.GetAll();
@@ -29,21 +32,21 @@ namespace FinalProject_Dips2.Controllers
             };
             return View(vm);
         }
+        [HttpGet]
         public IActionResult About()
         {
             return View();
         }
-        public IActionResult Contact()
-        {
-            return View();
-        }
+
         [HttpGet]
-        public FileStreamResult ViewImage(Guid id)
+        public FileStreamResult ViewImage(int id)
         {
             Models.Image image = _imageDataService.GetSingle(im => im.ImageId == id);
 
             MemoryStream stream = new MemoryStream(image.Data);
             return new FileStreamResult(stream, image.ContentType);
         }
+
+
     }
 }

@@ -11,17 +11,21 @@ namespace FinalProject_Dips2.Models
     public class Hamper
     {
       
-        public Guid HamperId { get; set; }
+        public int HamperId { get; set; }
 
         public string HamperName { get; set; }
 
         public string Description {get; set; }
 
-        public Guid ImageId { get; set; }
+        public int ImageId { get; set; }
 
-        public Guid CategoryId { get; set; }
+     
+      
+        public double Cost { get; set; }
 
-        public IList<HamperProduct> HamperProducts { get; set; }
+        public int CategoryId { get; set; }
+
+        public ICollection<HamperProduct> HamperProducts { get; set; }
 
     }
 }

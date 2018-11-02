@@ -6,7 +6,7 @@
         
             e.preventDefault();
             e.stopPropagation();
-        }
+    
     });
 
 });

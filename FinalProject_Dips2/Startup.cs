@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using FinalProject_Dips2.services;
 using FinalProject_Dips2.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace FinalProject_Dips2
 {
     public class Startup
@@ -19,7 +21,19 @@ namespace FinalProject_Dips2
             services.AddMvc();
             services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Image>, DataService<Image>>();
-
+            services.AddIdentity<IdentityUser, IdentityRole>
+         (
+             config =>
+             {
+                 config.User.RequireUniqueEmail = true;
+                 config.Password.RequireDigit = true;
+                 config.Password.RequiredLength = 6;
+                 config.Password.RequireLowercase = true;
+                 config.Password.RequireNonAlphanumeric = true;
+                 config.Password.RequireUppercase = true;
+             }
+         ).AddEntityFrameworkStores<HamperDbContext>();
+            services.AddDbContext<HamperDbContext>();
 
         }
 
@@ -32,7 +46,11 @@ namespace FinalProject_Dips2
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
+            app.UseSession();
+
+            SeedHelper.Seed(app.ApplicationServices).Wait();
         }
     }
 }
