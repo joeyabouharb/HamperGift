@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
 namespace FinalProject_Dips2.Migrations
 {
-    public partial class InitMigrations : Migration
+    public partial class Init_Migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +12,7 @@ namespace FinalProject_Dips2.Migrations
                 name: "TblCategories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryId = table.Column<Guid>(nullable: false),
                     CategoryName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -23,11 +21,27 @@ namespace FinalProject_Dips2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TblImages",
+                columns: table => new
+                {
+                    ImageId = table.Column<Guid>(nullable: false),
+                    ContentType = table.Column<string>(nullable: true),
+                    Data = table.Column<byte[]>(nullable: true),
+                    FileName = table.Column<string>(nullable: true),
+                    Height = table.Column<int>(nullable: false),
+                    Length = table.Column<int>(nullable: false),
+                    Width = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblImages", x => x.ImageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TblProduct",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ProductId = table.Column<Guid>(nullable: false),
                     CostPrice = table.Column<decimal>(nullable: false),
                     ProductName = table.Column<string>(nullable: true)
                 },
@@ -40,12 +54,11 @@ namespace FinalProject_Dips2.Migrations
                 name: "TblHamper",
                 columns: table => new
                 {
-                    HamperId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryId = table.Column<int>(nullable: false),
+                    HamperId = table.Column<Guid>(nullable: false),
+                    CategoryId = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     HamperName = table.Column<string>(nullable: true),
-                    Image = table.Column<byte[]>(nullable: true)
+                    ImageId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,14 +69,20 @@ namespace FinalProject_Dips2.Migrations
                         principalTable: "TblCategories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TblHamper_TblImages_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "TblImages",
+                        principalColumn: "ImageId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TblHamperProducts",
                 columns: table => new
                 {
-                    HamperId = table.Column<int>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false)
+                    HamperId = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,6 +107,11 @@ namespace FinalProject_Dips2.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TblHamper_ImageId",
+                table: "TblHamper",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TblHamperProducts_ProductId",
                 table: "TblHamperProducts",
                 column: "ProductId");
@@ -106,6 +130,9 @@ namespace FinalProject_Dips2.Migrations
 
             migrationBuilder.DropTable(
                 name: "TblCategories");
+
+            migrationBuilder.DropTable(
+                name: "TblImages");
         }
     }
 }

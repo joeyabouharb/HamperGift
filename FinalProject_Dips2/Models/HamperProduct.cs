@@ -9,8 +9,8 @@ namespace FinalProject_Dips2.Models
     {
 
 
-        public int HamperId { get; set; }
+        public Guid HamperId { get; set; }
         
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }

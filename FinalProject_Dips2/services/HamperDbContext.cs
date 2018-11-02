@@ -17,6 +17,7 @@ namespace FinalProject_Dips2.services
 
         DbSet<HamperProduct> TblHamperProducts { get; set; }
          
+        DbSet<Image> TblImages { get; set; }
       
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
@@ -26,7 +27,7 @@ namespace FinalProject_Dips2.services
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            modelBuilder.Entity<HamperProduct>().HasKey(sc => new { sc.HamperId, sc.ProductId });
-           
+           modelBuilder.Entity<Category>()
         }
 
        

@@ -18,7 +18,8 @@ namespace FinalProject_Dips2
         {
             services.AddMvc();
             services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
-      
+            services.AddScoped<IDataService<Image>, DataService<Image>>();
+
 
         }
 

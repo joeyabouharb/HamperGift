@@ -117,11 +117,10 @@
     <table>
         @{
             foreach (var hamper in Model.Hampers)
-            {
-             
+            {      
                 <tr>
                     <th>@hamper.HamperName</th>
-                   
+                    <th><img src="/Home/ViewImage/@hamper.ImageId" /></th>
                 </tr>
                     }
     

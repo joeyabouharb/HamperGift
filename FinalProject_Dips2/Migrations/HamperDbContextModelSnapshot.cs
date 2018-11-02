@@ -22,7 +22,7 @@ namespace FinalProject_Dips2.Migrations
 
             modelBuilder.Entity("FinalProject_Dips2.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CategoryName");
@@ -34,29 +34,31 @@ namespace FinalProject_Dips2.Migrations
 
             modelBuilder.Entity("FinalProject_Dips2.Models.Hamper", b =>
                 {
-                    b.Property<int>("HamperId")
+                    b.Property<Guid>("HamperId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CategoryId");
+                    b.Property<Guid>("CategoryId");
 
                     b.Property<string>("Description");
 
                     b.Property<string>("HamperName");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<Guid>("ImageId");
 
                     b.HasKey("HamperId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ImageId");
 
                     b.ToTable("TblHamper");
                 });
 
             modelBuilder.Entity("FinalProject_Dips2.Models.HamperProduct", b =>
                 {
-                    b.Property<int>("HamperId");
+                    b.Property<Guid>("HamperId");
 
-                    b.Property<int>("ProductId");
+                    b.Property<Guid>("ProductId");
 
                     b.HasKey("HamperId", "ProductId");
 
@@ -65,9 +67,31 @@ namespace FinalProject_Dips2.Migrations
                     b.ToTable("TblHamperProducts");
                 });
 
+            modelBuilder.Entity("FinalProject_Dips2.Models.Image", b =>
+                {
+                    b.Property<Guid>("ImageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<byte[]>("Data");
+
+                    b.Property<string>("FileName");
+
+                    b.Property<int>("Height");
+
+                    b.Property<int>("Length");
+
+                    b.Property<int>("Width");
+
+                    b.HasKey("ImageId");
+
+                    b.ToTable("TblImages");
+                });
+
             modelBuilder.Entity("FinalProject_Dips2.Models.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("CostPrice");
@@ -84,6 +108,11 @@ namespace FinalProject_Dips2.Migrations
                     b.HasOne("FinalProject_Dips2.Models.Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FinalProject_Dips2.Models.Image")
+                        .WithMany("Hampers")
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

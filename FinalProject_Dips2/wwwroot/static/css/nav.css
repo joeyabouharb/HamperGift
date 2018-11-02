@@ -9,10 +9,6 @@
     box-shadow: 0 0 0 1px #4dd0e1;
 }
 
-.navbar .dropdown-toggle, .navbar .dropdown-menu a {
-    cursor: pointer;
-}
-
 
 @media (min-width: 767px) {
     .navbar .dropdown-toggle:not(.nav-link)::after {
