@@ -8,7 +8,7 @@ namespace FinalProject_Dips2.Controllers
 {
     public class SearchController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Result()
         {
             return View();
         }

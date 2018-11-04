@@ -34,7 +34,7 @@ namespace FinalProject_Dips2
              }
          ).AddEntityFrameworkStores<HamperDbContext>();
             services.AddDbContext<HamperDbContext>();
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,11 +46,11 @@ namespace FinalProject_Dips2
             }
 
             app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseAuthentication();         
             app.UseMvcWithDefaultRoute();
-            app.UseSession();
+  
 
-            SeedHelper.Seed(app.ApplicationServices).Wait();
+           // SeedHelper.Seed(app.ApplicationServices).Wait();
         }
     }
 }
