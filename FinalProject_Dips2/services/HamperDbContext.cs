@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FinalProject_Dips2.Models;
 using System.IO;
 using System.Drawing;
+
 namespace FinalProject_Dips2.services
 {
     public class HamperDbContext : DbContext
@@ -23,7 +24,7 @@ namespace FinalProject_Dips2.services
       
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
-            option.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB ; Database= HamperGiftDb ; Trusted_Connection=True");
+            option.UseSqlServer(@"Server=localhost ; Database= HamperGiftDb ; User= SA ; Password= Ja-032083");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,10 +37,10 @@ namespace FinalProject_Dips2.services
                     new Category { CategoryId = 4, CategoryName = "Special Occcasions" },
                     new Category { CategoryId = 5, CategoryName = "Baby" }
             );
-            System.Drawing.Image image = System.Drawing.Image.FromFile(
-                 "C:\\Users\\joeha\\source\\repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
+           System.Drawing.Image image = System.Drawing.Image.FromFile(
+               "/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
 
-            MemoryStream ms = new MemoryStream();
+             MemoryStream ms = new MemoryStream();
             image.Save(ms, image.RawFormat);
             image.Tag = "babyhamper";
             byte[] img = ms.ToArray();
@@ -52,9 +53,9 @@ namespace FinalProject_Dips2.services
                 FileName = image.Tag.ToString(),
                 Height = image.Height,
                 Width = image.Width
-            };
+            }; 
 
-            modelBuilder.Entity<Models.Image>().HasData(i);
+           modelBuilder.Entity<Models.Image>().HasData(i);
 
             modelBuilder.Entity<Hamper>().HasData(
                 new Hamper
@@ -71,3 +72,4 @@ namespace FinalProject_Dips2.services
 
     }
 }
+

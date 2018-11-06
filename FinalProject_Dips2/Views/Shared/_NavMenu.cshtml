@@ -9,15 +9,15 @@
 </button>
 <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav ml-md-auto">
-        <li class="pl-2 pr-2 nav-item mt-2 mb-2"> @Html.ActionLink("Home", "Index", "Home", new object { }, new {@class = "text-dark"}) <i class="fa fa-home" aria-hidden="true"></i></li>
-        <li class="pl-2 pr-2 nav-item mt-2 mb-2"> @Html.ActionLink("Login", "Login", "User", new object { }, new { @class = "text-dark" }) <i class="fa fa-sign-in" aria-hidden="true"></i></li>
-        <li class="pl-2 pr-2 mt-2 mb-2">@Html.ActionLink("Register", "Register", "User", new object { }, new { @class = "text-dark" }) <i class="fa fa-user-circle" aria-hidden="true"></i></li>
-        <li class="pl-2 pr-2 nav-item mt-2 mb-2"> @Html.ActionLink("About/Contact", "About", "Home", new object { }, new { @class = "text-dark" }) <i class="fa fa-info" aria-hidden="true"></i></li>
-        <li class="pl-2 pr-2 nav-item  mt-2 mb-2">@Html.ActionLink("Cart", "Cart", "User", new object { }, new { @class = "text-dark" }) <i class="fa fa-shopping-cart" aria-hidden="true"></i></li>
-        <li class="pl-2 pr-2 float-right mt-auto mb-auto">
+        <li class="nav-item"> @Html.ActionLink("Home", "Index","Home", new object { }, new { @class = "btn btn-transparent text-dark"}) </li>
+        <li class="nav-item"> @Html.ActionLink("Login", "Login", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+        <li class="nav-item">@Html.ActionLink("Register", "Register", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+        <li class="nav-item"> @Html.ActionLink("About/Contact", "About", "Home", new object { }, new { @class = "btn btn-transparent text-dark"})</li>
+        <li class="nav-item">@Html.ActionLink("Cart", "Cart", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+        <li class="nav-item float-right mt-auto mb-auto">
             <form class="form-inline ml-mx-auto mt-mx-2 mb-mx-2">
                 <span class="active-cyan-4 form-group">
-                    <input class="form-control" type="text" placeholder="Quick Search" />
+                    <input class="form-control" type="text" size=10 placeholder="Quick Search" />
                     <button type="submit" class="btn bg-transparent "><i class="fa fa-search" aria-hidden="true"></i></button>
                 </span>
             </form>

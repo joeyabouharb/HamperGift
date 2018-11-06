@@ -22,11 +22,11 @@ namespace FinalProject_Dips2.Controllers
         } 
 
         [HttpGet]
-        public IActionResult Index(HomeIndexViewModel vm)
+        public IActionResult Index()
         {
             IEnumerable<Hamper> hampers = _hamperDataService.GetAll();
             
-            vm = new HomeIndexViewModel
+            HomeIndexViewModel vm = new HomeIndexViewModel
             {
              Hampers = hampers
             };

@@ -1,0 +1,30 @@
+
+@model HamperDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div class="container-fluid p-4">
+<h2 class="text-center">Hamper Details: </h2>
+  
+        <div class="d-flex flex-coloumn align-items-md-stretch">
+            <div class="col ">
+           <div class="row pb-2 d-flex flex-row justify-content-between">
+               <span> Hamper Name: </span> 
+               <span> @Model.Name </span>
+               </div>
+            <div class="row pb-2 d-flex flex-row justify-content-between"><span> Hamper Category: </span><span> @Model.Category </span></div>
+           <div class="row pb-2 d-flex flex-row justify-content-between"><span>  Hamper Details: </span><span> @Model.Description </span></div>
+            <div class="row pb-2 d-flex flex-row justify-content-between"><span> Hamper Cost: </span><span> @Model.Cost.ToString("C") </span></div>
+            </div>
+          <div class="col-sm-4">
+            <img class="img-fluid" src="/Hamper/ViewImage/@Model.ImageId"/>
+            </div>
+        </div>
+
+   
+    </div>
+

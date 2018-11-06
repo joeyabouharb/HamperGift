@@ -1,26 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using FinalProject_Dips2.Models;
+using FinalProject_Dips2.services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using FinalProject_Dips2.services;
-using FinalProject_Dips2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace FinalProject_Dips2
 {
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+       
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            
             services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Image>, DataService<Image>>();
+             services.AddScoped<IDataService<Category>, DataService<Category>>();
+             services.AddScoped<IUserStore<IdentityUser>, UserOnlyStore<IdentityUser, IdentityDbContext>>();
             services.AddIdentity<IdentityUser, IdentityRole>
          (
              config =>
@@ -32,9 +42,18 @@ namespace FinalProject_Dips2
                  config.Password.RequireNonAlphanumeric = true;
                  config.Password.RequireUppercase = true;
              }
-         ).AddEntityFrameworkStores<HamperDbContext>();
-            services.AddDbContext<HamperDbContext>();
-            
+         ).AddEntityFrameworkStores<LoginsDbContext>()
+            .AddDefaultTokenProviders();
+            services.AddDbContext<LoginsDbContext>();
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
+                    options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
+                });
+
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,12 +64,13 @@ namespace FinalProject_Dips2
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
-            app.UseAuthentication();         
-            app.UseMvcWithDefaultRoute();
+              app.UseAuthentication();   
+              app.UseStaticFiles();
+              
+                
+              app.UseMvcWithDefaultRoute();
   
-
-           // SeedHelper.Seed(app.ApplicationServices).Wait();
+            SeedHelper.Seed(app.ApplicationServices).Wait();
         }
     }
 }
