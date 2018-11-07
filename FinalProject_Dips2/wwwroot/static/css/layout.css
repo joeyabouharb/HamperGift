@@ -13,7 +13,7 @@ body {
         flex-direction: row;
        
     }
-.main {
+.section-main {
     flex: 1;
-    overflow: auto;
+    
 }

@@ -30,7 +30,7 @@ namespace FinalProject_Dips2
             services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Image>, DataService<Image>>();
              services.AddScoped<IDataService<Category>, DataService<Category>>();
-             services.AddScoped<IUserStore<IdentityUser>, UserOnlyStore<IdentityUser, IdentityDbContext>>();
+          
             services.AddIdentity<IdentityUser, IdentityRole>
          (
              config =>
@@ -70,7 +70,18 @@ namespace FinalProject_Dips2
                 
               app.UseMvcWithDefaultRoute();
   
-            SeedHelper.Seed(app.ApplicationServices).Wait();
+          //  SeedHelper.Seed(app.ApplicationServices).Wait();
         }
+         static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode,
+            Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
+            context =>
+            {
+                if (context.Request.Path.StartsWithSegments("/api"))
+                {
+                    context.Response.StatusCode = (int)statusCode;
+                    return Task.CompletedTask;
+                }
+                return existingRedirector(context);
+            };
     }
 }

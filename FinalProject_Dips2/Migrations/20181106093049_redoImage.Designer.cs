@@ -4,14 +4,16 @@ using FinalProject_Dips2.services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalProject_Dips2.Migrations
 {
     [DbContext(typeof(HamperDbContext))]
-    partial class HamperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181106093049_redoImage")]
+    partial class redoImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

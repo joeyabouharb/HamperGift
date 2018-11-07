@@ -15,8 +15,6 @@ namespace FinalProject_Dips2.Models
 
         public string HamperName { get; set; }
 
-        public string Description {get; set; }
-
         public int ImageId { get; set; }
 
      

@@ -2,119 +2,34 @@
 @{
     ViewData["Title"] = "Index";
 }
-<link href="~/static/css/carousel.css" rel="stylesheet" />
-<h2 class="text-center">Our Current Hamper Selections:</h2>
-<div class="container">
-    <div class="row blog">
-        <div class="col-md-12">
-            <div id="blogCarousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#blogCarousel" data-slide-to="1"></li>
-                </ol>
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid"  src="~/static/img/babyhamper.jpg" alt="Image" >
-                                </a>
-                                <div  class="caption">
-                                    <h4>Baby Boy Hampers</h4>
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/babyboy_hamper.png" alt="Image" >
-                                </a>
-                                <div class="caption">
-                                    <h4>Baby Girl Hampers</h4>
-                                    
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/birthday_hamper.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                              
-                                    <h4>Birthday Hampers</h4>
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/food_hamper.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                                    <h4>Food Hampers</h4>
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!--.row-->
-                    </div>
-                    <!--.item-->
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/frozen_hamper.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                                    <h4>Hampers for Kids</h4>
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/hamper_for_her.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                                    <h4>Hampers for Women</h4>
-                                   
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/male_gift_hamper.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                                    <h4>Hampers for Men</h4>
-                                  
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <a href="#">
-                                    <img class="img-fluid" src="~/static/img/christmas_hamper.jpg" alt="Image">
-                                </a>
-                                <div class="caption">
-                                    <h4>Seasonal Hampers</h4>
-                                   
-                                    <a class="btn btn-mini" href="#">»</a>
-                                </div>
-                            </div>
+ 
 
-                        </div>
-                        <!--.row-->
-                    </div>
-                    <!--.item-->
-                </div>
-                <!--.carousel-inner-->
-            </div>
-            <!--.Carousel-->
-        </div>
-    </div>
+<div class="container bg-info p-5">
+    <h2 class="text-white text-center">Our Current Hamper Selections:</h2>
+   <div class="slider">
+  <div>
+    <img src="~/static/img/baby_hamper.jpg" class="slide-item"/>
+  </div>
+  <div>
+    <img src="~/static/img/baby_clothes_hamper.jpg" class="slide-item"/>
+  </div>
+  <div>
+    <img src="~/static/img/disney_kids.jpeg" class="slide-item"/>
+  </div>
+  <div>
+    <img src="~/static/img/male_hamper1.jpg" class="slide-item"/>
+  </div>
+  <div>
+    <img src="~/static/img/women_hamper1.jpg" class="slide-item"/>
+  </div>
+  <div>
+    <img src="~/static/img/Special_Wine_Cheese.jpg"class="slide-item" />
+  </div>
+</div> 
 </div>
-<script src="~/static/js/carousel.js"></script>
 <link href="~/static/css/searchbar.css" rel="stylesheet" />
 <div class="container mt-5 mb-4 justify-content-center">
-    <h4 class="row d-block mb-3">All Products</h4>
+ 
     <div class="row justify-content-center mb-3">
         <div class="col-12 col-md-10 col-lg-8">
             <form class="card card-sm">
@@ -124,53 +39,54 @@
                     </div>
                     <!--end of col-->
                     <div class="col">
-                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords">
+                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search For Hampers">
 
                     </div>
                     <!--end of col-->
                     <div class="col-auto">
                         <button class="btn btn-lg btn-success" type="submit">Search</button>
                     </div>
-                    <div class="pl-2 col-auto">
-                        <select class="custom-select">
-                            <option>fsdfd</option>
-                            <option>fsdfd</option>
-                            <option>fsdfd</option>
-                        </select>
-                    </div>
+
                     <!--end of col-->
+                    
                 </div>
                
             </form>
         </div>
     </div>
 </div>
-    <div class="d-flex m-2 p-3 bg-white border shadow">
+<div class="container">
+   <div class="d-flex flex-row flex-wrap justify-content-center ">
         @{
             foreach (var hamper in Model.Hampers)
             {
-                <div class="d-flex flex-row col p-3 border shadow-sm  align-items-center">
 
-                    <div class="col-md-2"><img class="img-fluid" src="/Home/ViewImage/@hamper.ImageId" /></div>
-                    <div class="col d-flex align-items-center justify-content-center"><p>@hamper.HamperName <span class="text-dark">@hamper.Cost.ToString("C")</span></p></div>
-                     <div class="col-md-auto d-flex align-items-center justify-content-end">
-                         <button class="btn btn-secondary">
+                        <div class="col-sm-3 justify-content-center shadow-sm p-3 m-3">
+
+                            <img class="img-fluid" src="/Home/ViewImage/@hamper.ImageId" />
+                
+                      <div class="row mt-3 align-items-center justify-content-center text-center"><p>@hamper.HamperName <span class="text-dark">@hamper.Cost.ToString("C")</span></p></div>
+                     <div class="row-md-auto mt-2  justify-content-center text-center">
+                         <button class="col-auto btn btn-secondary">
                              @Html.ActionLink("Details",
                          "Details",
                           "Hamper", 
-                           new{id = hamper.HamperId}, new {@style = "text-decoration: none;", @class= "text-white"}) </button> </div>
-                    <div class="col-md-auto d-flex align-items-center justify-content-end">
-                        <form class="form-inline">
-                            <div class="form-group">
-                        <input class="form-control form-control-borderles m-2" type="number" min="0" max="10" />
-                        <button class="btn btn-secondary">Add To Cart</button>
+                           new{id = hamper.HamperId}, new {@style = "text-decoration: none;", @class= "text-white"}) </button> 
+                           </div>
+                    <div class="row mt-2 justify-content-center text-center">
+                        <div class="col">
+                    <form>
+                         <div class="form-group row justify-content-center">
+                         <input class="col-5 mr-2 form-control" type="number" min="0" max="10" />
+                         <input class="btn btn-primary form-control w-25" value="Cart" type="button"/>
+                          </div>
+                    </form>
                         </div>
-                        </form>
-                        </div>
+                    </div>
+               
 
-                </div>
             }
-
         }
+    </div>
     </div>
    
