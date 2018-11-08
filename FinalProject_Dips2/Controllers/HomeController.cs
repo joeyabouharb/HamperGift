@@ -7,6 +7,7 @@ using FinalProject_Dips2.Models;
 using FinalProject_Dips2.ViewModels;
 using FinalProject_Dips2.services;
 using System.IO;
+using System.Diagnostics;
 
 namespace FinalProject_Dips2.Controllers
 {
@@ -47,6 +48,12 @@ namespace FinalProject_Dips2.Controllers
             return new FileStreamResult(stream, image.ContentType);
         }
 
+        [HttpGet]
+        public IActionResult Error()
+        {
+            ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            return View();
+        }
 
     }
 }

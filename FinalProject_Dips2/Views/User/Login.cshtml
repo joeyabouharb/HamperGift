@@ -13,7 +13,7 @@
             <input asp-for="@Model.UserName" class="form-control" type="text">
             <span asp-validation-for="UserName"></span>
         </div>
-       
+
         <div class="form-group">
             <label asp-for="@Model.Password"></label>
             <input asp-for="@Model.Password" class="form-control">
@@ -24,8 +24,9 @@
             <label asp-for="@Model.RememberMe">Remember Me</label>
             <input class="form-check" asp-for="@Model.RememberMe" />
         </div>
-        <input class="form-control btn btn-primary" type="submit" value="Register" />
-        <button class="btn btn-danger" type="Reset">Reset</button>
+        <input class="form-control btn btn-primary" type="submit" value="Login" />
+        @Html.AntiForgeryToken()
+        <button class="btn btn-danger" type="reset">Reset</button>
     </form>
 
 

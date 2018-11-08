@@ -8,39 +8,56 @@ using FinalProject_Dips2.Models;
 using FinalProject_Dips2.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+
 namespace FinalProject_Dips2.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private UserManager<IdentityUser> _userManagerService;
-     // private RoleManager<IdentityRole> _roleManagerService;
+     
         private SignInManager<IdentityUser> _signInManagerService;
         public UserController(UserManager<IdentityUser> userManager,
-                                //RoleManager<IdentityRole> RoleService,
+                               
                                  SignInManager<IdentityUser> signinManger)
         {
             _userManagerService = userManager;
             _signInManagerService = signinManger;
-            //_roleManagerService = RoleService;
+            
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManagerService.PasswordSignInAsync(vm.UserName, vm.Password, vm.RememberMe, false );
-                if (result.Succeeded)
-                {
+                var user = await _userManagerService.FindByNameAsync(vm.UserName);
 
-                    return RedirectToAction("Details", "User");
+                if (user != null && await _userManagerService.CheckPasswordAsync(user, vm.Password))
+                {
+                    await _signInManagerService.PasswordSignInAsync(vm.UserName, vm.Password, true, lockoutOnFailure: false);
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
+                    var principal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = vm.RememberMe });
+                    return RedirectToAction("Index", "Home");
+                  
                 }
-                return View(vm);
+                ModelState.AddModelError("", "Wrong Email/Password");
+                return View();
             }
+            
             return View(vm);
         }
         [HttpGet]
@@ -54,7 +71,15 @@ namespace FinalProject_Dips2.Controllers
           public async Task<IActionResult> Register(UserRegisterViewModel vm)
         {
             if(ModelState.IsValid){
-                IdentityUser user = new IdentityUser(vm.UserName);
+               
+                var user = await _userManagerService.FindByNameAsync(vm.UserName);
+
+                if (user != null)
+                {
+                  ModelState.AddModelError("", "User Already Exists");
+                    return View(vm);
+                }
+                 user = new IdentityUser(vm.UserName);
 
                 user.Email = vm.Email;
 
@@ -71,24 +96,33 @@ namespace FinalProject_Dips2.Controllers
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
+                        return View(vm);
                     }
                 }
-
-
-            return RedirectToAction("Index","Home");    
-            }else{
-            return View(vm);
             }
+            return View(vm);
+           
             
+          }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManagerService.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
         public IActionResult Details()
         {
             return View();
         }
+
+        
+        [HttpGet]
         public IActionResult Cart()
         {
             return View();
         }
+     
     }
 }

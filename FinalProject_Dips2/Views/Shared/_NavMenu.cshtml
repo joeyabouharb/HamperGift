@@ -2,9 +2,9 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
     <img src="~/static/img/logo.png"/>
-      <h3 class="justify-content-center"> Grande Gift
-    
-    </h3>
+    <p class="justify-content-center pt-2 pr-2">
+        @Html.ActionLink("Grande Gift", "Index", "Home", new object { }, new { @class = "text-dark h2", @style= "text-decoration:none" })
+    </p>
 
   
 
@@ -14,17 +14,46 @@
 </button>
 <div class="ml-1 collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav">
-        <li class="nav-item"> @Html.ActionLink("Home", "Index","Home", new object { }, new { @class = "btn btn-transparent text-dark"}) </li>
-        <li class="nav-item"> @Html.ActionLink("Login", "Login", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
-        <li class="nav-item">@Html.ActionLink("Register", "Register", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
-        <li class="nav-item"> @Html.ActionLink("About/Contact", "About", "Home", new object { }, new { @class = "btn btn-transparent text-dark"})</li>
-        <li class="nav-item">@Html.ActionLink("Cart", "Cart", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
-       
+        <li class="nav-item">  </li>
+        @{
+            var user = await UserManager.GetUserAsync(User);
+
+
+
+
+            @if (SignInManager.IsSignedIn(User))
+
+            {
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="" asp-controller="User" asp-action="Logout" method="post">
+                        <button class="btn btn-dark" type="submit">Logout</button>
+                    </form>
+                </li>
+                <li class="nav-item">@Html.ActionLink("Welcome  Back " + @user.UserName + "!", "Details", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+                <li class="nav-item">@Html.ActionLink("Cart", "Cart", "User", new object { },  new { @class = "btn btn-transparent text-dark" })</li>
+
+
+            }
+
+            else
+
+            {
+
+                <li class="nav-item"> @Html.ActionLink("Login", "Login", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+                <li class="nav-item">@Html.ActionLink("Register", "Register", "User", new object{ }, new { @class = "btn btn-transparent text-dark" })</li>
+
+
+            }
+        }
+
+        <li class="nav-item"> @Html.ActionLink("About/Contact", "About", "Home", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+
+
     </ul>
       <form class="form-inline ml-auto pb-2">
                 <span class="active-cyan-4 form-group">
                     <input class="form-control" type="text" placeholder="Quick Search" />
-                    <button class="btn btn-transparent" type="submit" class="btn bg-transparent "><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button class="btn btn-transparent" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </span>
             </form>
             </div>

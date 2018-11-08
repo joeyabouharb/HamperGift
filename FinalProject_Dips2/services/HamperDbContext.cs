@@ -40,7 +40,7 @@ namespace FinalProject_Dips2.services
             );
             System.Drawing.Image image = System.Drawing.Image.FromFile(
                  //"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
-                 "C:\\Users\\student\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
+                 "C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
 
              MemoryStream ms = new MemoryStream();
             image.Save(ms, image.RawFormat);

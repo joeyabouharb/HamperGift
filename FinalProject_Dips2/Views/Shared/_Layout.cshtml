@@ -17,27 +17,31 @@
 </head>
 <body class="container-fluid bg-light wrap">
 
-    <div class="d-flex flex-wrap section navbar navbar-expand-md navbar-light bg-white shadow rounded mt-2">
-
-        <partial name="_NavMenu" />
-        <script src="~/static/js/nav.js"></script>
-    </div>
-
-    <main class="section-main bg-light pt-4 rounded">
-        
-        @RenderBody()
-    </main>
-
-    <footer class="section footer bg-white rounded shadow mt-4">
-      <partial name="_Footer"/>
-    </footer>
-    <script src="~/libraries/jquery/jquery.js"></script>
-    <script type="text/javascript" src="~/libraries/slick-1.8.1/slick/slick.js"></script>
-   
-   <script type="text/javascript" src="~/static/js/slider.js"></script>
-    <script src="~/libraries/popper.js/popper.js"></script>
-    <script src="~/libraries/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
     
-   
-</body>
+       
+
+       
+        <div class="d-flex flex-wrap section navbar navbar-expand-md navbar-light bg-white shadow rounded mt-2">
+
+            <partial name="_NavMenu" />
+            <script src="~/static/js/nav.js"></script>
+        </div>
+
+        <main class="section-main bg-light pt-4 rounded">
+
+            @RenderBody()
+        </main>
+
+        <footer class="section footer bg-white rounded shadow mt-4">
+            <partial name="_Footer" />
+        </footer>
+        <script src="~/libraries/jquery/jquery.js"></script>
+        <script type="text/javascript" src="~/libraries/slick-1.8.1/slick/slick.js"></script>
+
+        <script type="text/javascript" src="~/static/js/slider.js"></script>
+        <script src="~/libraries/popper.js/popper.js"></script>
+        <script src="~/libraries/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    </body>
 </html>
