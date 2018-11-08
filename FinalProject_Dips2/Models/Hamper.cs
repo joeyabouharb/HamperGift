@@ -17,8 +17,6 @@ namespace FinalProject_Dips2.Models
 
         public int ImageId { get; set; }
 
-     
-      
         public double Cost { get; set; }
 
         public int CategoryId { get; set; }

@@ -30,7 +30,6 @@ namespace FinalProject_Dips2.Controllers
            Hamper hamper = _hamperDataService.GetSingle(h => h.HamperId == id);
             HamperDetailsViewModel vm = new HamperDetailsViewModel{
                 Name = hamper.HamperName,
-                Description = hamper.Description,
                 Cost = hamper.Cost,
                 ImageId = hamper.ImageId,
                 Category = _catService.GetSingle

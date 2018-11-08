@@ -50,8 +50,6 @@ namespace FinalProject_Dips2.Migrations
 
                     b.Property<double>("Cost");
 
-                    b.Property<string>("Description");
-
                     b.Property<string>("HamperName");
 
                     b.Property<int>("ImageId");

@@ -10,7 +10,7 @@
 }
 
 
-@media (min-width: 767px) {
+@media (min-width: 756px) {
     .navbar .dropdown-toggle:not(.nav-link)::after {
         display: inline-block;
         width: 0;

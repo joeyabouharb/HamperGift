@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject_Dips2.Migrations
 {
     [DbContext(typeof(HamperDbContext))]
-    [Migration("20181106093049_redoImage")]
-    partial class redoImage
+    [Migration("20181108040935_initDb")]
+    partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,8 +51,6 @@ namespace FinalProject_Dips2.Migrations
                     b.Property<int>("CategoryId");
 
                     b.Property<double>("Cost");
-
-                    b.Property<string>("Description");
 
                     b.Property<string>("HamperName");
 

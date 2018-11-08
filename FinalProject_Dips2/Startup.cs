@@ -22,37 +22,41 @@ namespace FinalProject_Dips2
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-       
-
+           
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
-            services.AddScoped<IDataService<Image>, DataService<Image>>();
-             services.AddScoped<IDataService<Category>, DataService<Category>>();
-          
-            services.AddIdentity<IdentityUser, IdentityRole>
-         (
-             config =>
-             {
-                 config.User.RequireUniqueEmail = true;
-                 config.Password.RequireDigit = true;
-                 config.Password.RequiredLength = 6;
-                 config.Password.RequireLowercase = true;
-                 config.Password.RequireNonAlphanumeric = true;
-                 config.Password.RequireUppercase = true;
-             }
-         ).AddEntityFrameworkStores<LoginsDbContext>()
-            .AddDefaultTokenProviders();
             services.AddDbContext<LoginsDbContext>();
-            services.AddMvc().AddSessionStateTempDataProvider();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-                {
-                    options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
-                    options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
-                });
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<LoginsDbContext>()
+                .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 6;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
+
+            // Add application services.
+              services.AddScoped<IDataService<Image>, DataService<Image>>();
+            services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
+            services.AddScoped<IDataService<Category>, DataService<Category>>();
+          
+
+            services.AddMvc();
                 
         }
 
@@ -64,24 +68,16 @@ namespace FinalProject_Dips2
                 app.UseDeveloperExceptionPage();
             }
 
-              app.UseAuthentication();   
-              app.UseStaticFiles();
+            
+            app.UseAuthentication();
+
+            app.UseStaticFiles();
+
+            app.UseMvcWithDefaultRoute();
               
-                
-              app.UseMvcWithDefaultRoute();
   
-          //  SeedHelper.Seed(app.ApplicationServices).Wait();
+            SeedHelper.Seed(app.ApplicationServices).Wait();
         }
-         static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode,
-            Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
-            context =>
-            {
-                if (context.Request.Path.StartsWithSegments("/api"))
-                {
-                    context.Response.StatusCode = (int)statusCode;
-                    return Task.CompletedTask;
-                }
-                return existingRedirector(context);
-            };
+       
     }
 }

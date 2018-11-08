@@ -11,7 +11,6 @@ namespace FinalProject_Dips2.ViewModels
     {
         public string Name {get; set;}
     
-        public string Description {get ;set; }
 
         public double Cost {get; set;}
 

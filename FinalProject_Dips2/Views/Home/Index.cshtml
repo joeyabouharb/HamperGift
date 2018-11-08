@@ -4,7 +4,7 @@
 }
  
 
-<div class="container bg-info p-5">
+<div class="container-fluid pl-5 pr-5 rounded shadow" style="background-color: slategrey;">
     <h2 class="text-white text-center">Our Current Hamper Selections:</h2>
    <div class="slider">
   <div>
@@ -55,8 +55,8 @@
         </div>
     </div>
 </div>
-<div class="container">
-   <div class="d-flex flex-row flex-wrap justify-content-center ">
+<div class="container-fluid bg-white m-3 rounded shadow-sm">
+   <div class="d-flex flex-row flex-wrap justify-content-center">
         @{
             foreach (var hamper in Model.Hampers)
             {
@@ -78,15 +78,20 @@
                     <form>
                          <div class="form-group row justify-content-center">
                          <input class="col-5 mr-2 form-control" type="number" min="0" max="10" />
-                         <input class="btn btn-primary form-control w-25" value="Cart" type="button"/>
+                         <button class="col-4 btn btn-primary form-control" type="button"><i class="fa fa-cart-plus"></i></button>
                           </div>
                     </form>
                         </div>
                     </div>
-               
+                        </div>
+                        
+                     
+                   
+                          
 
             }
         }
     </div>
     </div>
+
    

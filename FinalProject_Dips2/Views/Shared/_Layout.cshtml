@@ -15,20 +15,20 @@
     <link href="~/static/css/layout.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
-<body class="container bg-light wrap">
+<body class="container-fluid bg-light wrap">
 
-    <div class="row section navbar navbar-expand-md navbar-light bg-light mb-4">
+    <div class="d-flex flex-wrap section navbar navbar-expand-md navbar-light bg-white shadow rounded mt-2">
 
         <partial name="_NavMenu" />
         <script src="~/static/js/nav.js"></script>
     </div>
 
-    <main class="row section-main bg-light pt-4">
+    <main class="section-main bg-light pt-4 rounded">
         
         @RenderBody()
     </main>
 
-    <footer class="row section footer footer-classic bg-light mt-4">
+    <footer class="section footer bg-white rounded shadow mt-4">
       <partial name="_Footer"/>
     </footer>
     <script src="~/libraries/jquery/jquery.js"></script>
