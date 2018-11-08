@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject_Dips2.Migrations.LoginsDb
 {
     [DbContext(typeof(LoginsDbContext))]
-    [Migration("20181108041036_initUser")]
-    partial class initUser
+    [Migration("20181108044953_initLogins")]
+    partial class initLogins
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

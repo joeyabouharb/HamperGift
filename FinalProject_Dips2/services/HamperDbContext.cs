@@ -24,7 +24,8 @@ namespace FinalProject_Dips2.services
       
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
-            option.UseSqlServer(@"Server=localhost ; Database= HamperGiftDb ; User= SA ; Password= Ja-032083");
+            //option.UseSqlServer(@"Server=localhost ; Database= HamperGiftDb ; User= SA ; Password= Ja-032083");
+            option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB ; Database= HamperGiftDb ; Integrated Security= True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,8 +38,9 @@ namespace FinalProject_Dips2.services
                     new Category { CategoryId = 4, CategoryName = "Special Occcasions" },
                     new Category { CategoryId = 5, CategoryName = "Baby" }
             );
-           System.Drawing.Image image = System.Drawing.Image.FromFile(
-               "/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
+            System.Drawing.Image image = System.Drawing.Image.FromFile(
+                 //"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
+                 "C:\\Users\\student\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
 
              MemoryStream ms = new MemoryStream();
             image.Save(ms, image.RawFormat);

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject_Dips2.Migrations.LoginsDb
 {
-    public partial class initUser : Migration
+    public partial class initLogins : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -23,9 +23,25 @@ namespace FinalProject_Dips2.Controllers
             _signInManagerService = signinManger;
             //_roleManagerService = RoleService;
         }
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManagerService.PasswordSignInAsync(vm.UserName, vm.Password, vm.RememberMe, false );
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("Details", "User");
+                }
+                return View(vm);
+            }
+            return View(vm);
         }
         [HttpGet]
         public IActionResult Register()
@@ -41,8 +57,10 @@ namespace FinalProject_Dips2.Controllers
                 IdentityUser user = new IdentityUser(vm.UserName);
 
                 user.Email = vm.Email;
+
                 IdentityResult result = await _userManagerService.CreateAsync(user, vm.Password);
-                if(result.Succeeded)
+                    IdentityResult result2 = await _userManagerService.AddToRoleAsync(user, "Customer");
+                if(result.Succeeded && result2.Succeeded)
                 {
                     //go to Home/Index
                     return RedirectToAction("Index", "Home");
@@ -62,6 +80,11 @@ namespace FinalProject_Dips2.Controllers
             return View(vm);
             }
             
+        }
+        [HttpGet]
+        public IActionResult Details()
+        {
+            return View();
         }
         public IActionResult Cart()
         {
