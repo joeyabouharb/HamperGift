@@ -3,6 +3,8 @@
 @using FinalProject_Dips2.ViewModels
 @using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 
-@inject UserManager<IdentityUser> UserManager
+@inject UserManager<ApplicationUser> UserManager
+
+@using FinalProject_Dips2.Models

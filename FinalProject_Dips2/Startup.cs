@@ -34,11 +34,13 @@ namespace FinalProject_Dips2
         public void ConfigureServices(IServiceCollection services)
         {
             //configure Identity Db Context
-            services.AddDbContext<LoginsDbContext>();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+          
+          
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<LoginsDbContext>()
                 .AddDefaultTokenProviders();
-
+            
             //configire Identity options
             services.Configure<IdentityOptions>(options =>
             {
@@ -102,18 +104,20 @@ namespace FinalProject_Dips2
             }
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
+          
 
             app.UseStaticFiles();
 
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseSession();
             
             app.UseMvcWithDefaultRoute();
               
   
-            SeedHelper.Seed(app.ApplicationServices).Wait();
+            //SeedHelper.Seed(app.ApplicationServices).Wait();
         }
 
         static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode,

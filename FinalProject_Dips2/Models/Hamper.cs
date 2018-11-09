@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace FinalProject_Dips2.Models
 {
     public class Hamper
@@ -14,14 +14,16 @@ namespace FinalProject_Dips2.Models
         public int HamperId { get; set; }
 
         public string HamperName { get; set; }
-
+        [ForeignKey("TblImage")]
         public int ImageId { get; set; }
 
         public double Cost { get; set; }
-
+        [ForeignKey("TblCategory")]
         public int CategoryId { get; set; }
 
         public ICollection<HamperProduct> HamperProducts { get; set; }
+
+        public ICollection<Invoice> Invoices { get; set; }
 
     }
 }

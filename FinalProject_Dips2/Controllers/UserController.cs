@@ -60,20 +60,21 @@ namespace FinalProject_Dips2.Controllers
             
             return View(vm);
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
 
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
           public async Task<IActionResult> Register(UserRegisterViewModel vm)
         {
             if(ModelState.IsValid){
                
                 var user = await _userManagerService.FindByNameAsync(vm.UserName);
-
+                    
                 if (user != null)
                 {
                   ModelState.AddModelError("", "User Already Exists");

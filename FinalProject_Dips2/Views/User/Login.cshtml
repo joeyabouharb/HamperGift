@@ -24,9 +24,11 @@
             <label asp-for="@Model.RememberMe">Remember Me</label>
             <input class="form-check" asp-for="@Model.RememberMe" />
         </div>
-        <input class="form-control btn btn-primary" type="submit" value="Login" />
-        @Html.AntiForgeryToken()
-        <button class="btn btn-danger" type="reset">Reset</button>
+        <div class="pl-3 row justify-content-start">
+            <button class="col-auto btn btn-primary mr-2" type="submit">Login</button>
+            @Html.AntiForgeryToken()
+            <button class="col-auto btn btn-danger" type="reset">Reset</button>
+        </div>
     </form>
 
 

@@ -6,21 +6,24 @@ using System.Threading.Tasks;
 using FinalProject_Dips2.Models;
 using System.IO;
 using System.Drawing;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FinalProject_Dips2.services
 {
-    public class HamperDbContext : DbContext
+    public class HamperDbContext :
+    DbContext
     {
-      
-        DbSet<Category> TblCategories { get; set; }
+        public DbSet<Category> TblCategories { get; set; }
 
-        DbSet<Product> TblProduct { get; set; }
+        public DbSet<Product> TblProduct { get; set; }
 
-        DbSet<Hamper> TblHamper { get; set; }
+        public DbSet<Hamper> TblHamper { get; set; }
 
-        DbSet<HamperProduct> TblHamperProducts { get; set; }
+        public DbSet<HamperProduct> TblHamperProducts { get; set; }
          
-        DbSet<Models.Image> TblImages { get; set; }
+        public DbSet<Models.Image> TblImages { get; set; }
+
+        public DbSet<Invoice> TblInvoice { get; set; }
       
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
@@ -30,7 +33,8 @@ namespace FinalProject_Dips2.services
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            
+            
             modelBuilder.Entity<Category>().HasData(
               new Category { CategoryId = 1, CategoryName = "Womens" },
                 new Category { CategoryId = 2, CategoryName = "Men" },
@@ -38,11 +42,21 @@ namespace FinalProject_Dips2.services
                     new Category { CategoryId = 4, CategoryName = "Special Occcasions" },
                     new Category { CategoryId = 5, CategoryName = "Baby" }
             );
+
+            //modelBuilder.Entity<Product>().HasData(
+            //    new Product { ProductId = 1, ProductName = "Unscented baby wipes", Quantity =  480, ProductSizeType. },
+            //   new Product { ProductId = 2, ProductName = "" },
+            //    new Product { ProductId = 3, ProductName = "" },
+            //     new Product { ProductId = 4, ProductName = "" },
+            //      new Product { ProductId = 5, ProductName = "" },
+            //       new Product { ProductId = 6, ProductName = "" },
+            //        new Product { ProductId = 7, ProductName = "" }
+            //    );
             System.Drawing.Image image = System.Drawing.Image.FromFile(
                  //"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
                  "C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
 
-             MemoryStream ms = new MemoryStream();
+            MemoryStream ms = new MemoryStream();
             image.Save(ms, image.RawFormat);
             image.Tag = "babyhamper";
             byte[] img = ms.ToArray();
@@ -55,9 +69,9 @@ namespace FinalProject_Dips2.services
                 FileName = image.Tag.ToString(),
                 Height = image.Height,
                 Width = image.Width
-            }; 
+            };
 
-           modelBuilder.Entity<Models.Image>().HasData(i);
+            modelBuilder.Entity<Models.Image>().HasData(i);
 
             modelBuilder.Entity<Hamper>().HasData(
                 new Hamper
@@ -69,11 +83,9 @@ namespace FinalProject_Dips2.services
                     CategoryId = 5
                 });
 
-            
+
 
         }
-
-
     }
 }
 

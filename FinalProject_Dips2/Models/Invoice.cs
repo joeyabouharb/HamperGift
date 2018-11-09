@@ -5,14 +5,15 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace FinalProject_Dips2.Models
 {
-    public class HamperProduct
+    public class Invoice
     {
-        public int HamperProductId { get; set; }
+       
+        public int InvoiceId { get; set; }
+
+        [ForeignKey("AspNetUsers")]
+        public Guid ApplicationUserId { get; set; }
+
         [ForeignKey("TblHamper")]
         public int HamperId { get; set; }
-        [ForeignKey("TblProduct")]
-        public int ProductId { get; set; }
-
-    
     }
 }
