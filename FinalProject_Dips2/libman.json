@@ -18,6 +18,10 @@
       "provider": "cdnjs",
       "library": "font-awesome@4.7.0",
       "destination": "wwwroot/libraries/font-awesome/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/libraries/jqueryui/"
     }
   ]
 }

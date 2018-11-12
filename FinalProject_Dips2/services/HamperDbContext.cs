@@ -43,15 +43,7 @@ namespace FinalProject_Dips2.services
                     new Category { CategoryId = 5, CategoryName = "Baby" }
             );
 
-            //modelBuilder.Entity<Product>().HasData(
-            //    new Product { ProductId = 1, ProductName = "Unscented baby wipes", Quantity =  480, ProductSizeType. },
-            //   new Product { ProductId = 2, ProductName = "" },
-            //    new Product { ProductId = 3, ProductName = "" },
-            //     new Product { ProductId = 4, ProductName = "" },
-            //      new Product { ProductId = 5, ProductName = "" },
-            //       new Product { ProductId = 6, ProductName = "" },
-            //        new Product { ProductId = 7, ProductName = "" }
-            //    );
+         
             System.Drawing.Image image = System.Drawing.Image.FromFile(
                  //"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
                  "C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");

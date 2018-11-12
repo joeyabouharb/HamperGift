@@ -16,5 +16,7 @@ namespace FinalProject_Dips2.ViewModels
 
         public int ImageId {get; set;}
         public string Category {get; set;}
+
+        public IEnumerable<Product> Products { get; set; }
     }
 }

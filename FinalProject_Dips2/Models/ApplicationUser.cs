@@ -8,10 +8,8 @@ namespace FinalProject_Dips2.Models
     public enum AddressEnum { NSW, VIC, QLD, ACT, SA, WA, NT, TAS}
     public class ApplicationUser : IdentityUser<Guid>
     { 
-        public ApplicationUser(string userName): base(userName)
-        {
-            
-        }
+  
+       
         public string DeliveryAddress { get; set; }
 
         public AddressEnum StateAddress { get; set; }

@@ -34,13 +34,14 @@ namespace FinalProject_Dips2
         public void ConfigureServices(IServiceCollection services)
         {
             //configure Identity Db Context
-          
-          
+
+            services.AddDbContext<HamperDbContext>();
+            services.AddDbContext<UserDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<LoginsDbContext>()
+                .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
-            
+           
             //configire Identity options
             services.Configure<IdentityOptions>(options =>
             {
@@ -56,7 +57,7 @@ namespace FinalProject_Dips2
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
-
+                
                 // User settings
                 options.User.RequireUniqueEmail = true;
                 
@@ -75,14 +76,17 @@ namespace FinalProject_Dips2
                  options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
                  options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
              });
+            
             services.AddMvc().AddSessionStateTempDataProvider();
             // Add application services.
             services.AddScoped<IDataService<Image>, DataService<Image>>();
             services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Category>, DataService<Category>>();
+            services.AddScoped<IDataService<Product>, DataService<Product>>();
+            services.AddScoped<IDataService<HamperProduct>, DataService<HamperProduct>>();
 
 
-            
+
 
         }
 
@@ -117,7 +121,8 @@ namespace FinalProject_Dips2
             app.UseMvcWithDefaultRoute();
               
   
-            //SeedHelper.Seed(app.ApplicationServices).Wait();
+            SeedHelper.Seed(app.ApplicationServices).Wait();
+           
         }
 
         static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode,

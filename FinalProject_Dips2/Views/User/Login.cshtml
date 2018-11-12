@@ -2,14 +2,14 @@
 @{
     ViewData["Title"] = "Login";
 }
-
+<h3 class="text-center">Login</h3>
 <div class="row justify-content-center p-3">
 
     <form class="w-75 card p-3" method="post" asp-controller="User" asp-action="Login">
         <div asp-validation-summary="ModelOnly"></div>
-        <h4 class="text-center card-title">Register</h4>
+        
         <div class="form-group">
-            <label asp-for="@Model.UserName">User Name</label>
+            <label asp-for="@Model.UserName"></label>
             <input asp-for="@Model.UserName" class="form-control" type="text">
             <span asp-validation-for="UserName"></span>
         </div>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="@Model.RememberMe">Remember Me</label>
+            <label asp-for="@Model.RememberMe"></label>
             <input class="form-check" asp-for="@Model.RememberMe" />
         </div>
         <div class="pl-3 row justify-content-start">
