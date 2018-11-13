@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinalProject_Dips2.Migrations
 {
-    public partial class initDb : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -209,7 +209,7 @@ namespace FinalProject_Dips2.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     HamperName = table.Column<string>(nullable: true),
                     ImageId = table.Column<int>(nullable: false),
-                    Cost = table.Column<double>(nullable: false),
+                    Cost = table.Column<decimal>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -261,18 +261,20 @@ namespace FinalProject_Dips2.Migrations
                 {
                     InvoiceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserId = table.Column<Guid>(nullable: false),
-                    HamperId = table.Column<int>(nullable: false)
+                    ApplicationUserId = table.Column<string>(nullable: true),
+                    HamperId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    ApplicationUserId1 = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TblInvoices", x => x.InvoiceId);
                     table.ForeignKey(
-                        name: "FK_TblInvoices_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_TblInvoices_AspNetUsers_ApplicationUserId1",
+                        column: x => x.ApplicationUserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TblInvoices_TblHamper_HamperId",
                         column: x => x.HamperId,
@@ -341,9 +343,9 @@ namespace FinalProject_Dips2.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblInvoices_ApplicationUserId",
+                name: "IX_TblInvoices_ApplicationUserId1",
                 table: "TblInvoices",
-                column: "ApplicationUserId");
+                column: "ApplicationUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblInvoices_HamperId",

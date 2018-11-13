@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading;
+using System.Collections;
+using Microsoft.AspNetCore.Http;
 
 namespace FinalProject_Dips2.Controllers
 {
@@ -22,13 +24,20 @@ namespace FinalProject_Dips2.Controllers
         private UserManager<ApplicationUser> _userManagerService;
      
         private SignInManager<ApplicationUser> _signInManagerService;
+
+		private IDataService<Hamper> _hamperService;
+
+		private IDataService<Invoice> _invoiceService;
         public UserController(UserManager<ApplicationUser> userManager,
                                
-                                 SignInManager<ApplicationUser> signinManger)
+                                 SignInManager<ApplicationUser> signinManger,
+								IDataService<Invoice> invoiceService,
+								IDataService<Hamper> hamperService)
         {
             _userManagerService = userManager;
             _signInManagerService = signinManger;
-            
+			_invoiceService = invoiceService;
+			_hamperService = hamperService;
         }
         [AllowAnonymous]
         [HttpGet]
@@ -189,10 +198,44 @@ namespace FinalProject_Dips2.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
-           
-            return View();
-        }
+		    string applicationUser = _userManagerService.GetUserId(User);
+			List<Invoice> invoiceNo = _invoiceService.Query(inv => inv.ApplicationUserId.ToString() == applicationUser).ToList();
+			List<Hamper> hampers = _hamperService.Query(h => invoiceNo.Any(ids => ids.HamperId == h.HamperId)).ToList();
 
+
+			UserCartViewModel vm = new UserCartViewModel
+			{
+				Cost = hampers.Select(hs => hs.Cost).ToList(),
+				HamperName = hampers.Select(h => h.HamperName).ToList(),
+				Quantity = invoiceNo.Where(qt => hampers.Any(hmp => hmp.HamperId == qt.HamperId)).
+				Select(item => item.Quantity).ToList()
+
+
+			};
+           
+            return View(vm);
+        }
+		[HttpPost]
+		public async Task<IActionResult> AddToCart(int id)
+		{
+			var user = await _userManagerService.GetUserAsync(User);
+			var userid = user.Id;
+			int q = 0;
+			bool tryParse = int.TryParse(Request.Form["quantity"], out q);
+			if(tryParse == false)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			Invoice invoice = new Invoice
+			{
+
+				HamperId = id,
+				ApplicationUserId = userid.ToString(),
+				Quantity = q
+			};
+			_invoiceService.Create(invoice);
+			return RedirectToAction("Cart", "User");
+		}
         [HttpGet]
         public IActionResult ChangePassword() {
 

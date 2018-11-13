@@ -17,7 +17,7 @@ namespace FinalProject_Dips2.Models
         [ForeignKey("TblImage")]
         public int ImageId { get; set; }
 
-        public double Cost { get; set; }
+        public decimal Cost { get; set; }
         [ForeignKey("TblCategory")]
         public int CategoryId { get; set; }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject_Dips2.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20181112014144_initDb")]
-    partial class initDb
+    [Migration("20181113035355_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,7 +123,7 @@ namespace FinalProject_Dips2.Migrations
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<double>("Cost");
+                    b.Property<decimal>("Cost");
 
                     b.Property<string>("HamperName");
 
@@ -184,13 +184,17 @@ namespace FinalProject_Dips2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("ApplicationUserId");
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<Guid?>("ApplicationUserId1");
 
                     b.Property<int>("HamperId");
 
+                    b.Property<int>("Quantity");
+
                     b.HasKey("InvoiceId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("ApplicationUserId1");
 
                     b.HasIndex("HamperId");
 
@@ -327,8 +331,7 @@ namespace FinalProject_Dips2.Migrations
                 {
                     b.HasOne("FinalProject_Dips2.Models.ApplicationUser")
                         .WithMany("Invoices")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ApplicationUserId1");
 
                     b.HasOne("FinalProject_Dips2.Models.Hamper")
                         .WithMany("Invoices")

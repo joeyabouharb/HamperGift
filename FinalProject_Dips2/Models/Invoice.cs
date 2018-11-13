@@ -15,5 +15,7 @@ namespace FinalProject_Dips2.Models
 
         [ForeignKey("TblHamper")]
         public int HamperId { get; set; }
+
+		public int Quantity { get; set; }
     }
 }

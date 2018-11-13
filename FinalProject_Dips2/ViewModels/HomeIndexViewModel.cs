@@ -10,7 +10,7 @@ namespace FinalProject_Dips2.ViewModels
     {
        public IEnumerable<Hamper> Hampers { get; set; }
     
-        
+       
         
     }
 }

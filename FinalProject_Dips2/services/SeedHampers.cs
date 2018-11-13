@@ -38,11 +38,12 @@ namespace FinalProject_Dips2.services
             }
             if (!context.TblImages.Any())
             {
-                System.Drawing.Image image = System.Drawing.Image.FromFile(
-                //"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
-                "C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
+				System.Drawing.Image image = System.Drawing.Image.FromFile(
+				//"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
+				//"C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
+				"C:\\Users\\student\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
 
-                MemoryStream ms = new MemoryStream();
+				MemoryStream ms = new MemoryStream();
                 image.Save(ms, image.RawFormat);
                 image.Tag = "babyhamper";
                 byte[] img = ms.ToArray();
@@ -52,7 +53,7 @@ namespace FinalProject_Dips2.services
             }
             if (!context.TblHamper.Any())
             {
-                await context.TblHamper.AddAsync(new Hamper {HamperName = "Newborn Baby Hamper (girl)", CategoryId = 2, ImageId = 1, Cost = 75.00 } );
+                await context.TblHamper.AddAsync(new Hamper {HamperName = "Newborn Baby Hamper (girl)", CategoryId = 2, ImageId = 1, Cost = 75.00M } );
            
                 await context.SaveChangesAsync();
             }

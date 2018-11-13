@@ -12,7 +12,7 @@ namespace FinalProject_Dips2.ViewModels
         public string Name {get; set;}
     
 
-        public double Cost {get; set;}
+        public decimal Cost {get; set;}
 
         public int ImageId {get; set;}
         public string Category {get; set;}

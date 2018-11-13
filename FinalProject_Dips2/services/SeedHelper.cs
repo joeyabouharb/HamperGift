@@ -11,12 +11,6 @@ namespace FinalProject_Dips2.services
     public class SeedHelper
     {
 
-        private IDataService<Category> catService;
-
-        public SeedHelper(IDataService<Category> CatService)
-        {
-            catService = CatService;
-        }
 
         public static async Task Seed(IServiceProvider provider)
         {

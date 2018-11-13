@@ -80,7 +80,8 @@ namespace FinalProject_Dips2
             services.AddMvc().AddSessionStateTempDataProvider();
             // Add application services.
             services.AddScoped<IDataService<Image>, DataService<Image>>();
-            services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
+			services.AddScoped<IDataService<Invoice>, DataService<Invoice>>();
+			services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Category>, DataService<Category>>();
             services.AddScoped<IDataService<Product>, DataService<Product>>();
             services.AddScoped<IDataService<HamperProduct>, DataService<HamperProduct>>();
@@ -122,6 +123,7 @@ namespace FinalProject_Dips2
               
   
             SeedHelper.Seed(app.ApplicationServices).Wait();
+			
            
         }
 

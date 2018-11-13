@@ -74,14 +74,23 @@
                            new{id = hamper.HamperId}, new {@style = "text-decoration: none;", @class= "text-white"}) </button> 
                            </div>
                     <div class="row mt-2 justify-content-center text-center">
-                        <div class="col">
-                    <form>
-                         <div class="form-group row justify-content-center">
-                         <input class="col-5 mr-2 form-control" type="number" min="0" max="10" />
-                         <button class="col-4 btn btn-primary form-control" type="button"><i class="fa fa-cart-plus"></i></button>
-                          </div>
-                    </form>
-                        </div>
+						<div class="col">
+							@{
+								var user = await UserManager.GetUserAsync(User);
+								if (SignInManager.IsSignedIn(User))
+								{
+									<form asp-controller="User" asp-action="AddToCart" asp-route-id="@hamper.HamperId" method="post">
+										<div class="form-group row justify-content-center">
+											<input name="quantity" class="col-5 mr-2 form-control" type="number" min="0" max="10" />
+											<button class="col-4 btn btn-primary form-control" type="submit"><i class="fa fa-cart-plus"></i></button>
+										</div>
+									</form>
+
+								}
+
+							}
+
+						</div>
                     </div>
                         </div>
 
