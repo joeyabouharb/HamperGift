@@ -261,20 +261,19 @@ namespace FinalProject_Dips2.Migrations
                 {
                     InvoiceId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicationUserId = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<Guid>(nullable: false),
                     HamperId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    ApplicationUserId1 = table.Column<Guid>(nullable: true)
+                    Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TblInvoices", x => x.InvoiceId);
                     table.ForeignKey(
-                        name: "FK_TblInvoices_AspNetUsers_ApplicationUserId1",
-                        column: x => x.ApplicationUserId1,
+                        name: "FK_TblInvoices_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TblInvoices_TblHamper_HamperId",
                         column: x => x.HamperId,
@@ -343,9 +342,9 @@ namespace FinalProject_Dips2.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblInvoices_ApplicationUserId1",
+                name: "IX_TblInvoices_ApplicationUserId",
                 table: "TblInvoices",
-                column: "ApplicationUserId1");
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblInvoices_HamperId",

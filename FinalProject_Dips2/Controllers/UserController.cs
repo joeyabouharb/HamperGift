@@ -200,16 +200,43 @@ namespace FinalProject_Dips2.Controllers
         {
 		    string applicationUser = _userManagerService.GetUserId(User);
 			List<Invoice> invoiceNo = _invoiceService.Query(inv => inv.ApplicationUserId.ToString() == applicationUser).ToList();
-			List<Hamper> hampers = _hamperService.Query(h => invoiceNo.Any(ids => ids.HamperId == h.HamperId)).ToList();
+			List<Hamper> hampers = _hamperService.Query(h =>invoiceNo.Any(i => i.HamperId == h.HamperId)).ToList();
+			List<MapCartData> cartDatas = new List<MapCartData>();
+			MapCartData map = new MapCartData();
+			
+			
 
+			for (int i = 0; i < hampers.Count(); i++)
+			{
+				for (int z = 0; z < invoiceNo.Count(); z++)
+					{
+						
+						if(hampers[i].HamperId == invoiceNo[z].HamperId && cartDatas.Count() != 0)
+					{
+						cartDatas[i].editCart(invoiceNo[z].Quantity, hampers[i].Cost);
+					}
+					else
+					{
+						map = new MapCartData { HamperName = hampers[i].HamperName,
+												Cost = (hampers[i].Cost * invoiceNo[z].Quantity), Quantity = invoiceNo[z].Quantity};
+						if (cartDatas.Contains(map))
+						{
+							break;
+						}
+						cartDatas.Add(map);
+					}
+
+					}
+				}
+			
+			
+			
+			
+			
 
 			UserCartViewModel vm = new UserCartViewModel
 			{
-				Cost = hampers.Select(hs => hs.Cost).ToList(),
-				HamperName = hampers.Select(h => h.HamperName).ToList(),
-				Quantity = invoiceNo.Where(qt => hampers.Any(hmp => hmp.HamperId == qt.HamperId)).
-				Select(item => item.Quantity).ToList()
-
+			mapCartDatas = cartDatas
 
 			};
            
@@ -230,7 +257,7 @@ namespace FinalProject_Dips2.Controllers
 			{
 
 				HamperId = id,
-				ApplicationUserId = userid.ToString(),
+				ApplicationUserId = userid,
 				Quantity = q
 			};
 			_invoiceService.Create(invoice);

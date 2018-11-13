@@ -10,11 +10,7 @@ namespace FinalProject_Dips2.ViewModels
 	{
 	
 
-		public IList<string> HamperName { get; set; }
-
-		public IList<decimal> Cost { get; set; }
-
-		public IList<int> Quantity { get; set; }
+		public List<MapCartData> mapCartDatas { get; set; }
 
 	}
 }

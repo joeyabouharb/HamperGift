@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject_Dips2.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20181113035355_InitDb")]
+    [Migration("20181113070704_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,9 +184,7 @@ namespace FinalProject_Dips2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<Guid?>("ApplicationUserId1");
+                    b.Property<Guid>("ApplicationUserId");
 
                     b.Property<int>("HamperId");
 
@@ -194,7 +192,7 @@ namespace FinalProject_Dips2.Migrations
 
                     b.HasKey("InvoiceId");
 
-                    b.HasIndex("ApplicationUserId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("HamperId");
 
@@ -331,7 +329,8 @@ namespace FinalProject_Dips2.Migrations
                 {
                     b.HasOne("FinalProject_Dips2.Models.ApplicationUser")
                         .WithMany("Invoices")
-                        .HasForeignKey("ApplicationUserId1");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FinalProject_Dips2.Models.Hamper")
                         .WithMany("Invoices")

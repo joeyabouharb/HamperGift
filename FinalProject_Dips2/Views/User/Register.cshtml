@@ -5,66 +5,67 @@
 
 <div class="row justify-content-center p-3">
 
-    <form class="w-75 card p-3" method="post" asp-controller="User" asp-action="Register">
-        <div asp-validation-summary="ModelOnly"></div>
-        <h4 class="text-center card-title">Register</h4>
-        <div class="form-group">
-            <label asp-for="@Model.UserName">User Name</label>
-            <input asp-for="@Model.UserName" class="form-control" type="text">
-            <span asp-validation-for="UserName"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Email"></label>
-            <input asp-for="@Model.Email" class="form-control" type="text">
-            <span asp-validation-for="Email"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Password"></label>
-            <input asp-for="@Model.Password" class="form-control">
-            <span asp-validation-for="Password"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.ConfirmPassword"></label>
-            <input asp-for="@Model.ConfirmPassword" class="form-control">
-            <span asp-validation-for="ConfirmPassword"></span>
-        </div>
-        <div class="row justify-content-between">
-            <div class="form-group col-sm-auto">
-                <label asp-for="@Model.DeliveryAddress"></label>
-                <input asp-for="@Model.DeliveryAddress" class="form-control" placeholder="Address Line 1">
+	<form class="w-75 card p-3" method="post" asp-controller="User" asp-action="Register">
+		<div asp-validation-summary="ModelOnly"></div>
+		<h4 class="text-center card-title">Register</h4>
+		<div class="form-group">
+			<label asp-for="@Model.UserName">User Name</label>
+			<input asp-for="@Model.UserName" class="form-control" type="text">
+			<span asp-validation-for="UserName"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.Email"></label>
+			<input asp-for="@Model.Email" class="form-control" type="text">
+			<span asp-validation-for="Email"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.Password"></label>
+			<input asp-for="@Model.Password" class="form-control">
+			<span asp-validation-for="Password"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.ConfirmPassword"></label>
+			<input asp-for="@Model.ConfirmPassword" class="form-control">
+			<span asp-validation-for="ConfirmPassword"></span>
+		</div>
+		<div class="row justify-content-between">
+			<div class="form-group col-sm-auto">
+				<label asp-for="@Model.DeliveryAddress"></label>
+				<input asp-for="@Model.DeliveryAddress" class="form-control" placeholder="Address Line 1">
 
-                <span asp-validation-for="DeliveryAddress"></span>
-            </div>
-            <div class="form-group col-sm-auto">
+				<span asp-validation-for="DeliveryAddress"></span>
+			</div>
+			<div class="form-group col-sm-auto">
 
-                <label asp-for="@Model.DeliveryAddress2"></label>
-                <input asp-for="@Model.DeliveryAddress2" class="form-control" placeholder="Address Line 2">
-                <span asp-validation-for="DeliveryAddress2"></span>
-            </div>
-            <div class="form-group col-auto">
-                <label asp-for="@Model.PostCode"></label>
-                <input asp-for="@Model.PostCode" class="form-control" >
-                <span asp-validation-for="PostCode"></span>
-            </div>
-            <div class="form-group col-auto">
-                <label asp-for="@Model.State"></label>
-                <select asp-for="@Model.State" asp-items="@Html.GetEnumSelectList<AddressEnum>()" class="custom-select">
-                    <option selected="selected">Your State Address: </option>
+				<label asp-for="@Model.DeliveryAddress2"></label>
+				<input asp-for="@Model.DeliveryAddress2" class="form-control" placeholder="Address Line 2">
+				<span asp-validation-for="DeliveryAddress2"></span>
+			</div>
+			<div class="form-group col-auto">
+				<label asp-for="@Model.PostCode"></label>
+				<input asp-for="@Model.PostCode" class="form-control">
+				<span asp-validation-for="PostCode"></span>
+			</div>
+			<div class="form-group col-auto">
+				<label asp-for="@Model.State"></label>
+				<select asp-for="@Model.State" asp-items="@Html.GetEnumSelectList<AddressEnum>()" class="custom-select">
+					<option selected="selected">Your State Address: </option>
 
-                </select>
-                <span asp-validation-for="State"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.PhoneNumber"></label>
-            <input asp-for="@Model.PhoneNumber" class="form-control">
-            <span asp-validation-for="PhoneNumber"></span>
-        </div>
-        <div class="row justify-content-center">
-            <button class="col-auto btn btn-primary m-2" type="submit">Submit</button>
-            <button id="reset" class="col-auto btn btn-danger m-2" type="Reset">Reset</button>
-        </div>
-    </form>
+				</select>
+				<span asp-validation-for="State"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.PhoneNumber"></label>
+			<input asp-for="@Model.PhoneNumber" class="form-control">
+			<span asp-validation-for="PhoneNumber"></span>
+		</div>
+		@Html.AntiForgeryToken()
+		<div class="row justify-content-center">
+			<button class="col-auto btn btn-primary m-2" type="submit">Submit</button>
+			<button id="reset" class="col-auto btn btn-danger m-2" type="Reset">Reset</button>
+		</div>
+	</form>
 
 
 </div>

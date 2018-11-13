@@ -10,21 +10,12 @@
 
 		<div class="d-flex flex-row justify-content-between bg-white rounded shadow m-2">
 			@{ 
-				for(int i = 0; i < Model.HamperName.Count(); i++)
+				foreach(var item in Model.mapCartDatas)
 				{
-
-
-					<div>
-						@Model.HamperName.ElementAt(i)
-					</div>
-					<div>
-						@Model.Cost.ElementAt(i)
-					</div>
-					<div>
-						@Model.Quantity.ElementAt(i)
-					</div>
-			
-						}
+					<div>@item.HamperName</div>
+					<div>@item.Quantity.ToString()</div>
+					<div>@item.Cost.ToString("C")</div>
+				}
 					}
 				
 		</div>
