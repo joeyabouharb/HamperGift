@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace FinalProject_Dips2.Models
+namespace ProjectUI.Models
 {
     public class Hamper
     {

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model AdminAddProductViewModel
+<div class="container">
+    <h2>Add Product</h2>
+    <form asp-action="AddProduct" asp-controller="Admin" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductName"></label>
+            <input asp-for="@Model.ProductName" />
+            <span asp-validation-for="ProductName"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Quantity"></label>
+            <input asp-for="@Model.Quantity" />
+            <span asp-validation-for="Quantity"></span>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ProductSizeType"></label>
+            <select class="custom-select" asp-items="@Html.GetEnumSelectList<productSize>()" asp-for="@Model.ProductSizeType">
+                <option>Please Select a size</option>
+            </select>
+            <span asp-validation-for="ProductSizeType"></span>
+
+        </div>
+        <button type="submit">Add</button>
+    </form>
+
+
+</div>
+
+

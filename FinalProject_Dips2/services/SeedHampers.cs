@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinalProject_Dips2.Models;
+using ProjectUI.Models;
 using System.IO;
 
-namespace FinalProject_Dips2.services
+namespace ProjectUI.services
 {
     public class SeedHampers
     {
@@ -39,9 +39,9 @@ namespace FinalProject_Dips2.services
             if (!context.TblImages.Any())
             {
 				System.Drawing.Image image = System.Drawing.Image.FromFile(
-				//"/home/joseph/Documents/FinalProject_Dips2/FinalProject_Dips2/wwwroot/static/img/babyhamper.jpg");
-				"C:\\Users\\joeha\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
-				//"C:\\Users\\student\\Source\\Repos\\FinalProject_Dips2\\FinalProject_Dips2\\wwwroot\\static\\img\\babyhamper.jpg");
+				//"/home/joseph/Documents/ProjectUI/ProjectUI/wwwroot/static/img/babyhamper.jpg");
+				"C:\\Users\\joseph\\Source\\Repos\\ProjectUI\\ProjectUI\\wwwroot\\static\\img\\babyhamper.jpg");
+				//"C:\\Users\\student\\Source\\Repos\\ProjectUI\\ProjectUI\\wwwroot\\static\\img\\babyhamper.jpg");
 
 				MemoryStream ms = new MemoryStream();
                 image.Save(ms, image.RawFormat);

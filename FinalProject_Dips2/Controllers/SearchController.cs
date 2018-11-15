@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinalProject_Dips2.Controllers
+namespace ProjectUI.Controllers
 {
     public class SearchController : Controller
     {

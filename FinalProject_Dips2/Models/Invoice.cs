@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace FinalProject_Dips2.Models
+namespace ProjectUI.Models
 {
     public class Invoice
     {

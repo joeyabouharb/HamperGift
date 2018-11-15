@@ -13,6 +13,7 @@
 <div class="row justify-content-center">
     <form asp-controller="User" asp-action="Details" method="post">
         <div class="d-flex flex-column">
+            <div asp-validation-summary="ModelOnly"></div>
             <input hidden asp-for="@Model.UserName" />
 
             <div class="row form-group justify-content-around bg-white p-3 shadow-sm">
@@ -57,7 +58,7 @@
 
         </div>
     </form>
-    <div asp-validation-summary="ModelOnly"></div>
+   
 </div>
 
 

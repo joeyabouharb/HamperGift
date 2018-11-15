@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using ProjectUI.Models;
+
+
 namespace ProjectUI.ViewModels
 {
-    public class UserRegisterViewModel
+    public class AdminRegisterViewModel
     {
-        [Required(ErrorMessage ="Please Enter a Username"),
+      [Required(ErrorMessage ="Please Enter a Username"),
             MaxLength(256),
             Display(Name = "Username")]
         public string UserName { get; set; }

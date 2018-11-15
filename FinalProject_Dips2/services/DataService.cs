@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 //..
 using Microsoft.EntityFrameworkCore;
-namespace FinalProject_Dips2.services
+namespace ProjectUI.services
 {
     public class DataService<T> : IDataService<T> where T : class
     {

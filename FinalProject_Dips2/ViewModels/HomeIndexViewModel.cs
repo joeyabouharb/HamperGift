@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using FinalProject_Dips2.Models;
-namespace FinalProject_Dips2.ViewModels
+using ProjectUI.Models;
+namespace ProjectUI.ViewModels
 {
     public class HomeIndexViewModel
     {

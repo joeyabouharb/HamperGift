@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-namespace FinalProject_Dips2.Models
+namespace ProjectUI.Models
 {
     public enum AddressEnum { NSW, VIC, QLD, ACT, SA, WA, NT, TAS}
     public class ApplicationUser : IdentityUser<Guid>

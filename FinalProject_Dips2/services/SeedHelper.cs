@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using FinalProject_Dips2.Models;
-namespace FinalProject_Dips2.services
+using ProjectUI.Models;
+namespace ProjectUI.services
 {
     public class SeedHelper
     {

@@ -1,0 +1,51 @@
+  <div id="sidebar-wrapper">
+
+            <ul class="sidebar-nav">
+
+                <li class="sidebar-brand">
+
+                    @Html.ActionLink("Dashboard", "Index", "Admin")
+
+                </li>
+
+                <li>
+                   
+                   @Html.ActionLink("User Profiles", "Users", "Admin")
+
+                </li>
+
+                <li>
+
+                   @Html.ActionLink("Add Hampers", "AddHamper", "Admin")
+
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("Add Categories", "AddCategory", "Admin")
+
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("Upload Images", "AddImage", "Admin")
+
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("Add Products", "Add Products", "Admin")
+
+                </li>
+
+                <li>
+
+                    <form asp-controller="Admin" asp-action="Logout">
+      <button class="btn btn-dark text-light w-75 ml-2" type="submit">Logout</button>
+  </form>
+
+                </li>
+
+            </ul>
+
+        </div>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using FinalProject_Dips2.services;
-using FinalProject_Dips2.Models;
-using FinalProject_Dips2.ViewModels;
+using ProjectUI.services;
+using ProjectUI.Models;
+using ProjectUI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Security.Claims;
@@ -16,7 +16,7 @@ using System.Threading;
 using System.Collections;
 using Microsoft.AspNetCore.Http;
 
-namespace FinalProject_Dips2.Controllers
+namespace ProjectUI.Controllers
 {
     [Authorize(Roles ="Customer")]
     public class UserController : Controller
@@ -43,6 +43,7 @@ namespace FinalProject_Dips2.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            
             return View();
         }
         [AllowAnonymous]
@@ -55,15 +56,39 @@ namespace FinalProject_Dips2.Controllers
                 var login = await _signInManagerService.PasswordSignInAsync(vm.UserName, vm.Password, vm.RememberMe, lockoutOnFailure: true);
                 if (login.Succeeded)
                 {
-                  
-                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "Customer"));
-                    var principal = new ClaimsPrincipal(identity);
-                   
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { IsPersistent = vm.RememberMe });
-                    return RedirectToAction("Index", "Home");
+                    ClaimsIdentity identity;
+                    var user = await  _userManagerService.FindByNameAsync(vm.UserName);
+                    var role = await _userManagerService.GetRolesAsync(user);
+                      if (role.Contains("Customer")){
+                        identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
+                        identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, "Customer"));
+                        var principal = new ClaimsPrincipal(identity);
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
+                         new AuthenticationProperties
+                         {
+                             IsPersistent = vm.RememberMe,
+                             ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                         });
+                       
+                        return RedirectToAction("Index", "Home");
+                      }
+                     else if(role.Contains("Admin")){
+                        identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
+                        identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
+                        var principal = new ClaimsPrincipal(identity);
+                        identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
+                         new AuthenticationProperties
+                         {
+                             IsPersistent = vm.RememberMe,
+                             ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                         });
+                        return RedirectToAction("Index", "Admin");
+                     } 
                   
                 }
                 if (login.IsLockedOut)
@@ -73,7 +98,7 @@ namespace FinalProject_Dips2.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Wrong Email/Password");
+                    ModelState.AddModelError("", "Wrong User Name/Password");
                     return View();
                 }
                
@@ -253,6 +278,8 @@ namespace FinalProject_Dips2.Controllers
 			{
 				return RedirectToAction("Index", "Home");
 			}
+          //  var d = HttpContext.Session;
+            //var s = d.Id;
 			Invoice invoice = new Invoice
 			{
 

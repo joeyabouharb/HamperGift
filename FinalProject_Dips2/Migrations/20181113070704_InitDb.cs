@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FinalProject_Dips2.Migrations
+namespace ProjectUI.Migrations
 {
     public partial class InitDb : Migration
     {

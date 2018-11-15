@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using FinalProject_Dips2.Models;
-using FinalProject_Dips2.services;
+using ProjectUI.Models;
+using ProjectUI.services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Http;
 
-namespace FinalProject_Dips2
+namespace ProjectUI
 {
     public class Startup
     {
@@ -70,12 +70,13 @@ namespace FinalProject_Dips2
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-             {
-                 options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
-                 options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
-             });
+         
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)  
+                    .AddCookie(options =>  
+                    {  
+                        options.LoginPath = "/User/Login/";  
+                       
+                    });  
             
             services.AddMvc().AddSessionStateTempDataProvider();
             // Add application services.
@@ -127,16 +128,6 @@ namespace FinalProject_Dips2
            
         }
 
-        static Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode,
-          Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
-          context =>
-          {
-              if (context.Request.Path.StartsWithSegments("/"))
-              {
-                  context.Response.StatusCode = (int)statusCode;
-                  return Task.CompletedTask;
-              }
-              return existingRedirector(context);
-          };
+  
     }
 }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using FinalProject_Dips2.Models;
-using FinalProject_Dips2.ViewModels;
-using FinalProject_Dips2.services;
+using ProjectUI.Models;
+using ProjectUI.ViewModels;
+using ProjectUI.services;
 using System.IO;
-namespace FinalProject_Dips2.Controllers
+using Microsoft.AspNetCore.Authorization;
+namespace ProjectUI.Controllers
 {
+    
     public class HamperController : Controller
     {
          private IDataService<Hamper> _hamperDataService;
@@ -53,6 +55,7 @@ namespace FinalProject_Dips2.Controllers
             return View(vm);
             
         }
+        
         [HttpGet]
         public FileStreamResult ViewImage(int id){
             Models.Image image = _imageDataService.GetSingle(img => img.ImageId == id);

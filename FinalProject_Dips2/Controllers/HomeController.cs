@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using FinalProject_Dips2.Models;
-using FinalProject_Dips2.ViewModels;
-using FinalProject_Dips2.services;
+using ProjectUI.Models;
+using ProjectUI.ViewModels;
+using ProjectUI.services;
 using System.IO;
 using System.Diagnostics;
-
-namespace FinalProject_Dips2.Controllers
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+namespace ProjectUI.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class HomeController : Controller
     {
+
         private IDataService<Hamper> _hamperDataService;
         private IDataService<Image> _imageDataService;
 
@@ -21,10 +25,13 @@ namespace FinalProject_Dips2.Controllers
             _hamperDataService = HamperDataService;
             _imageDataService = ImageDataService;
         } 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
+            if(User.IsInRole("Admin")){
+                return RedirectToAction("Index","Admin");
+            }
             IEnumerable<Hamper> hampers = _hamperDataService.GetAll();
             
             HomeIndexViewModel vm = new HomeIndexViewModel
@@ -33,12 +40,13 @@ namespace FinalProject_Dips2.Controllers
             };
             return View(vm);
         }
+         [AllowAnonymous]
         [HttpGet]
         public IActionResult About()
         {
             return View();
         }
-
+         [AllowAnonymous]
         [HttpGet]
         public FileStreamResult ViewImage(int id)
         {
@@ -47,7 +55,7 @@ namespace FinalProject_Dips2.Controllers
             MemoryStream stream = new MemoryStream(image.Data);
             return new FileStreamResult(stream, image.ContentType);
         }
-
+         [AllowAnonymous]
         [HttpGet]
         public IActionResult Error()
         {

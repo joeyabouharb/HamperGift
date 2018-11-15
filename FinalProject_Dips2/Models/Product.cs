@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinalProject_Dips2.Models
+namespace ProjectUI.Models
 {
     public enum productSize { ml, pack, g}
     public class Product
