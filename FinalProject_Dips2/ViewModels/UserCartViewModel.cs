@@ -10,7 +10,7 @@ namespace ProjectUI.ViewModels
 	{
 	
 
-		public List<MapCartData> mapCartDatas { get; set; }
+		public IEnumerable<MapCartData> mapCartDatas { get; set; }
 
 	}
 }

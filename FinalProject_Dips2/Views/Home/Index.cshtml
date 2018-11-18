@@ -55,54 +55,6 @@
         </div>
     </div>
 </div>
-<div class="bg-white m-3 rounded shadow">
-   <div class="d-flex flex-row flex-wrap justify-content-center">
-        @{
-            foreach (var hamper in Model.Hampers)
-            {
-
-                        <div class="col-sm-3 justify-content-center shadow-sm p-3 m-3">
-
-                            <img class="img-fluid" src="/Home/ViewImage/@hamper.ImageId" />
-                
-                      <div class="row mt-3 align-items-center justify-content-center text-center"><p>@hamper.HamperName <span class="text-dark">@hamper.Cost.ToString("C")</span></p></div>
-                     <div class="row-md-auto mt-2  justify-content-center text-center">
-                         <button class="col btn btn-secondary">
-                             @Html.ActionLink("Details",
-                         "Details",
-                          "Hamper", 
-                           new{id = hamper.HamperId}, new {@style = "text-decoration: none;", @class= "text-white"}) </button> 
-                           </div>
-                    <div class="row mt-2 justify-content-center text-center">
-						<div class="col">
-							@{
-								var user = await UserManager.GetUserAsync(User);
-								if (SignInManager.IsSignedIn(User))
-								{
-									<form asp-controller="User" asp-action="AddToCart" asp-route-id="@hamper.HamperId" method="post">
-										<div class="form-group row justify-content-center">
-											<input name="quantity" class="col-5 mr-2 form-control" type="number" min="0" max="10" />
-											<button class="col-4 btn btn-primary form-control" type="submit"><i class="fa fa-cart-plus"></i></button>
-										</div>
-									</form>
-
-								}
-
-							}
-
-						</div>
-                    </div>
-                        </div>
 
 
-                        
-                     
-                   
-                          
-
-            }
-        }
-    </div>
-    </div>
-
-   
+<partial name="_HamperView" />

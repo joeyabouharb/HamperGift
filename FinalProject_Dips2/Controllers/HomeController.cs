@@ -40,12 +40,13 @@ namespace ProjectUI.Controllers
             };
             return View(vm);
         }
-         [AllowAnonymous]
+        
         [HttpGet]
-        public IActionResult About()
+        public IActionResult Contact()
         {
             return View();
         }
+
          [AllowAnonymous]
         [HttpGet]
         public FileStreamResult ViewImage(int id)
@@ -62,6 +63,8 @@ namespace ProjectUI.Controllers
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             return View();
         }
+
+
 
     }
 }

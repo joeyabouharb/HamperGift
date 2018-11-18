@@ -13,9 +13,13 @@ namespace ProjectUI.Models
         [ForeignKey("AspNetUsers")]
         public Guid ApplicationUserId { get; set; }
 
+		public string SessionId { get; set; }
+
         [ForeignKey("TblHamper")]
         public int HamperId { get; set; }
 
 		public int Quantity { get; set; }
+
+		public bool Purchased { get; set; }
     }
 }

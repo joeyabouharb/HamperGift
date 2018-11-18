@@ -32,9 +32,9 @@ namespace ProjectUI.services
             _context.SaveChanges();
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return _dbSet.ToList();    
+            return _dbSet;    
         }
 
         public T GetSingle(Func<T, bool> predicate)
@@ -42,9 +42,9 @@ namespace ProjectUI.services
             return _context.Set<T>().FirstOrDefault(predicate);
         }
 
-        public IEnumerable<T> Query(Func<T, bool> predicate)
+        public IQueryable<T> Query(Func<T, bool> predicate)
         {
-            return _context.Set<T>().Where(predicate);
+            return _context.Set<T>().Where(predicate).AsQueryable();
         }
 
         public void Update(T entity)

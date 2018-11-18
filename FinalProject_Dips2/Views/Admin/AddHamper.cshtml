@@ -1,44 +1,60 @@
 ﻿
 @{
-    ViewData["Title"] = "AddHamper";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	ViewData["Title"] = "AddHamper";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @model AdminAddHamperViewModel
 <div class="container">
     <h2>Add Hamper</h2>
-    <form asp-controller="Admin" asp-action="AddHamper" method="post">
-        <div asp-validation-summary="ModelOnly"></div>
-        <div class="form-group">
-            <label asp-for="HamperName"></label>
-            <input class="form-control" asp-for="@Model.HamperName" />
-            <span asp-validation-for="HamperName"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Cost"></label>
-            <input class="form-control" asp-for="@Model.Cost" />
-            <span asp-validation-for="Cost"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CategoryName"></label>
-            <select class="custom-select" asp-for="CategoryName" asp-items="@Model.CategoryNamesList">
-                <option value="">Please Select a Category</option>
+	<form asp-controller="Admin" asp-action="AddHamper" method="post">
+		<div asp-validation-summary="ModelOnly"></div>
+		<div class="form-group">
+			<label asp-for="HamperName"></label>
+			<input class="form-control" asp-for="@Model.HamperName" />
+			<span asp-validation-for="HamperName"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Cost"></label>
+			<input class="form-control" asp-for="@Model.Cost" />
+			<span asp-validation-for="Cost"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="CategoryName"></label>
+			<select class="custom-select" asp-for="CategoryName" asp-items="@Model.CategoryNamesList">
+				<option value="">Please Select a Category</option>
 
-            </select>
-            <span asp-validation-for="CategoryName"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="FileName"></label>
-            <select class="custom-select" asp-for="FileName" asp-items="@Model.FileNames">
-                <option>Please Select an Image File</option>
+			</select>
+			<span asp-validation-for="CategoryName"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="FileName"></label>
+			<select class="custom-select" asp-for="FileName" asp-items="@Model.FileNames">
+				<option>Please Select an Image File</option>
 
-            </select>
-            <span asp-validation-for="FileName"></span>
-        </div>
-       
+			</select>
+			<span asp-validation-for="FileName"></span>
+		</div>
+		<label asp-for="ProductNamesList"></label>
+		<div class="d-flex flex-row flex-wrap justify-content-around ">
+
+			@{
+				for (int i = 0; i < Model.ProductNamesList.Count(); i++)
+				{
+					<div class="form-check-inline">
+						<input asp-for="ProductNamesList[i].Checked" class="form-check-input pr-2" />
+						<label class="form-check-label">
+							@Model.ProductNamesList.ElementAt(i).ProductName
+						</label>
+
+												<input asp-for="ProductNamesList[i].ProductName" hidden />
+</div>
+			}
+			}
+		</div>
 
 
-        <button type="submit">Submit</button>
-    </form>
+		<button type="submit">Submit</button>
+	</form>
 
 </div>
 

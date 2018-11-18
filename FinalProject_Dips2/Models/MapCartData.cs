@@ -7,17 +7,13 @@ namespace ProjectUI.Models
 {
 	public class MapCartData
 	{
+		public int InvoiceId { get; set; }
 		public string HamperName { get; set; }
 
 		public decimal Cost { get; set; }
 
 		public int Quantity { get; set; }
 
-		public void editCart(int Quantity, decimal Cost)
-		{
-			this.Quantity += Quantity;
-			this.Cost = Cost * this.Quantity;
-			
-		}
+		
 	}
 }

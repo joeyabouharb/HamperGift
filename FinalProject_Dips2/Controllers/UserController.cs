@@ -223,49 +223,56 @@ namespace ProjectUI.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
+			string session = HttpContext.Session.ToString();
 		    string applicationUser = _userManagerService.GetUserId(User);
-			List<Invoice> invoiceNo = _invoiceService.Query(inv => inv.ApplicationUserId.ToString() == applicationUser).ToList();
-			List<Hamper> hampers = _hamperService.Query(h =>invoiceNo.Any(i => i.HamperId == h.HamperId)).ToList();
-			List<MapCartData> cartDatas = new List<MapCartData>();
+			IEnumerable<Invoice> invoiceNo = _invoiceService.Query(inv => inv.ApplicationUserId.ToString() == applicationUser);
+			invoiceNo = invoiceNo.Where(ins => ins.SessionId == session).Where(iss => iss.Purchased == false);
+			
+			UserCartViewModel vm = new UserCartViewModel();
+			if (invoiceNo.Count() == 0)
+			{
+				return View(vm);
+			}
+			IQueryable<Hamper> hampers = _hamperService.Query(h => invoiceNo.Any(i => i.HamperId == h.HamperId));
+			IEnumerable<MapCartData> cartDatas = null;
 			MapCartData map = new MapCartData();
 			
 			
 
-			for (int i = 0; i < hampers.Count(); i++)
+			foreach(var hamper in hampers)
 			{
-				for (int z = 0; z < invoiceNo.Count(); z++)
+				foreach(var invoice in invoiceNo)
 					{
 						
-						if(hampers[i].HamperId == invoiceNo[z].HamperId && cartDatas.Count() != 0)
+					
+					if(hamper.HamperId == invoice.HamperId)
 					{
-						cartDatas[i].editCart(invoiceNo[z].Quantity, hampers[i].Cost);
-					}
-					else
-					{
-						map = new MapCartData { HamperName = hampers[i].HamperName,
-												Cost = (hampers[i].Cost * invoiceNo[z].Quantity), Quantity = invoiceNo[z].Quantity};
-						if (cartDatas.Contains(map))
+						map = new MapCartData
 						{
-							break;
-						}
-						cartDatas.Add(map);
+							InvoiceId = invoice.InvoiceId,
+							HamperName = hamper.HamperName,
+							Cost = (hamper.Cost * invoice.Quantity),
+							Quantity = invoice.Quantity
+						};
+
 					}
+					if (cartDatas.Contains(map))
+					{
+						continue;
+					}
+						cartDatas.Append(map);
+					
 
 					}
 				}
-			
-			
-			
-			
-			
 
-			UserCartViewModel vm = new UserCartViewModel
+			 vm = new UserCartViewModel
 			{
 			mapCartDatas = cartDatas
 
 			};
-           
-            return View(vm);
+
+			return View(vm);
         }
 		[HttpPost]
 		public async Task<IActionResult> AddToCart(int id)
@@ -276,16 +283,23 @@ namespace ProjectUI.Controllers
 			bool tryParse = int.TryParse(Request.Form["quantity"], out q);
 			if(tryParse == false)
 			{
-				return RedirectToAction("Index", "Home");
+				ModelState.AddModelError("", "Please enter a valid number");
+				return View();
 			}
-          //  var d = HttpContext.Session;
-            //var s = d.Id;
+			if(_invoiceService.GetSingle(x => x.HamperId == id) != null)
+			{
+				ModelState.AddModelError("", "This item already has been added to cart.");
+				return View();
+			}
+            string session = HttpContext.Session.Id;
+           
 			Invoice invoice = new Invoice
 			{
 
 				HamperId = id,
-				ApplicationUserId = userid,
-				Quantity = q
+				SessionId = session,
+				Quantity = q,
+				Purchased = false
 			};
 			_invoiceService.Create(invoice);
 			return RedirectToAction("Cart", "User");
@@ -330,8 +344,38 @@ namespace ProjectUI.Controllers
                 ModelState.AddModelError("", "unspecified error occured.");
                 return View(vm);
             }
-            return View();
+            return View(vm);
         }
-     
-    }
+		[HttpPost]
+	public IActionResult DeleteCartItem(int id)
+		{
+			var item = _invoiceService.GetSingle(inv => inv.InvoiceId == id);
+			_invoiceService.Delete(item);
+			return RedirectToAction("Cart", "User");
+		}
+		[HttpPost]
+		public IActionResult UpdateCartItem(int id)
+		{
+			var item = _invoiceService.GetSingle(inv => inv.InvoiceId == id);
+
+			_invoiceService.Update(item);
+			return RedirectToAction("Cart", "User");
+		}
+		[HttpPost]
+		public IActionResult PurchaseCart()
+		{
+		
+			string applicationUser = _userManagerService.GetUserId(User);
+			IEnumerable<Invoice> invoiceNo = _invoiceService.Query(inv => inv.ApplicationUserId.ToString() == applicationUser);
+			
+			foreach(var invoice in invoiceNo)
+			{
+				Invoice inv = invoice;
+				inv.Purchased = true;
+				_invoiceService.Update(inv);
+			}
+
+			return RedirectToAction("Cart", "User");
+		}
+	}
 }

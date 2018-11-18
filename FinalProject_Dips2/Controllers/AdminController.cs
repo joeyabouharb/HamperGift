@@ -51,7 +51,12 @@ namespace ProjectUI.Controllers
         public IActionResult Index()
 
         {
-            return View();
+			IEnumerable<Hamper> hampers = _hamperService.GetAll();
+			HomeIndexViewModel vm = new HomeIndexViewModel
+			{
+				Hampers = hampers
+			};
+            return View(vm);
         }
           [HttpPost]
         public async Task<IActionResult> Logout()
@@ -173,7 +178,7 @@ namespace ProjectUI.Controllers
             {
                 ProductName = p,
                 Checked = false
-            });
+            }).ToList();
 
             var cats = _categoryService.GetAll().Select(c => c.CategoryName).ToList();
             var filenames = _imageService.GetAll().Select(i => i.FileName).ToList();
@@ -188,11 +193,11 @@ namespace ProjectUI.Controllers
                 Text = x
             });
 
-            AdminAddHamperViewModel vm = new AdminAddHamperViewModel
-            {
-                ProductNamesList = productChecks.ToList(),
-                CategoryNamesList = catSelect.ToList(),
-                FileNames = fileSelect 
+			AdminAddHamperViewModel vm = new AdminAddHamperViewModel
+			{
+				ProductNamesList = productChecks.ToArray(),
+				CategoryNamesList = catSelect.ToList(),
+				FileNames = fileSelect.ToList() 
             };
 
             return View(vm);
@@ -214,9 +219,9 @@ namespace ProjectUI.Controllers
 
                 var imageid = _imageService.GetSingle(i => i.FileName == vm.FileName).ImageId;
 
-                //var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
-               // var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
-                    //.Select(it => it.ProductId);
+                var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
+               var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
+                    .Select(it => it.ProductId);
 
 
                 _hamperService.Create(new Hamper
@@ -226,7 +231,16 @@ namespace ProjectUI.Controllers
                     ImageId = imageid,
                     CategoryId = categoryid
 
-                }); 
+                });
+				foreach(var pid in productids)
+				{
+					_HPService.Create(new HamperProduct
+					{
+						HamperId = _hamperService.GetSingle(h => h.HamperName == vm.HamperName).HamperId,
+						ProductId = pid
+				});
+				}
+				
 
                     return RedirectToAction("Index", "Admin");
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ProjectUI.ViewModels
             Display(Name = "Hamper Name")]
         public string HamperName { get; set; }
        
-        public IEnumerable<SelectListItem> FileNames { get; set; }
+        public IList<SelectListItem> FileNames { get; set; }
 
         [Required,
             Display(Name = "File Name")]
@@ -30,7 +31,7 @@ namespace ProjectUI.ViewModels
             Display(Name = "Category Name")]
         public string CategoryName { get; set; }
 
-        public IEnumerable<ProductCheckList> ProductNamesList { get; set; }
+        public IList<ProductCheckList> ProductNamesList { get; set; }
 
 
     }
