@@ -1,0 +1,43 @@
+﻿@model UserDetailsViewModel
+@{
+	ViewData["Title"] = "Details";
+}
+
+
+<h2 class="text-center">Details</h2>
+<div class="row justify-content-center">
+	<form asp-controller="User" asp-action="Details" method="post">
+		<div class="d-flex flex-column">
+			<div asp-validation-summary="ModelOnly"></div>
+
+			<div class="row form-group justify-content-around bg-white p-3 shadow-sm">
+				<label class="col" asp-for="@Model.Email"></label>
+				<input class="form-control" asp-for="@Model.Email" type="text" />
+				<span asp-validation-for="Email"></span>
+			</div>
+			<div class="row form-group justify-content-center bg-white p-3 shadow-sm">
+				@Html.ActionLink("Change Password Here", "ChangePassword", "User", new object { }, new { @class = "btn btn-danger" })
+			</div>
+
+			<div class="row form-group  justify-content-around bg-white p-3  shadow-sm">
+				<label class="col" asp-for="@Model.PhoneNumber"></label>
+
+				<input class="form-control" asp-for="@Model.PhoneNumber" type="text" />
+				<span asp-validation-for="PhoneNumber"></span>
+			</div>
+			@Html.AntiForgeryToken()
+			<input type="submit" class="btn btn-primary" value="Submit" />
+			<button type="reset" class="btn btn-secondary m-3">Reset</button>
+
+
+		</div>
+
+	</form>
+</div>
+@{ await Html.RenderPartialAsync("_AddressEditor", Model);}
+
+
+
+
+
+

@@ -1,0 +1,75 @@
+﻿@model UserCartViewModel
+@{
+	ViewData["Title"] = "Cart";
+}
+
+
+<div class="container">
+	<h2 class="text-center">@User.Identity.Name's Cart</h2>
+	<div class="d-flex flex-column">
+
+
+		@{
+			if (Model.mapCartDatas != null)
+			{
+
+				foreach (var item in Model.mapCartDatas)
+				{
+
+					<div class="d-flex flex-row justify-content-between bg-white rounded shadow m-2 p-3 align-items-center">
+						<div class="col">@item.HamperName</div>
+						<form class="form-inline col-auto" method="post" asp-controller="User" asp-action="UpdateCartItem" asp-route-id="@item.InvoiceId">
+							<p class="pt-3">@item.Cost.ToString("C")</p>
+							<div class="d-flex flex-row justify-content-end">
+
+								<label asp-for="@item.Quantity">Quantity:</label>
+
+								<input class="form-control w-50 ml-3" asp-for="@item.Quantity" name="quantity" />
+
+							</div>
+							<button type="submit" name="edit" class="btn btn-primary ml-3">Edit Item</button>
+						</form>
+
+						<form asp-action="DeleteCartItem" asp-controller="User" asp-route-id="@item.InvoiceId">
+							<input hidden asp-for="@item.HamperName" />
+							<button class="btn btn-danger" type="submit">Delete</button>
+						</form>
+					</div>
+
+				}
+				<form asp-action="PurchaseCart" asp-controller="User" method="post">
+
+
+					<div class="row form-group justify-content-center">
+						<select class="custom-select w-50" asp-items="@Model.Addresses" asp-for="AddressId">
+							<option>Select an Address</option>
+						</select>
+						<button class="btn btn-success ml-4" type="submit">Purchase</button>
+					</div>
+
+
+
+
+				</form>
+
+				<h3>
+					Total @{
+						decimal cost = 0;
+						for (int i = 0; i < Model.mapCartDatas.Count; i++)
+						{
+
+							cost += (Model.mapCartDatas[i].Cost);
+						}
+					}  @cost.ToString("C")
+				</h3>
+
+
+			}
+
+		}
+
+
+	</div>
+
+
+</div>
