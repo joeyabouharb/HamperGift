@@ -9,6 +9,7 @@ namespace Project_Infastructure.Models
     {
         public string ProductName { get; set; }
 
+		public int ProductId { get; set; }
         public bool Checked { get; set; }
     }
 }

@@ -51,9 +51,13 @@ namespace Project_UI.Controllers
         public IActionResult Index()
 
         {
+			var cats = _categoryService.GetAll();
+
+			IEnumerable<SelectListItem> CatList = cats.Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.CategoryName });
 			IEnumerable<Hamper> hampers = _hamperService.GetAll();
 			HomeIndexViewModel vm = new HomeIndexViewModel
 			{
+				CategoryNames = CatList,
 				Hampers = hampers
 			};
             return View(vm);
@@ -178,18 +182,18 @@ namespace Project_UI.Controllers
                 Checked = false
             }).ToList();
 
-            var cats = _categoryService.GetAll().Select(c => c.CategoryName).ToList();
-            var filenames = _imageService.GetAll().Select(i => i.FileName).ToList();
-            var catSelect = cats.Select(x => new SelectListItem
-            {
-                Value = x,
-                Text = x
-            });
-            var fileSelect = filenames.Select(x => new SelectListItem
-            {
-                Value = x,
-                Text = x
-            });
+			var cats = _categoryService.GetAll().ToList();
+			var filenames = _imageService.GetAll().ToList();
+			var catSelect = cats.Select(x => new SelectListItem
+			{
+				Value = x.CategoryId.ToString(),
+				Text = x.CategoryName
+			});
+			var fileSelect = filenames.Select(x => new SelectListItem
+			{
+				Value = x.ImageId.ToString(),
+				Text = x.FileName
+			});
 
 			AdminAddHamperViewModel vm = new AdminAddHamperViewModel
 			{
@@ -212,12 +216,14 @@ namespace Project_UI.Controllers
                     ModelState.AddModelError("", "Hamper Already Exists");
                     return View(vm);
                 }
-                var categoryid = _categoryService.GetSingle(c => c.CategoryName == vm.CategoryName)
-                    .CategoryId;
+				bool isCId = int.TryParse(vm.CategoryId, out int categoryid);
+				bool isIId = int.TryParse(vm.ImageId, out int imageid);
 
-                var imageid = _imageService.GetSingle(i => i.FileName == vm.FileName).ImageId;
-
-                var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
+				if(!isCId && !isIId)
+				{
+					return NotFound();
+				}
+			   var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
                var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
                     .Select(it => it.ProductId);
 
@@ -278,44 +284,150 @@ namespace Project_UI.Controllers
 				return View();
 
 			}
-			var product = _productService.GetAll().Select(p => p.ProductName).ToList();
+			var product = _productService.GetAll().ToList();
 			var productChecks = product.Select(p => new ProductCheckList
 			{
-				ProductName = p,
-				Checked = false
+				ProductName = p.ProductName,
+				Checked = false,
+				ProductId = p.ProductId
 			}).ToList();
 
-			var cats = _categoryService.GetAll().Select(c => c.CategoryName).ToList();
-			var filenames = _imageService.GetAll().Select(i => i.FileName).ToList();
+			var hp = _HPService.Query(hps => hps.HamperId == hamper.HamperId);
+
+			productChecks.ForEach(x =>
+			{
+				foreach (HamperProduct hpr in hp)
+				{
+					if(hpr.ProductId == x.ProductId)
+					{
+						x.Checked = true;
+					}
+				}
+			});
+			
+			var cats = _categoryService.GetAll().ToList();
+			var filenames = _imageService.GetAll().ToList();
 			var catSelect = cats.Select(x => new SelectListItem
 			{
-				Value = x,
-				Text = x
+				Value = x.CategoryId.ToString(),
+				Text = x.CategoryName
 			});
 			var fileSelect = filenames.Select(x => new SelectListItem
 			{
-				Value = x,
-				Text = x
+				Value = x.ImageId.ToString(),
+				Text = x.FileName
 			});
 			AdminEditHamperViewModel vm = new AdminEditHamperViewModel
 			{
-				CategoryName = _categoryService.GetSingle(cat => cat.CategoryId == hamper.CategoryId).CategoryName,
+				CategoryId = hamper.CategoryId.ToString(),
 				Cost = hamper.Cost,
-				FileName = _imageService.GetSingle(img => img.ImageId == hamper.ImageId).FileName,
+				ImageId = _imageService.GetSingle(img => img.ImageId == hamper.ImageId).ImageId.ToString(),
 				HamperId = hamper.HamperId,
 				HamperName = hamper.HamperName,
 				FileNames = fileSelect.ToList(),
 				CategoryNamesList = catSelect.ToList(),
-				ProductNamesList = productChecks.ToArray()
+				ProductNamesList = productChecks.ToArray(),
+				IsDiscontinued = hamper.isDiscontinued
+				
 			};
 
 			return View(vm);
 		}
 		[HttpPost]
-		public IActionResult EditHamper(AdminEditHamperViewModel vm)
+		public async Task<IActionResult> EditHamper(AdminEditHamperViewModel vm)
 		{
+			if (ModelState.IsValid)
+			{
+				bool isCId = int.TryParse(vm.CategoryId, out int categoryid);
+				bool isIId = int.TryParse(vm.ImageId, out int imageid);
 
-			return View();
+				if (!isCId && !isIId)
+				{
+					return NotFound();
+				}
+
+				Hamper hamper = new Hamper
+				{
+					HamperId = vm.HamperId,
+					HamperName = vm.HamperName,
+					ImageId = imageid,
+					CategoryId = categoryid,
+					Cost = vm.Cost,
+					isDiscontinued = vm.IsDiscontinued
+					
+				};
+				await _hamperService.Update(hamper);
+
+				return RedirectToAction("Index", "Admin");
+			}
+
+			return View(vm);
+		}
+
+		[HttpGet]
+		public IActionResult EditCategory(int categoryid)
+		{
+			var cat = _categoryService.GetSingle(c => c.CategoryId == categoryid);
+			if(cat == null)
+			{
+				return NotFound();
+			}
+			AdminEditCategoryViewModel vm = new AdminEditCategoryViewModel {
+
+				CategoryId = cat.CategoryId,
+				CategoryName = cat.CategoryName
+
+			};
+			
+			return View(vm);
+
+
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> EditCategory(AdminEditCategoryViewModel vm)
+		{
+			if (ModelState.IsValid)
+			{
+				var cat = _categoryService.GetSingle(c => c.CategoryId == vm.CategoryId);
+
+				cat.CategoryName = vm.CategoryName;
+
+				await _categoryService.Update(cat);
+
+				return RedirectToAction("Index", "Admin");
+			}
+
+			
+			return View(vm);
+
+
+		}
+
+		[HttpGet]
+		public IActionResult Hamper(int HamperId)
+		{
+			Hamper hamper = _hamperService.GetSingle(h => h.HamperId == HamperId);
+
+			IEnumerable<HamperProduct> hamperProducts = _HPService.Query(hp => hp.HamperId == hamper.HamperId);
+
+			IEnumerable<Product> products = _productService.Query(p => hamperProducts.Any(ids => ids.ProductId == p.ProductId));
+
+
+
+
+
+
+			HamperDetailsViewModel vm = new HamperDetailsViewModel
+			{
+				Name = hamper.HamperName,
+				Cost = hamper.Cost,
+				ImageId = hamper.ImageId,
+				Category = _categoryService.GetSingle
+				(cat => cat.CategoryId == hamper.CategoryId).CategoryName,
+				Products = products
+			};
+			return View(vm);
 		}
     }
 }

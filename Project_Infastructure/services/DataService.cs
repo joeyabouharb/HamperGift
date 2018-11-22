@@ -63,6 +63,17 @@ namespace Project_Infastructure.services
 			await _context.SaveChangesAsync();
 
 		}
+
+		public IQueryable<T> GetRelated(string relation)
+		{
+			
+			return _dbSet.Include(relation);
+		}
+
+		public IQueryable<T> GetRelated(string relation, Func<T, bool> predicate)
+		{
+			return _context.Set<T>().Where(predicate).AsQueryable().Include(relation);
+		}
        
     }
 }

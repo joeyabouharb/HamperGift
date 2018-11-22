@@ -11,5 +11,7 @@ namespace Project_UI.ViewModels
         [Required, DataType(DataType.Text),
             Display(Name = "Category Name")]
         public string CategoryName { get; set; }
+
+
     }
 }

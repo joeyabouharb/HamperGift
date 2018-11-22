@@ -1,4 +1,67 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@{ 
+	ViewData["Title"] = "EditHamper";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model AdminEditHamperViewModel
+<div class="container">
+	<h2>Edit Hamper</h2>
+
+	<form asp-controller="Admin" asp-action="EditHamper" method="post">
+		<input hidden asp-for="HamperId" />
+		<div asp-validation-summary="ModelOnly"></div>
+		<div class="form-group">
+			<label asp-for="HamperName"></label>
+			<input class="form-control" asp-for="@Model.HamperName" />
+			<span asp-validation-for="HamperName"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Cost"></label>
+			<input class="form-control" asp-for="@Model.Cost" />
+			<span asp-validation-for="Cost"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="CategoryId"></label>
+			<select class="custom-select" asp-for="CategoryId" asp-items="@Model.CategoryNamesList">
+				<option value="">Please Select a Category</option>
+
+			</select>
+			<span asp-validation-for="CategoryId"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="ImageId"></label>
+			<select class="custom-select" asp-for="ImageId" asp-items="@Model.FileNames">
+				<option>Please Select an Image File</option>
+
+			</select>
+			<span asp-validation-for="ImageId"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.IsDiscontinued"></label>
+			<input asp-for="@Model.IsDiscontinued" />
+		</div>
+		<label asp-for="ProductNamesList">Available Products</label>
+		<div class="d-flex flex-row flex-wrap" style="overflow-y:scroll; height:200px;">
+
+			@{
+				for (int i = 0; i < Model.ProductNamesList.Count(); i++)
+				{
+					<div class="form-check-inline" style="flex: 1 0 21%; width: 100px; padding: 5px;">
+						<input asp-for="ProductNamesList[i].Checked" class="form-check-input pr-2" />
+						<label class="form-check-label">
+							@Model.ProductNamesList.ElementAt(i).ProductName
+						</label>
+
+						<input asp-for="ProductNamesList[i].ProductName" hidden />
+					</div>
+				}
+			}
+		</div>
+
+
+		<button type="submit">Submit</button>
+	</form>
+
+</div>
+
+

@@ -3,43 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Project_Infastructure.services;
+using Project_Infastructure.Models;
+using Newtonsoft.Json;
 
 namespace Project_API.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/Hampers")]
 	[ApiController]
 	public class ValuesController : ControllerBase
 	{
+		private IDataService<Hamper> _hamperService;
+
+		private IDataService<Product> _productService;
+
+		private IDataService<Category> _categoryService;
+
+		private IDataService<HamperProduct> _hpService;
+
+		public ValuesController(IDataService<Hamper> hamperService,
+								IDataService<Product> productService,
+								IDataService<HamperProduct> hpService,
+								IDataService<Category> categoryService)
+		{
+			_hamperService = hamperService;
+			_productService = productService;
+			_hpService = hpService;
+			_categoryService = categoryService;
+		}
+
 		// GET api/values
 		[HttpGet]
-		public ActionResult<IEnumerable<string>> Get()
+		public ActionResult<string> Get()
 		{
-			return new string[] { "value1", "value2" };
+			IList<Hamper> hampers = _hamperService.GetAll().ToList();
+
+
+
+			return JsonConvert.SerializeObject(hampers);
 		}
 
 		// GET api/values/5
+		
+
 		[HttpGet("{id}")]
 		public ActionResult<string> Get(int id)
 		{
-			return "value";
-		}
+		
+			var hamper = _hamperService.Query(h=> h.CategoryId == id);
+			if(hamper == null)
+			{
+				return NotFound(id);
+			}
 
-		// POST api/values
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
+			return JsonConvert.SerializeObject(hamper);
 		}
-
-		// PUT api/values/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public ActionResult<string> Get(string q)
 		{
-		}
+			var hamper = _hamperService.Query(h => h.HamperName.ToLower().Contains(q.ToLower()));
 
-		// DELETE api/values/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
+			if(hamper == null)
+			{
+				return NotFound(q);
+			}
+			return JsonConvert.SerializeObject(hamper);
 		}
 	}
 }

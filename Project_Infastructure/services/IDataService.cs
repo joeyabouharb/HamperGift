@@ -15,6 +15,9 @@ namespace Project_Infastructure.services
         Task Delete(T entity);
 
 		Task UpdateMany(IEnumerable<T> entity);
-   
-    }
+
+		IQueryable<T> GetRelated(string relation);
+
+		IQueryable<T> GetRelated(string relation, Func<T, bool> predicate);
+	}
 }

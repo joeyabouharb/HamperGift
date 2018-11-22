@@ -18,7 +18,7 @@ namespace Project_UI.ViewModels
 
         [Required,
             Display(Name = "File Name")]
-        public string FileName { get; set; }
+        public string ImageId { get; set; }
 
         [Required, DataType(DataType.Currency),
             Display(Name = "Cost")]
@@ -29,7 +29,7 @@ namespace Project_UI.ViewModels
 
         [Required,
             Display(Name = "Category Name")]
-        public string CategoryName { get; set; }
+        public string CategoryId { get; set; }
 
         public IList<ProductCheckList> ProductNamesList { get; set; }
 

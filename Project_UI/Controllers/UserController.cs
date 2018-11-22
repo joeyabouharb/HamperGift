@@ -489,12 +489,18 @@ namespace Project_UI.Controllers
 			return RedirectToAction("Cart","User");
 		}
 		[HttpPost]
-		public async Task<IActionResult> PurchaseCart()
+		public async Task<IActionResult> PurchaseCart(string AddressId)
 		{
+			bool isId = int.TryParse(AddressId, out int x);
+
+			if (!isId)
+			{
+				return NotFound();
+			}
 
 			const string keyName = "session";
 			var data = HttpContext.Session.GetString(keyName);
-
+			
 			if (string.IsNullOrEmpty(data))
 			{
 				Guid session = new Guid();
@@ -505,7 +511,7 @@ namespace Project_UI.Controllers
 			
 			List<Invoice> invoiceNo = _invoiceService.Query(inv => inv.SessionKey == data).ToList();
 			invoiceNo.ForEach(item =>
-			{ item.Purchased = true; });
+			{ item.Purchased = true; item.UserDeliveryAddressId = x; });
 
 			await _invoiceService.UpdateMany(invoiceNo);
 	

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Project_Infastructure.Models;
+using Project_Infastructure.services;
 
 namespace Project_API
 {
@@ -26,6 +28,12 @@ namespace Project_API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddScoped<IDataService<Image>, DataService<Image>>();
+			services.AddScoped<IDataService<Invoice>, DataService<Invoice>>();
+			services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
+			services.AddScoped<IDataService<Category>, DataService<Category>>();
+			services.AddScoped<IDataService<Product>, DataService<Product>>();
+			services.AddScoped<IDataService<HamperProduct>, DataService<HamperProduct>>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

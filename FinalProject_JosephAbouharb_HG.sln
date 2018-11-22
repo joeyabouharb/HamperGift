@@ -12,13 +12,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_API", "Project_API\
 		{402B2716-202C-45E2-81B1-01C73E966692} = {402B2716-202C-45E2-81B1-01C73E966692}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_AngularApp", "Project_AngularApp\Project_AngularApp.csproj", "{E5D3D6CF-C3A2-4B1C-A95A-A5359E0842DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DB0DBF1A-AF23-4173-AFAC-CD5C5247C510} = {DB0DBF1A-AF23-4173-AFAC-CD5C5247C510}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReactNative", "ReactNative", "{61AAC0E3-7491-41D9-956A-E03F29456E71}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +30,6 @@ Global
 		{DB0DBF1A-AF23-4173-AFAC-CD5C5247C510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB0DBF1A-AF23-4173-AFAC-CD5C5247C510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB0DBF1A-AF23-4173-AFAC-CD5C5247C510}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5D3D6CF-C3A2-4B1C-A95A-A5359E0842DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5D3D6CF-C3A2-4B1C-A95A-A5359E0842DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5D3D6CF-C3A2-4B1C-A95A-A5359E0842DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5D3D6CF-C3A2-4B1C-A95A-A5359E0842DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,7 @@
+﻿@model HamperDetailsViewModel
+@{
+	ViewData["Title"] = "Hamper";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{ await Html.RenderPartialAsync("_HamperDetails", Model);}
