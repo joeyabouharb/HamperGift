@@ -77,7 +77,15 @@ namespace ProjectUI
 				options.MinimumSameSitePolicy = SameSiteMode.Lax;
 			
 			});
-
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = "/User/Login";
+				options.AccessDeniedPath = "/Home/Error";
+				options.LogoutPath = "/User/Logout";
+			}
+			
+			);
+			
 			services.AddDistributedMemoryCache();
 
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

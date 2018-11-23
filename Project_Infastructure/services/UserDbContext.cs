@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Project_Infastructure.Models;
-
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.IO;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Project_Infastructure.services
 {
     public class UserDbContext :
-        IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
-    {
-        public UserDbContext(DbContextOptions<UserDbContext> options)
-            : base(options)
-        {
-        }
-        public DbSet<Category> TblCategories { get; set; }
+	   IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+	{
+		public UserDbContext(DbContextOptions<UserDbContext> options)
+	  : base(options)
+		{
+		}
+		public DbSet<Category> TblCategories { get; set; }
 
         public DbSet<Product> TblProduct { get; set; }
 
