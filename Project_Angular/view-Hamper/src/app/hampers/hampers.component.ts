@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-hampers',
   templateUrl: './hampers.component.html',
@@ -21,7 +20,6 @@ export class HampersComponent implements OnInit {
   ngOnInit() {
     this.getHampers();
     this.getCats();
-   
   }
 
   LoadHampers(){
