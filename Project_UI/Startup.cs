@@ -39,7 +39,7 @@ namespace ProjectUI
             services.AddDbContext<HamperDbContext>();
             services.AddDbContext<UserDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddDefaultUI()
+               
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
            

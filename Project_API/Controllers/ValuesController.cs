@@ -58,6 +58,7 @@ namespace Project_API.Controllers
 
 			return JsonConvert.SerializeObject(hamper);
 		}
+		[HttpGet("search/{q}")]
 		public ActionResult<string> Get(string q)
 		{
 			var hamper = _hamperService.Query(h => h.HamperName.ToLower().Contains(q.ToLower()));
@@ -67,6 +68,17 @@ namespace Project_API.Controllers
 				return NotFound(q);
 			}
 			return JsonConvert.SerializeObject(hamper);
+		}
+		[HttpGet("categories")]
+		public ActionResult<string> GetCats(string q)
+		{
+			var cats = _categoryService.GetAll();
+
+			if (cats == null)
+			{
+				return NotFound(q);
+			}
+			return JsonConvert.SerializeObject(cats);
 		}
 	}
 }
