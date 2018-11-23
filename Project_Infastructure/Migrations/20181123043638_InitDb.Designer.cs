@@ -10,8 +10,8 @@ using Project_Infastructure.services;
 namespace Project_Infastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20181123040614_test")]
-    partial class test
+    [Migration("20181123043638_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
