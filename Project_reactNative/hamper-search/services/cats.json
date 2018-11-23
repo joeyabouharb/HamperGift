@@ -1,4 +1,6 @@
-[
+{
+  "Categories":  [
+
   {
     "CategoryId": 1,
     "CategoryName": "Baby Boys",
@@ -30,3 +32,4 @@
     "Hampers": null
   }
 ]
+}

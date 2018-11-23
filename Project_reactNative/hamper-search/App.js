@@ -1,36 +1,63 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import Header from './components/header';
 import Body from './components/body';
+import { StyleSheet, View} from 'react-native'
+import {HamperData,  CategoryData, filterByCat} from './services/dataservices';
 
-import {HamperData,  CategoryData} from './services/dataservices';
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
         cats: [],
-        hampers: []
+        hampers: [],
+        cat: ''
     };
 }
 
-GetAll(){
-  cats: CategoryData();
-  hampers: HamperData();
+pickerChanged(id, index){
+
+  this.setState({hampers:  filterByCat(id)})
 }
+
+
+GetAllHampers(){
+
+ HamperData(response => {
+   this.setState({hampers: response.Hamper});
+
+ 
+
+ })
+}
+
+ GetAllCats(){
+  CategoryData(response => {
+    this.setState({cats: response.Categories});
+  })
+ }
+
 componentDidMount(){
-  this.GetAll();
+  this.GetAllHampers();
+  this.GetAllCats();
 }
   render() {
     return (
-      <div className="App">
-        <Header/>
+      <View style={styles.container}>
+        <Header pickerChanged={this.pickerChanged.bind(this)} category={this.state.cat} categories={this.state.cats}/>
 
-                 <Body results={this.state.hampers} />
-      </div>
+        <Body hampers={this.state.hampers} />
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FBF4D3',
+    paddingTop: 24
+  },
+});
 
 export default App;

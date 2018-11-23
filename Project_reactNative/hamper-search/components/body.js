@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 class Body extends Component {
-    renderHampers(hamper) {
-        return hamper.map(movie => {
+    renderHampers(hampers) {
+        return hampers.map(hamper => {
+            //console.debug(hamper.HamperName)
             return (
-                <Text key={hamper.HamperId}> {hamper.HamperName} {hamper.Cost}</Text>
+                <Text key={hamper.HamperId}> {hamper.HamperName}</Text>     
             );
         })
     }

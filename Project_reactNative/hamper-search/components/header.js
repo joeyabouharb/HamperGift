@@ -1,11 +1,31 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, Picker } from 'react-native';
 
 class Header extends Component {
+        renderPickers(categories){
+           
+            return categories.map( category =>
+                {
+                    return (
+                        <Picker.Item key={category.CategoryId} label={category.CategoryName} value={category.CategoryId}/>
+                    );
+                }
+            )
+        }
+
     render() {
         return (
             <View style={styles.container}>
+               <Picker
+                style={{ height: 60, width: 200, marginLeft: 'auto', marginRight: 'auto' }}
+               selectedValue={this.props.category}
+              
+               onValueChange={(itemValue, itemIndex) => this.props.pickerChanged(itemValue, itemIndex)}>
+               <Picker.Item label="Filter By Category"/>
+                <Picker.Item value={0} label="Get All"/>
+                {this.renderPickers(this.props.categories)}
                
+               </Picker>
             </View>
         );
     }
