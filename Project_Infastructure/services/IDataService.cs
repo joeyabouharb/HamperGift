@@ -14,10 +14,11 @@ namespace Project_Infastructure.services
         Task Update(T entity);
         Task Delete(T entity);
 
+		Task AddMany(IEnumerable<T> entity);
+
 		Task UpdateMany(IEnumerable<T> entity);
 
-		IQueryable<T> GetRelated(string relation);
+		Task RemoveMany(IEnumerable<T> entity);
 
-		IQueryable<T> GetRelated(string relation, Func<T, bool> predicate);
 	}
 }

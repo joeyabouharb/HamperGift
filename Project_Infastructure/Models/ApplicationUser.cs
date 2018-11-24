@@ -12,6 +12,5 @@ namespace Project_Infastructure.Models
        
 	    public ICollection<UserDeliveryAddress> UserDeliveryAddresses { get; set; }
 
-        public ICollection<Invoice> Invoices { get; set; }
     }
 }

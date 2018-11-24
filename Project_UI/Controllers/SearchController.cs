@@ -25,12 +25,12 @@ namespace Project_UI.Controllers
 			_categoryService = categoryService;
 		}
 		[HttpGet]
-		public IActionResult Result(string q, string categoryid, string filter)
+		public IActionResult Result(string Query, string categoryid, string filter)
 		{
 			IQueryable<Hamper> hamper = _hamperDataService.Query(h => h.isDiscontinued == false);
-			if (q != null)
+			if (Query != null)
 			{
-				hamper = hamper.Where(h => h.HamperName.ToLower().Contains(q.ToLower())).Where(hmp => hmp.isDiscontinued == false);
+				hamper = hamper.Where(h => h.HamperName.ToLower().Contains(Query.ToLower())).Where(hmp => hmp.isDiscontinued == false);
 			}
 			bool isID = int.TryParse(categoryid, out int id);
 			if(isID == false && categoryid != null)

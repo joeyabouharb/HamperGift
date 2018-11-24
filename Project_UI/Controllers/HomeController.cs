@@ -39,15 +39,6 @@ namespace Project_UI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-			const string keyName = "session";
-			var data = HttpContext.Session.GetString(keyName);
-
-			if (string.IsNullOrEmpty(data))
-			{
-				Guid session = Guid.NewGuid();
-
-				HttpContext.Session.SetString("session", session.ToString());
-			}
 		
 
 			if (User.IsInRole("Admin")){
@@ -56,6 +47,10 @@ namespace Project_UI.Controllers
 			IEnumerable<Hamper> hampers = _hamperDataService.Query(h => h.isDiscontinued == false);
 
 			var cats = _categoryService.GetAll();
+			if(cats == null)
+			{
+				return BadRequest();
+			}
 
 			IEnumerable<SelectListItem> CatList = cats.Select(c => new SelectListItem { Value = c.CategoryId.ToString(), Text = c.CategoryName });
 

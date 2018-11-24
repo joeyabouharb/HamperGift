@@ -32,7 +32,9 @@ namespace Project_UI.Controllers
 
 		private IDataService<Hamper> _hamperService;
 
-		private IDataService<Invoice> _invoiceService;
+		private IDataService<CartInvoice> _invoiceService;
+
+		private IDataService<Cart> _cartService;
 
 		private IDataService<UserDeliveryAddress> _addressService;
 		private IDataService<Feedback> _feedBackService;
@@ -40,10 +42,11 @@ namespace Project_UI.Controllers
         public UserController(UserManager<ApplicationUser> userManager,
                                
                                  SignInManager<ApplicationUser> signinManger,
-								IDataService<Invoice> invoiceService,
+								IDataService<CartInvoice> invoiceService,
 								IDataService<Hamper> hamperService,
 								IDataService<UserDeliveryAddress> adressService,
-								IDataService<Feedback> feedbackService
+								IDataService<Feedback> feedbackService,
+								IDataService<Cart> cartService
 								)
         {
             _userManagerService = userManager;
@@ -52,6 +55,7 @@ namespace Project_UI.Controllers
 			_hamperService = hamperService;
 			_addressService = adressService;
 			_feedBackService = feedbackService;
+			_cartService = cartService;
 		}
         [AllowAnonymous]
         [HttpGet]
@@ -231,7 +235,7 @@ namespace Project_UI.Controllers
 				AddressId = addresses.UserDeliveryAddressId
 			};
 
-			return RedirectToAction("Details", "User");
+			return View(vm);
 		}
 		[HttpPost]
 		public async Task<IActionResult> UpdateAddressDetails(UserAddressDetailsViewModel vm)
@@ -249,7 +253,7 @@ namespace Project_UI.Controllers
 					UserDeliveryAddressId = vm.AddressId
 				};
 				await _addressService.Update(deliveryAddress);
-
+				return RedirectToAction("Details", "User");
 			}
 
 			return View(vm);
@@ -315,112 +319,88 @@ namespace Project_UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Cart()
         {
-			const string keyName = "session";
-			var data = HttpContext.Session.GetString(keyName);
+			UserCartViewModel vm;
+			var user = await _userManagerService.GetUserAsync(User);
+			var addresses = _addressService.Query(a => a.ApplicationUserId == user.Id);
 
+			var addressList = addresses.Select(add => new SelectListItem
+			{
+				Text = add.DeliveryAddress,
+				Value = add.UserDeliveryAddressId.ToString()
+			});
+
+			const string keyName = "cartData";
+			var data = HttpContext.Session.GetString(keyName);
+			List<MapCartData> cartDatas = new List<MapCartData>();
 			if (string.IsNullOrEmpty(data))
 			{
-				Guid session = Guid.NewGuid();
-
-				HttpContext.Session.SetString("session", session.ToString());
-			}
-			IEnumerable<Invoice> invoiceNo = _invoiceService.Query(inv => inv.SessionKey == data).Where(ii => ii.Purchased == false);
-			
-			
-			UserCartViewModel vm = new UserCartViewModel();
-			if (invoiceNo.Count() == 0)
-			{
+				vm = new UserCartViewModel
+				{
+					mapCartDatas = null,
+					Addresses = addressList
+					
+				};
 				return View(vm);
 			}
-			IQueryable<Hamper> hampers = _hamperService.Query(h => invoiceNo.Any(i => i.HamperId == h.HamperId));
-			List<MapCartData> cartDatas = new List<MapCartData>();
-			MapCartData map = new MapCartData();
-			
-			
-
-			foreach(var hamper in hampers)
+			else
 			{
-				foreach(var invoice in invoiceNo)
-					{
-						
-					
-					if(hamper.HamperId == invoice.HamperId)
-					{
-						map = new MapCartData
-						{
-							InvoiceId = invoice.InvoiceId,
-							HamperName = hamper.HamperName,
-							Cost = (hamper.Cost * invoice.Quantity),
-							Quantity = invoice.Quantity
-						};
+				var cache = HttpContext.Session.GetString(keyName);
+				cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
 
-					}
-					if (cartDatas.Contains(map))
-					{
-						continue;
-					}
-						cartDatas.Add(map);
-					
-
-					}
-				}
-			var user = await _userManagerService.GetUserAsync(User);
-			var addresses = _addressService.Query(a => a.ApplicationUserId == user.Id).ToList();
-		
-			var addressSelect = addresses.Select(adr => new SelectListItem
+			}
+			 vm = new UserCartViewModel
 			{
-				Value = adr.UserDeliveryAddressId.ToString(),
-				Text = adr.DeliveryAddress
-
-			});
-			vm = new UserCartViewModel
-			{
-			mapCartDatas = cartDatas,
-			Addresses = addressSelect
-
+				mapCartDatas = cartDatas,
+				Addresses = addressList
 			};
 
 			return View(vm);
         }
 		[HttpPost]
-		public async Task<IActionResult> AddToCart(int id)
+		public IActionResult AddToCart(int id, int q)
 		{
-			const string keyName = "session";
-			var data = HttpContext.Session.GetString(keyName);
-
-			if (string.IsNullOrEmpty(data))
+			if(q <= 0 || id <= 0)
 			{
-				Guid session = Guid.NewGuid();
-
-				HttpContext.Session.SetString("session", session.ToString());
+				return RedirectToAction("Index", "Home");
 			}
-
-			bool tryParse = int.TryParse(Request.Form["quantity"], out int q);
-			if (tryParse == false)
+			
+			if (ModelState.IsValid)
 			{
-				//ModelState.AddModelError("", "Please enter a valid number");
+				var hamper = _hamperService.GetSingle(h => h.HamperId == id);
+				if (hamper == null)
+				{
+					return NotFound();
+				}
+
+				const string keyName = "cartData";
+				MapCartData cartData = new MapCartData
+				{
+					HamperId = id,
+					HamperName = hamper.HamperName,
+					Cost = hamper.Cost,
+					Quantity = q
+				};
+
+				List<MapCartData> cartDatas = new List<MapCartData>();
+				var data = HttpContext.Session.GetString(keyName);
+				if (string.IsNullOrEmpty(data))
+				{
+					cartDatas.Add(cartData);
+					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
+				}
+				else
+				{
+
+					var cache = HttpContext.Session.GetString(keyName);
+					cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
+					cartDatas.Add(cartData);
+					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
+				}
 				return RedirectToAction("Cart", "User");
 			}
-			if (_invoiceService.Query(x => x.SessionKey== data).
-				Where(inv => inv.HamperId == id).
-				Where(h => h.Purchased == false).Count() != 0)
-			{
-				//ModelState.AddModelError("", "This item already has been added to cart.");
-				return RedirectToAction("Cart", "User");
-			}
+			
+			return RedirectToAction("Index", "Home");
 
-			var user = await _userManagerService.GetUserAsync(User);		
-			Invoice invoice = new Invoice
-			{
-
-				HamperId = id,
-				SessionKey = data,
-				UserDeliveryAddressId = _addressService.Query(a => a.ApplicationUserId == user.Id).First().UserDeliveryAddressId,
-				Quantity = q,
-				Purchased = false
-			};
-			await _invoiceService.Create(invoice);
-			return RedirectToAction("Cart", "User");
 		}
         [HttpGet]
         public IActionResult ChangePassword() {
@@ -467,55 +447,105 @@ namespace Project_UI.Controllers
 		[HttpPost]
 	public IActionResult DeleteCartItem(int id)
 		{
-			var item = _invoiceService.GetSingle(inv => inv.InvoiceId == id);
-			_invoiceService.Delete(item);
+			const string keyName = "cartData";
+			var data = HttpContext.Session.GetString(keyName);
+			List<MapCartData> cartDatas;
+			if (string.IsNullOrEmpty(data))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			else
+			{
+				var cache = HttpContext.Session.GetString(keyName);
+				cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
+
+			}
+			MapCartData cartData = cartDatas.SingleOrDefault(c => c.HamperId == id);
+			if(cartData == null)
+			{
+				return NotFound();
+			}
+			cartDatas.Remove(cartData);
+			HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
 			return RedirectToAction("Cart", "User");
 		}
 		[HttpPost]
-		public IActionResult UpdateCartItem(int id)
+		public IActionResult UpdateCartItem(int id, int q)
 		{
-			var item = _invoiceService.GetSingle(inv => inv.InvoiceId == id);
-			int q;
-			bool tryParse = int.TryParse(Request.Form["quantity"], out q);
-			if(tryParse == true)
+			if (ModelState.IsValid)
 			{
-				item.Quantity = q;
-				_invoiceService.Update(item);
-
-				return RedirectToAction("Cart", "User");
+			const string keyName = "cartData";
+			var data = HttpContext.Session.GetString(keyName);
+			List<MapCartData> cartDatas;
+			if (string.IsNullOrEmpty(data))
+			{
+				return RedirectToAction("Index", "Home");
 			}
-			
-			
-			return RedirectToAction("Cart","User");
+			else
+			{
+				var cache = HttpContext.Session.GetString(keyName);
+				cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
+
+			}
+			MapCartData cartData = cartDatas.SingleOrDefault(c => c.HamperId == id);
+			if (cartData == null)
+			{
+				return NotFound();
+			}
+			cartDatas.Remove(cartData);
+			cartData.Quantity = q;
+			cartDatas.Add(cartData);
+
+			HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
+
+			return RedirectToAction("Cart", "User");
+		}
+			return RedirectToAction("Cart", "User");
 		}
 		[HttpPost]
 		public async Task<IActionResult> PurchaseCart(string AddressId)
 		{
-			bool isId = int.TryParse(AddressId, out int x);
-
-			if (!isId)
+			if (ModelState.IsValid)
 			{
-				return NotFound();
+				const string keyName = "cartData";
+				var data = HttpContext.Session.GetString(keyName);
+				List<MapCartData> cartDatas;
+				if (string.IsNullOrEmpty(data))
+				{
+					return RedirectToAction("Index", "Home");
+				}
+				else
+				{
+					var cache = HttpContext.Session.GetString(keyName);
+					cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
+
+				}
+				bool IsId = int.TryParse(AddressId, out int id);
+				if (!IsId)
+				{
+					return NotFound();
+				}
+				Guid guid = Guid.NewGuid();
+				CartInvoice cartInvoice = new CartInvoice
+				{
+					UserDeliveryAddressId = id,
+					purchaseConfirmed = true,
+					CartInvoiceId = guid,
+				};
+				await _invoiceService.Create(cartInvoice);
+				IEnumerable<Cart> Carts = cartDatas.Select(cd => new Cart
+				{
+					HamperId = cd.HamperId,
+					Quantity = cd.Quantity,
+					CartInvoiceId = guid,
+
+
+				});
+				await _cartService.AddMany(Carts);
+				HttpContext.Session.Clear();
+
 			}
-
-			const string keyName = "session";
-			var data = HttpContext.Session.GetString(keyName);
 			
-			if (string.IsNullOrEmpty(data))
-			{
-				Guid session = new Guid();
-
-				HttpContext.Session.SetString("session", session.ToString());
-			}
-			string applicationUser = _userManagerService.GetUserId(User);
-			
-			List<Invoice> invoiceNo = _invoiceService.Query(inv => inv.SessionKey == data).ToList();
-			invoiceNo.ForEach(item =>
-			{ item.Purchased = true; item.UserDeliveryAddressId = x; });
-
-			await _invoiceService.UpdateMany(invoiceNo);
-	
-
 			return RedirectToAction("Cart", "User");
 		}
 
@@ -525,16 +555,16 @@ namespace Project_UI.Controllers
 			var user = await _userManagerService.GetUserAsync(User);
 			var addresses = _addressService.Query(add => add.ApplicationUserId == user.Id);
 			var invoices = _invoiceService.Query(inv => addresses.Any(addr => addr.UserDeliveryAddressId == inv.UserDeliveryAddressId));
-			var hampers = _hamperService.Query(h => invoices.Any(iids => iids.HamperId == h.HamperId));
+			//var hampers = _hamperService.Query(h => invoices.Any(iids => iids.HamperId == h.HamperId));
 
-			var SelectList = hampers.Select(x => new SelectListItem {
-				Value = x.HamperId.ToString(),
-				Text = x.HamperName
-			});
+			//var SelectList = hampers.Select(x => new SelectListItem {
+			//	Value = x.HamperId.ToString(),
+			//	Text = x.HamperName
+			//});
 
 			UserFeedbackViewModel vm = new UserFeedbackViewModel
 			{
-				hampers = SelectList,
+				//hampers = SelectList,
 				
 			};
 			return View(vm);

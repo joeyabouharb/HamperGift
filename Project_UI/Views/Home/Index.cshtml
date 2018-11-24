@@ -32,14 +32,14 @@
 	
     <div class="row justify-content-center mb-3">
         <div class="col-12 col-md-10 col-lg-8">
-            <form class="card card-sm" asp-action="Result" asp-controller="Search" asp-route-q="@Model.q" asp-route-cateforyid="@Model.categoryid" asp-route-filter="@Model.filter" method="get">
+            <form class="card card-sm" asp-action="Result" asp-controller="Search" asp-route-q="@Model.Query" asp-route-categoryid="@Model.categoryid" asp-route-filter="@Model.filter" method="get">
                 <div class="card-body row no-gutters align-items-center">
                     <div class="col-auto">
                         <i class="fa fa-search h4 text-body"></i>
                     </div>
                     <!--end of col-->
                     <div class="col">
-                        <input asp-for="@Model.q" class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search For Hampers">
+                        <input asp-for="@Model.Query" class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search For Hampers">
 
                     </div>
                     <!--end of col-->

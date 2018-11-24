@@ -9,9 +9,9 @@ using Project_Infastructure.services;
 
 namespace Project_Infastructure.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
-    [Migration("20181123043638_InitDb")]
-    partial class InitDb
+    [DbContext(typeof(DesignDbContext))]
+    [Migration("20181124014657_DesignDb")]
+    partial class DesignDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,6 +179,45 @@ namespace Project_Infastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Project_Infastructure.Models.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("CartInvoiceId");
+
+                    b.Property<int>("HamperId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("CartInvoiceId");
+
+                    b.ToTable("TblCart");
+                });
+
+            modelBuilder.Entity("Project_Infastructure.Models.CartInvoice", b =>
+                {
+                    b.Property<Guid>("CartInvoiceId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("HamperId");
+
+                    b.Property<int>("UserDeliveryAddressId");
+
+                    b.Property<bool>("purchaseConfirmed");
+
+                    b.HasKey("CartInvoiceId");
+
+                    b.HasIndex("HamperId");
+
+                    b.HasIndex("UserDeliveryAddressId");
+
+                    b.ToTable("TblCartInvoice");
+                });
+
             modelBuilder.Entity("Project_Infastructure.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -189,7 +228,7 @@ namespace Project_Infastructure.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("TblCategories");
+                    b.ToTable("TblCategory");
                 });
 
             modelBuilder.Entity("Project_Infastructure.Models.Feedback", b =>
@@ -197,6 +236,8 @@ namespace Project_Infastructure.Migrations
                     b.Property<int>("FeedbackId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("ApplicationUserId");
 
                     b.Property<int>("HamperId");
 
@@ -252,7 +293,7 @@ namespace Project_Infastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("TblHamperProducts");
+                    b.ToTable("TblHamperProduct");
                 });
 
             modelBuilder.Entity("Project_Infastructure.Models.Image", b =>
@@ -273,36 +314,7 @@ namespace Project_Infastructure.Migrations
 
                     b.HasKey("ImageId");
 
-                    b.ToTable("TblImages");
-                });
-
-            modelBuilder.Entity("Project_Infastructure.Models.Invoice", b =>
-                {
-                    b.Property<int>("InvoiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid?>("ApplicationUserId");
-
-                    b.Property<int>("HamperId");
-
-                    b.Property<bool>("Purchased");
-
-                    b.Property<int>("Quantity");
-
-                    b.Property<string>("SessionKey");
-
-                    b.Property<int>("UserDeliveryAddressId");
-
-                    b.HasKey("InvoiceId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("HamperId");
-
-                    b.HasIndex("UserDeliveryAddressId");
-
-                    b.ToTable("TblInvoices");
+                    b.ToTable("TblImage");
                 });
 
             modelBuilder.Entity("Project_Infastructure.Models.Product", b =>
@@ -388,6 +400,26 @@ namespace Project_Infastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Project_Infastructure.Models.Cart", b =>
+                {
+                    b.HasOne("Project_Infastructure.Models.CartInvoice")
+                        .WithMany("Carts")
+                        .HasForeignKey("CartInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Project_Infastructure.Models.CartInvoice", b =>
+                {
+                    b.HasOne("Project_Infastructure.Models.Hamper")
+                        .WithMany("Invoices")
+                        .HasForeignKey("HamperId");
+
+                    b.HasOne("Project_Infastructure.Models.UserDeliveryAddress")
+                        .WithMany("Invoices")
+                        .HasForeignKey("UserDeliveryAddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Project_Infastructure.Models.Feedback", b =>
                 {
                     b.HasOne("Project_Infastructure.Models.Hamper")
@@ -419,23 +451,6 @@ namespace Project_Infastructure.Migrations
                     b.HasOne("Project_Infastructure.Models.Product")
                         .WithMany("HamperProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Project_Infastructure.Models.Invoice", b =>
-                {
-                    b.HasOne("Project_Infastructure.Models.ApplicationUser")
-                        .WithMany("Invoices")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Project_Infastructure.Models.Hamper")
-                        .WithMany("Invoices")
-                        .HasForeignKey("HamperId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Project_Infastructure.Models.UserDeliveryAddress")
-                        .WithMany("Invoices")
-                        .HasForeignKey("UserDeliveryAddressId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

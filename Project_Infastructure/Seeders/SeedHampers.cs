@@ -15,14 +15,14 @@ namespace Project_Infastructure.services
 
             var context = serviceProvider.GetRequiredService<HamperDbContext>();
             context.Database.EnsureCreated();
-            if (!context.TblCategories.Any())
+            if (!context.TblCategory.Any())
             {
-                await context.TblCategories.AddAsync(new Category {CategoryName = "Baby Boys" });
-                await context.TblCategories.AddAsync(new Category {CategoryName = "Baby Girls" });
-                await context.TblCategories.AddAsync(new Category { CategoryName = "Mens" });
-                await context.TblCategories.AddAsync(new Category { CategoryName = "Womens" });
-                await context.TblCategories.AddAsync(new Category { CategoryName = "Other" });
-                await context.TblCategories.AddAsync(new Category { CategoryName = "Kids" });
+                await context.TblCategory.AddAsync(new Category {CategoryName = "Baby Boys" });
+                await context.TblCategory.AddAsync(new Category {CategoryName = "Baby Girls" });
+                await context.TblCategory.AddAsync(new Category { CategoryName = "Mens" });
+                await context.TblCategory.AddAsync(new Category { CategoryName = "Womens" });
+                await context.TblCategory.AddAsync(new Category { CategoryName = "Other" });
+                await context.TblCategory.AddAsync(new Category { CategoryName = "Kids" });
                 await context.SaveChangesAsync();
             }
             if (!context.TblProduct.Any())
@@ -31,7 +31,7 @@ namespace Project_Infastructure.services
 				await context.TblProduct.AddAsync(new Product { ProductName = "Toy Rattle", Quantity = 1, ProductSizeType = productSize.pack });
 				await context.TblProduct.AddAsync(new Product { ProductName = "Scented nappy bags", Quantity = 480, ProductSizeType = productSize.pack });
                 await context.TblProduct.AddAsync(new Product { ProductName = "Unscented baby wipes", Quantity = 200, ProductSizeType = productSize.pack });
-                await context.TblProduct.AddAsync(new Product { ProductName = "Ultra dry jumbo nappies for newborn", Quantity = 100, ProductSizeType = productSize.pack });
+                await context.TblProduct.AddAsync(new Product { ProductName = "Ultra dry jumbo nappy for newborn", Quantity = 100, ProductSizeType = productSize.pack });
                 await context.TblProduct.AddAsync(new Product { ProductName = "Baby formula", Quantity = 800, ProductSizeType = productSize.g });
                 await context.TblProduct.AddAsync(new Product { ProductName = "Baby gentle wash & shampoo", Quantity = 500, ProductSizeType = productSize.ml });
                 await context.TblProduct.AddAsync(new Product { ProductName = "Feeding bottle twin pack", Quantity = 260, ProductSizeType = productSize.ml });
@@ -55,8 +55,8 @@ namespace Project_Infastructure.services
 				await context.TblProduct.AddAsync(new Product { ProductName = "50 dollar gift card", Quantity = 1, ProductSizeType = productSize.pack });
 
 				await context.TblProduct.AddAsync(new Product { ProductName = "Apples", Quantity = 5, ProductSizeType = productSize.pack });
-				await context.TblProduct.AddAsync(new Product { ProductName = "Strawberries", Quantity = 460, ProductSizeType = productSize.g });
-				await context.TblProduct.AddAsync(new Product { ProductName = "Blueberries", Quantity = 200, ProductSizeType = productSize.g });
+				await context.TblProduct.AddAsync(new Product { ProductName = "Strawberry", Quantity = 460, ProductSizeType = productSize.g });
+				await context.TblProduct.AddAsync(new Product { ProductName = "Blueberry", Quantity = 200, ProductSizeType = productSize.g });
 				await context.TblProduct.AddAsync(new Product { ProductName = "peaches", Quantity = 560, ProductSizeType = productSize.g });
 				await context.TblProduct.AddAsync(new Product { ProductName = "mineral water", Quantity = 380, ProductSizeType = productSize.ml });
 
@@ -93,93 +93,93 @@ namespace Project_Infastructure.services
 
 				await context.SaveChangesAsync();
             }
-            if (!context.TblImages.Any())
+            if (!context.TblImage.Any())
             {
 				System.Drawing.Image image = System.Drawing.Image.FromFile(
 				//"/home/joseph/Documents/ProjectUI/ProjectUI/wwwroot/static/img/babyhamper.jpg");
-				"C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\babyhamper.jpg");
-				//"C:\\Users\\student\\Source\\Repos\\ProjectUI\\ProjectUI\\wwwroot\\static\\img\\babyhamper.jpg");
+				"C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyhamper.jpg");
+				//"C:\\Users\\joeha\\Source\\Repos\\ProjectUI\\ProjectUI\\wwwroot\\static\\img\\babyhamper.jpg");
 				
 				MemoryStream ms = new MemoryStream();
                 image.Save(ms, image.RawFormat);
                 image.Tag = "babyhamper";
 				
                 byte[] img = ms.ToArray();
-                await context.TblImages.AddAsync(new Image {FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\baby_clothes_hamper.jpg");
+                await context.TblImage.AddAsync(new Image {FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_clothes_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyclothes";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\baby_hamper.jpg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyHamper2";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\babyboy_hamper.png");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyboy_hamper.png");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyHamperboy";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/png", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\christmas_hamper.jpg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/png", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\christmas_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "christmas";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\disney_kids.jpeg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\disney_kids.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "disney_kids";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\hamper_for_her.jpg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\hamper_for_her.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "hamper-for-her";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\happy_birthday1.jpg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\happy_birthday1.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "birthdayHamper";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\Healthy_fruits.jpeg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Healthy_fruits.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "FruitHamper";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\Kids_Sweets.jpeg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Kids_Sweets.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "Sweets";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\Men_Chocolates.jpg");
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Men_Chocolates.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "chocolatesformen";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
 
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\male_hamper1.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\male_hamper1.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "hamper-for-her";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
 
-				image = System.Drawing.Image.FromFile("C:\\Users\\student\\source\\repos\\FinalProject_Dips2\\Project_UI\\wwwroot\\static\\img\\Special_Wine_Cheese.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Special_Wine_Cheese.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "wine and cheese";
 				img = ms.ToArray();
-				await context.TblImages.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
+				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
 
 		
 				await context.SaveChangesAsync();
@@ -205,85 +205,85 @@ namespace Project_Infastructure.services
 				await context.SaveChangesAsync();
             }
 
-            if (!context.TblHamperProducts.Any())
+            if (!context.TblHamperProduct.Any())
             {
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 1 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 2 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 3 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 4 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 5 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 6 });
-                await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 7 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 8 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 1, ProductId = 9 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 1 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 2 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 3 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 4 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 5 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 6 });
+                await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 7 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 8 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 1, ProductId = 9 });
 
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 1 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 2 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 3 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 4 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 5 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 6 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 2, ProductId = 7 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 3, ProductId = 1 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 3, ProductId = 2 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 3, ProductId = 3 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 3, ProductId = 4 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 1 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 2 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 3 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 4 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 5 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 6 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 2, ProductId = 7 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 3, ProductId = 1 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 3, ProductId = 2 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 3, ProductId = 3 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 3, ProductId = 4 });
 
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 5, ProductId = 10 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 5, ProductId = 11 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 5, ProductId = 12 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 5, ProductId = 10 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 5, ProductId = 11 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 5, ProductId = 12 });
 
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 6, ProductId = 13 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 6, ProductId = 14 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 6, ProductId = 15 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 6, ProductId = 16 });
-
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 7, ProductId = 17 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 7, ProductId = 18 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 7, ProductId = 19 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 7, ProductId = 20 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 7, ProductId = 21 });
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 8, ProductId = 22 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 8, ProductId = 23 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 8, ProductId = 24 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 8, ProductId = 25 });
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 9, ProductId = 26 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 9, ProductId = 27 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 9, ProductId = 28 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 9, ProductId = 29 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 9, ProductId = 30 });
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 10, ProductId = 31 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 10, ProductId = 32 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 10, ProductId = 33 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 10, ProductId = 34 });
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 11, ProductId = 34 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 11, ProductId = 35 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 11, ProductId = 36 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 11, ProductId = 37 });
-
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 38 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 39 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 40 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 41 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 42 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 12, ProductId = 43 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 6, ProductId = 13 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 6, ProductId = 14 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 6, ProductId = 15 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 6, ProductId = 16 });
 
 
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 13, ProductId = 44 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 13, ProductId = 45 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 13, ProductId = 46 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 13, ProductId = 47 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 13, ProductId = 48 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 7, ProductId = 17 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 7, ProductId = 18 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 7, ProductId = 19 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 7, ProductId = 20 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 7, ProductId = 21 });
 
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 4, ProductId = 2 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 4, ProductId = 49 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 4, ProductId = 50 });
-				await context.TblHamperProducts.AddAsync(new HamperProduct { HamperId = 4, ProductId = 51 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 8, ProductId = 22 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 8, ProductId = 23 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 8, ProductId = 24 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 8, ProductId = 25 });
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 9, ProductId = 26 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 9, ProductId = 27 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 9, ProductId = 28 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 9, ProductId = 29 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 9, ProductId = 30 });
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 10, ProductId = 31 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 10, ProductId = 32 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 10, ProductId = 33 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 10, ProductId = 34 });
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 11, ProductId = 34 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 11, ProductId = 35 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 11, ProductId = 36 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 11, ProductId = 37 });
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 38 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 39 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 40 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 41 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 42 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 12, ProductId = 43 });
+
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 13, ProductId = 44 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 13, ProductId = 45 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 13, ProductId = 46 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 13, ProductId = 47 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 13, ProductId = 48 });
+
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 4, ProductId = 2 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 4, ProductId = 49 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 4, ProductId = 50 });
+				await context.TblHamperProduct.AddAsync(new HamperProduct { HamperId = 4, ProductId = 51 });
 
 
 

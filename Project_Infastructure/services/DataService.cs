@@ -55,25 +55,27 @@ namespace Project_Infastructure.services
             await _context.SaveChangesAsync();
 
         }
-		public async Task UpdateMany(IEnumerable<T> entity)
+		public async Task AddMany(IEnumerable<T> entity)
 		{
 
-			_dbSet.UpdateRange(entity);
+			await _dbSet.AddRangeAsync(entity);
 
 			await _context.SaveChangesAsync();
 
 		}
 
-		public IQueryable<T> GetRelated(string relation)
+		public async Task UpdateMany(IEnumerable<T> entity)
 		{
 			
-			return _dbSet.Include(relation);
+			_dbSet.UpdateRange(entity);
+			await _context.SaveChangesAsync();
 		}
 
-		public IQueryable<T> GetRelated(string relation, Func<T, bool> predicate)
+		public async Task RemoveMany(IEnumerable<T> entity)
 		{
-			return _context.Set<T>().Where(predicate).AsQueryable().Include(relation);
+			_dbSet.RemoveRange(entity);
+			await _context.SaveChangesAsync();
 		}
-       
+
     }
 }

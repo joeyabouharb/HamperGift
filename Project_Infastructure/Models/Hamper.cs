@@ -25,7 +25,7 @@ namespace Project_Infastructure.Models
 
         public ICollection<HamperProduct> HamperProducts { get; set; }
 
-        public ICollection<Invoice> Invoices { get; set; }
+        public ICollection<CartInvoice> Invoices { get; set; }
 
 		public ICollection<Feedback> Feedbacks { get; set; }
 

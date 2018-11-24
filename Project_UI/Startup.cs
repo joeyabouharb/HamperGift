@@ -37,10 +37,10 @@ namespace ProjectUI
             //configure Identity Db Context
 
             services.AddDbContext<HamperDbContext>();
-            services.AddDbContext<UserDbContext>();
+            services.AddDbContext<DesignDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                
-                .AddEntityFrameworkStores<UserDbContext>()
+                .AddEntityFrameworkStores<DesignDbContext>()
                 .AddDefaultTokenProviders();
            
             //configire Identity options
@@ -82,13 +82,14 @@ namespace ProjectUI
 				options.LoginPath = "/User/Login";
 				options.AccessDeniedPath = "/Home/Error";
 				options.LogoutPath = "/User/Logout";
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 			}
 			
 			);
 			
 			services.AddDistributedMemoryCache();
 
-			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+			services.AddAuthentication()
 					.AddCookie();
             
             services.AddMvc().AddSessionStateTempDataProvider();
@@ -96,14 +97,14 @@ namespace ProjectUI
 			
             // Add application services.
             services.AddScoped<IDataService<Image>, DataService<Image>>();
-			services.AddScoped<IDataService<Invoice>, DataService<Invoice>>();
+			services.AddScoped<IDataService<CartInvoice>, DataService<CartInvoice>>();
 			services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
             services.AddScoped<IDataService<Category>, DataService<Category>>();
             services.AddScoped<IDataService<Product>, DataService<Product>>();
             services.AddScoped<IDataService<HamperProduct>, DataService<HamperProduct>>();
 			services.AddScoped<IDataService<UserDeliveryAddress>, DataService<UserDeliveryAddress>>();
 			services.AddScoped<IDataService<Feedback>, DataService<Feedback>>();
-
+			services.AddScoped<IDataService<Cart>, DataService<Cart>>();
 
 		}
 

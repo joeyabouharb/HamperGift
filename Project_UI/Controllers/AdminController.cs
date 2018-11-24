@@ -348,19 +348,30 @@ namespace Project_UI.Controllers
 
 				Hamper hamper = new Hamper
 				{
-					HamperId = vm.HamperId,
 					HamperName = vm.HamperName,
 					ImageId = imageid,
 					CategoryId = categoryid,
 					Cost = vm.Cost,
 					isDiscontinued = vm.IsDiscontinued
-					
+
 				};
 				await _hamperService.Update(hamper);
 
-				return RedirectToAction("Index", "Admin");
-			}
+				var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
+				var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
+					 .Select(it => it.ProductId);
+				 await _HPService.RemoveMany(_HPService.Query(hh => hh.HamperId == vm.HamperId));
 
+				IEnumerable<HamperProduct> hamperProducts = productids.Select(p => new HamperProduct {
+					ProductId = p,
+					HamperId = vm.HamperId
+				});
+				await _HPService.AddMany(hamperProducts);
+
+
+				return RedirectToAction("Index", "Admin");
+				
+			}
 			return View(vm);
 		}
 
@@ -405,9 +416,9 @@ namespace Project_UI.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Hamper(int HamperId)
+		public IActionResult Hamper(int id)
 		{
-			Hamper hamper = _hamperService.GetSingle(h => h.HamperId == HamperId);
+			Hamper hamper = _hamperService.GetSingle(h => h.HamperId == id);
 
 			IEnumerable<HamperProduct> hamperProducts = _HPService.Query(hp => hp.HamperId == hamper.HamperId);
 

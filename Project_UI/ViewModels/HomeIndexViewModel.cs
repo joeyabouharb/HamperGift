@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Project_Infastructure.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_UI.ViewModels
 {
@@ -18,7 +19,12 @@ namespace Project_UI.ViewModels
 
 	   public string filter { get; set; }
 
-	   public string q { get; set; }
+		[Required(ErrorMessage = "Please Enter a Quantity"),
+	   Display(Name = "Quantity "),
+			Range(1, 10)]
+		public int Quantity { get; set; }
+
+		public string Query { get; set; }
 
 		public int Total { get; set; }
         

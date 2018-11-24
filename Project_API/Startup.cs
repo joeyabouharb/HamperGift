@@ -29,7 +29,7 @@ namespace Project_API
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 			services.AddScoped<IDataService<Image>, DataService<Image>>();
-			services.AddScoped<IDataService<Invoice>, DataService<Invoice>>();
+			services.AddScoped<IDataService<CartInvoice>, DataService<CartInvoice>>();
 			services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
 			services.AddScoped<IDataService<Category>, DataService<Category>>();
 			services.AddScoped<IDataService<Product>, DataService<Product>>();

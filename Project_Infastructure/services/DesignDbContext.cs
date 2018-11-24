@@ -11,24 +11,26 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Project_Infastructure.services
 {
-    public class UserDbContext :
+    public class DesignDbContext :
 	   IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 	{
-		public UserDbContext(DbContextOptions<UserDbContext> options)
+		public DesignDbContext(DbContextOptions<DesignDbContext> options)
 	  : base(options)
 		{
 		}
-		public DbSet<Category> TblCategories { get; set; }
+		public DbSet<Category> TblCategory { get; set; }
 
         public DbSet<Product> TblProduct { get; set; }
 
         public DbSet<Hamper> TblHamper { get; set; }
 
-        public DbSet<HamperProduct> TblHamperProducts { get; set; }
+        public DbSet<HamperProduct> TblHamperProduct { get; set; }
 
-        public DbSet<Models.Image> TblImages { get; set; }
+        public DbSet<Models.Image> TblImage { get; set; }
 
-        public DbSet<Invoice> TblInvoices { get; set; }
+		public DbSet<CartInvoice> TblCartInvoice { get; set; }
+
+		public DbSet<Cart> TblCart { get; set; }
 		public DbSet<UserDeliveryAddress> TblUserDeliveryAddress { get; set; }
 
 
