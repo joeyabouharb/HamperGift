@@ -1,12 +1,14 @@
 import * as React from 'react';
 import Header from './components/header';
 import Body from './components/body';
-import { StyleSheet, View, Dimensions} from 'react-native'
+import { StyleSheet, View, Dimensions,} from 'react-native'
 import * as dataservices from './services/dataservices';
 import {  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
   listenOrientationChange as loc,
-  removeOrientationListener as rol} from 'react-native-responsive-screen'
+  removeOrientationListener as rol} from 'react-native-responsive-screen';
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -15,61 +17,60 @@ class App extends React.Component {
         cats: [],
         hampers: [],
         cat: 0,
-        query: ''
+        query: '',
     };
-}
 
+}
 
 pickerChanged(id, index){
 
   this.setState({hampers:  dataservices.filterByCat(id),
                     cat: id})
 }
-
-
 GetAllHampers(){
 
  dataservices.HamperData(response => {
    this.setState({hampers: response.Hamper});
  })
 }
-
  GetAllCats(){
   dataservices.CategoryData(response => {
     this.setState({cats: response.Categories});
   })
  }
 
- componentWillUnmount() {
- rol();
 
+ componentWillUnmount() {
+ rol()
 }
 
+
 componentDidMount(){
-  loc(this);
+loc(this)
   this.GetAllHampers();
   this.GetAllCats();
- 
+
 }
 
 
 onSearchChange(text){
-  this.setState({hampers: dataservices.filterByQuery(text),
-                query: text})
-  console.debug(this.state.hampers)
+
+     this.setState({hampers: dataservices.filterByQuery(text),
+        query: text});
+  
 
 }
 
+
+
   render() {
-   
     return (
       <View style={styles.container}>
-      <View style={styles.responsiveBox}>
-      <Header pickerChanged={this.pickerChanged.bind(this)} category={this.state.cat} categories={this.state.cats} query={this.state.query} onSearchChange={this.onSearchChange.bind(this)}/>
+   
+      <Header style={styles.responsiveHeader} pickerChanged={this.pickerChanged.bind(this)} category={this.state.cat} categories={this.state.cats} query={this.state.query} onSearchChange={this.onSearchChange.bind(this)}/>
 
-      <Body hampers={this.state.hampers} />
+      <Body style={styles.responsiveBody} hampers={this.state.hampers} />
         </View>
-      </View>
     );
   }
 }
@@ -77,14 +78,15 @@ onSearchChange(text){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    paddingTop: 25,
     backgroundColor: '#FBF4D3',
-    paddingTop: 30,
-    alignItems: 'center'
   },
-  responsiveBox: {
-    width: wp('84.5%'),
-    height: hp('17%'),
-  
+  responsiveHeader: {
+    height: hp('10%')
+  },
+  responsiveBody: {
+    flex: 1,
   }
 });
 

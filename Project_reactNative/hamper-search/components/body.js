@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import React, { Component} from 'react';
+import { StyleSheet, Text, ScrollView, View } from 'react-native';
+import {  widthPercentageToDP as wp,
+    heightPercentageToDP as hp} from 'react-native-responsive-screen';
 class Body extends Component {
+  
     renderHampers(hampers) {
+
+        
         return hampers.map(hamper => {
             //console.debug(hamper.HamperName)
             return (
@@ -13,21 +17,21 @@ class Body extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+     
+            <ScrollView style={styles.container}>
+
                 {this.renderHampers(this.props.hampers)}
-            </View>
+            </ScrollView >
+         
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 15
+        height: hp('30%')
     },
-    text: {
-        fontSize: 18
-    }
+  
 });
 
 export default Body;
