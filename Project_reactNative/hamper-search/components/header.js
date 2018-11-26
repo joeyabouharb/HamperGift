@@ -17,8 +17,8 @@ class Header extends Component {
         return (
             <View style={styles.flexibleContainer}>
                <View style={styles.containerTitle}>
-                   <Image source={require('./logo.png')} resizeMode='contain' style={{maxHeight: hp('14%')}}/>
-                   <Text style={{fontSize: wp('6%')}}>Hamper Gift</Text>
+                   <Image source={require('./logo.png')} resizeMode='contain' style={{maxHeight: hp('10%')}}/>
+                   <Text style={{fontSize: wp('4%')}}>Hamper Gift</Text>
                </View>
             <View style={styles.container}>
                <Picker
@@ -39,7 +39,7 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.6,
+        flex: 0.7,
         height: hp('12.5%'),
         flexDirection: 'row',
         backgroundColor: '#278e67',
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
       
     },
     flexibleContainer: {
-        flex: 0.6,
+        flex: 0.3,
         display: 'flex',
         flexDirection: 'column',
     }

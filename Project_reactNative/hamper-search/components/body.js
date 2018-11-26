@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         flex: 1 ,
         height: hp('60%'),
         flexDirection: 'column',
-
     },
   
 });

@@ -84,9 +84,11 @@ const styles = StyleSheet.create({
   },
   responsiveHeader: {
     width: wp('95%'),
-   height: hp('8%'),
+   height: hp('16%'),
     flexDirection: 'row',
     justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 1
   },
   responsiveBody: {
 flex: 1,
