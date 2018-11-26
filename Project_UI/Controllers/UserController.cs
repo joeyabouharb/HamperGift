@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Project_Infastructure.Models;
 using Project_Infastructure.services;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project_UI.Controllers
 {
@@ -28,7 +29,6 @@ namespace Project_UI.Controllers
 
 		private UserManager<ApplicationUser> _userManagerService;
      
-        private SignInManager<ApplicationUser> _signInManagerService;
 
 		private IDataService<Hamper> _hamperService;
 
@@ -50,150 +50,14 @@ namespace Project_UI.Controllers
 								)
         {
             _userManagerService = userManager;
-            _signInManagerService = signinManger;
+        
 			_invoiceService = invoiceService;
 			_hamperService = hamperService;
 			_addressService = adressService;
 			_feedBackService = feedbackService;
 			_cartService = cartService;
 		}
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Login()
-        {
-            
-            return View();
-        }
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Login(UserLoginViewModel vm)
-        {
-            if (ModelState.IsValid)
-            {
-             
-                var login = await _signInManagerService.PasswordSignInAsync(vm.UserName, vm.Password, vm.RememberMe, lockoutOnFailure: true);
-                if (login.Succeeded)
-                {
-                    ClaimsIdentity identity;
-                    var user = await  _userManagerService.FindByNameAsync(vm.UserName);
-                    var role = await _userManagerService.GetRolesAsync(user);
-                      if (role.Contains("Customer")){
-                        identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
-                        identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
-                        identity.AddClaim(new Claim(ClaimTypes.Role, "Customer"));
-                        var principal = new ClaimsPrincipal(identity);
-
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
-                         new AuthenticationProperties
-                         {
-                             IsPersistent = vm.RememberMe,
-                             ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                         });
-                       
-                        return RedirectToAction("Index", "Home");
-                      }
-                     else if(role.Contains("Admin")){
-                        identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, vm.UserName));
-                        identity.AddClaim(new Claim(ClaimTypes.Name, vm.UserName));
-                        var principal = new ClaimsPrincipal(identity);
-                        identity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
-                         new AuthenticationProperties
-                         {
-							 
-                             IsPersistent = vm.RememberMe,
-                             ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                         });
-                        return RedirectToAction("Index", "Admin");
-                     } 
-                  
-                }
-                if (login.IsLockedOut)
-                {
-                    ModelState.AddModelError(string.Empty, "Your acount is Locked out!");
-                    return View();
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Wrong User Name/Password");
-                    return View();
-                }
-               
-            }
-            
-            return View(vm);
-        }
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Register()
-        {
-
-            return View();
-        }
-        [AllowAnonymous]
-        [HttpPost]
-          public async Task<IActionResult> Register(UserRegisterViewModel vm)
-        {
-            if (ModelState.IsValid) {
-
-                var user = await _userManagerService.FindByNameAsync(vm.UserName);
-
-                if (user != null)
-                {
-                    ModelState.AddModelError("", "User Already Exists");
-                    return View(vm);
-                }
-                user = new ApplicationUser {
-                   
-                    UserName = vm.UserName,
-                    
-                };
-
-                user.Email = vm.Email;
-                user.PhoneNumber = vm.PhoneNumber;
-
-
-                IdentityResult result = await _userManagerService.CreateAsync(user, vm.Password);
-                 
-                if(result.Succeeded)
-                {
-                    IdentityResult result2 = await _userManagerService.AddToRoleAsync(user, "Customer");
-
-					UserDeliveryAddress address = new UserDeliveryAddress
-					{
-						DeliveryAddress = vm.DeliveryAddress + " " + vm.DeliveryAddress2,
-						StateAddress = vm.State,
-						PostalAddress = vm.PostCode,
-						ApplicationUserId = user.Id
-					
-					};
-
-					await _addressService.Create(address);
-					//go to Home/Index
-					return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    //show errors
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                        return View(vm);
-                    }
-                }
-            }
-            return View(vm);
-           
-            
-          }
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManagerService.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
+       
 
         [HttpGet]
         public async Task<IActionResult> Details()
@@ -313,7 +177,7 @@ namespace Project_UI.Controllers
                     }
                 }
             }
-            return View();
+            return View(vm);
         }
 
         [HttpGet]
@@ -526,22 +390,21 @@ namespace Project_UI.Controllers
 					return NotFound();
 				}
 				Guid guid = Guid.NewGuid();
-				CartInvoice cartInvoice = new CartInvoice
-				{
-					UserDeliveryAddressId = id,
-					purchaseConfirmed = true,
-					CartInvoiceId = guid,
-				};
-				await _invoiceService.Create(cartInvoice);
 				IEnumerable<Cart> Carts = cartDatas.Select(cd => new Cart
 				{
 					HamperId = cd.HamperId,
 					Quantity = cd.Quantity,
+					CartInvoiceId = guid
+				}
+				);
+				CartInvoice cartInvoice = new CartInvoice
+				{
+					purchaseConfirmed = true,
 					CartInvoiceId = guid,
-
-
-				});
-				await _cartService.AddMany(Carts);
+					UserDeliveryAddressId = id,
+					Carts = Carts.ToList()
+				};
+				await _invoiceService.Create(cartInvoice);
 				HttpContext.Session.Clear();
 
 			}
@@ -553,18 +416,28 @@ namespace Project_UI.Controllers
 		public async Task<IActionResult> Feedback()
 		{
 			var user = await _userManagerService.GetUserAsync(User);
-			var addresses = _addressService.Query(add => add.ApplicationUserId == user.Id);
-			var invoices = _invoiceService.Query(inv => addresses.Any(addr => addr.UserDeliveryAddressId == inv.UserDeliveryAddressId));
-			//var hampers = _hamperService.Query(h => invoices.Any(iids => iids.HamperId == h.HamperId));
 
-			//var SelectList = hampers.Select(x => new SelectListItem {
-			//	Value = x.HamperId.ToString(),
-			//	Text = x.HamperName
-			//});
+			var test = _addressService.GetAll()
+					.Include(x => x.CartInvoices)
+					.Where(ad => ad.ApplicationUserId == user.Id);
 
+			var t = test.SelectMany
+				(s => s.CartInvoices.SelectMany
+				(c => c.Carts.Select
+				(ids => ids.HamperId)))
+				.Distinct();
+
+			var hampers = _hamperService.Query(h => t.Any(id => h.HamperId == id));
+
+			var selectList = hampers.Select(item => new SelectListItem {
+				Text = item.HamperName,
+				Value = item.HamperId.ToString()
+
+			});
+				  
 			UserFeedbackViewModel vm = new UserFeedbackViewModel
 			{
-				//hampers = SelectList,
+			hampers = selectList
 				
 			};
 			return View(vm);
@@ -576,12 +449,18 @@ namespace Project_UI.Controllers
 			if (ModelState.IsValid)
 			{
 				bool Isid = int.TryParse(vm.HamperId, out int id);
+				if(Isid == false)
+				{
+					return BadRequest();
+				}
 
+				var user = await _userManagerService.GetUserAsync(User);
 				Feedback feedback = new Feedback
 				{
 					HamperId = id,
 					Rating = vm.rating,
-					UserFeedBack = vm.comment
+					UserFeedBack = vm.comment,
+					ApplicationUserId = user.Id,
 				};
 
 				await _feedBackService.Create(feedback);

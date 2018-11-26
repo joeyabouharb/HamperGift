@@ -25,7 +25,7 @@ namespace Project_Infastructure.Models
 		public string PostalAddress { get; set; }
 
 
-		public ICollection<CartInvoice> Invoices { get; set; }
+		public ICollection<CartInvoice> CartInvoices { get; set; }
 
 	}
 }

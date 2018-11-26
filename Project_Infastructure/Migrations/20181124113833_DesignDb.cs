@@ -250,6 +250,25 @@ namespace Project_Infastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TblCartInvoice",
+                columns: table => new
+                {
+                    CartInvoiceId = table.Column<Guid>(nullable: false),
+                    purchaseConfirmed = table.Column<bool>(nullable: false),
+                    UserDeliveryAddressId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TblCartInvoice", x => x.CartInvoiceId);
+                    table.ForeignKey(
+                        name: "FK_TblCartInvoice_TblUserDeliveryAddress_UserDeliveryAddressId",
+                        column: x => x.UserDeliveryAddressId,
+                        principalTable: "TblUserDeliveryAddress",
+                        principalColumn: "UserDeliveryAddressId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feedback",
                 columns: table => new
                 {
@@ -264,6 +283,12 @@ namespace Project_Infastructure.Migrations
                 {
                     table.PrimaryKey("PK_Feedback", x => x.FeedbackId);
                     table.ForeignKey(
+                        name: "FK_Feedback_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Feedback_TblHamper_HamperId",
                         column: x => x.HamperId,
                         principalTable: "TblHamper",
@@ -272,43 +297,15 @@ namespace Project_Infastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblCartInvoice",
-                columns: table => new
-                {
-                    CartInvoiceId = table.Column<Guid>(nullable: false),
-                    purchaseConfirmed = table.Column<bool>(nullable: false),
-                    UserDeliveryAddressId = table.Column<int>(nullable: false),
-                    HamperId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TblCartInvoice", x => x.CartInvoiceId);
-                    table.ForeignKey(
-                        name: "FK_TblCartInvoice_TblHamper_HamperId",
-                        column: x => x.HamperId,
-                        principalTable: "TblHamper",
-                        principalColumn: "HamperId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TblCartInvoice_TblUserDeliveryAddress_UserDeliveryAddressId",
-                        column: x => x.UserDeliveryAddressId,
-                        principalTable: "TblUserDeliveryAddress",
-                        principalColumn: "UserDeliveryAddressId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TblHamperProduct",
                 columns: table => new
                 {
-                    HamperProductId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     HamperId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblHamperProduct", x => x.HamperProductId);
+                    table.PrimaryKey("PK_TblHamperProduct", x => new { x.HamperId, x.ProductId });
                     table.ForeignKey(
                         name: "FK_TblHamperProduct_TblHamper_HamperId",
                         column: x => x.HamperId,
@@ -341,6 +338,12 @@ namespace Project_Infastructure.Migrations
                         column: x => x.CartInvoiceId,
                         principalTable: "TblCartInvoice",
                         principalColumn: "CartInvoiceId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TblCart_TblHamper_HamperId",
+                        column: x => x.HamperId,
+                        principalTable: "TblHamper",
+                        principalColumn: "HamperId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -384,6 +387,11 @@ namespace Project_Infastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Feedback_ApplicationUserId",
+                table: "Feedback",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Feedback_HamperId",
                 table: "Feedback",
                 column: "HamperId");
@@ -394,8 +402,8 @@ namespace Project_Infastructure.Migrations
                 column: "CartInvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblCartInvoice_HamperId",
-                table: "TblCartInvoice",
+                name: "IX_TblCart_HamperId",
+                table: "TblCart",
                 column: "HamperId");
 
             migrationBuilder.CreateIndex(
@@ -412,11 +420,6 @@ namespace Project_Infastructure.Migrations
                 name: "IX_TblHamper_ImageId",
                 table: "TblHamper",
                 column: "ImageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblHamperProduct_HamperId",
-                table: "TblHamperProduct",
-                column: "HamperId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblHamperProduct_ProductId",
@@ -462,10 +465,10 @@ namespace Project_Infastructure.Migrations
                 name: "TblCartInvoice");
 
             migrationBuilder.DropTable(
-                name: "TblProduct");
+                name: "TblHamper");
 
             migrationBuilder.DropTable(
-                name: "TblHamper");
+                name: "TblProduct");
 
             migrationBuilder.DropTable(
                 name: "TblUserDeliveryAddress");

@@ -36,7 +36,6 @@ namespace ProjectUI
         {
             //configure Identity Db Context
 
-            services.AddDbContext<HamperDbContext>();
             services.AddDbContext<DesignDbContext>();
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                
@@ -79,9 +78,9 @@ namespace ProjectUI
 			});
 			services.ConfigureApplicationCookie(options =>
 			{
-				options.LoginPath = "/User/Login";
+				options.LoginPath = "/Account/Login";
 				options.AccessDeniedPath = "/Home/Error";
-				options.LogoutPath = "/User/Logout";
+				options.LogoutPath = "/Acount/Logout";
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 			}
 			
@@ -138,8 +137,6 @@ namespace ProjectUI
             
             app.UseMvcWithDefaultRoute();
               
-  
-            SeedHelper.Seed(app.ApplicationServices).Wait();
 			
            
         }

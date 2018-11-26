@@ -12,5 +12,7 @@ namespace Project_Infastructure.Models
        
 	    public ICollection<UserDeliveryAddress> UserDeliveryAddresses { get; set; }
 
+		public ICollection<Feedback> Feedbacks { get; set; }
+
     }
 }

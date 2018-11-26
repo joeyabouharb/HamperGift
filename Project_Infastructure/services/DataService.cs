@@ -11,19 +11,19 @@ namespace Project_Infastructure.services
     public class DataService<T> : IDataService<T> where T : class
     {
         //fields
-        private HamperDbContext _context;
+        private DesignDbContext _context;
         private DbSet<T> _dbSet;
 
         //constructor
         public DataService()
         {
-            _context = new HamperDbContext();
+            _context = new DesignDbContext();
             _dbSet = _context.Set<T>();
         }
 
         public async Task Create(T entity)
         {
-            _dbSet.Add(entity);
+           await _dbSet.AddAsync(entity);
            await _context.SaveChangesAsync(); // commit in TSQL
         }
 

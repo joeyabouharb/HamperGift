@@ -10,7 +10,7 @@ using Project_Infastructure.services;
 namespace Project_Infastructure.Migrations
 {
     [DbContext(typeof(DesignDbContext))]
-    [Migration("20181124014657_DesignDb")]
+    [Migration("20181124113833_DesignDb")]
     partial class DesignDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,6 +195,8 @@ namespace Project_Infastructure.Migrations
 
                     b.HasIndex("CartInvoiceId");
 
+                    b.HasIndex("HamperId");
+
                     b.ToTable("TblCart");
                 });
 
@@ -203,15 +205,11 @@ namespace Project_Infastructure.Migrations
                     b.Property<Guid>("CartInvoiceId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("HamperId");
-
                     b.Property<int>("UserDeliveryAddressId");
 
                     b.Property<bool>("purchaseConfirmed");
 
                     b.HasKey("CartInvoiceId");
-
-                    b.HasIndex("HamperId");
 
                     b.HasIndex("UserDeliveryAddressId");
 
@@ -247,6 +245,8 @@ namespace Project_Infastructure.Migrations
 
                     b.HasKey("FeedbackId");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("HamperId");
 
                     b.ToTable("Feedback");
@@ -279,17 +279,11 @@ namespace Project_Infastructure.Migrations
 
             modelBuilder.Entity("Project_Infastructure.Models.HamperProduct", b =>
                 {
-                    b.Property<int>("HamperProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("HamperId");
 
                     b.Property<int>("ProductId");
 
-                    b.HasKey("HamperProductId");
-
-                    b.HasIndex("HamperId");
+                    b.HasKey("HamperId", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -406,14 +400,15 @@ namespace Project_Infastructure.Migrations
                         .WithMany("Carts")
                         .HasForeignKey("CartInvoiceId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Project_Infastructure.Models.Hamper")
+                        .WithMany("Carts")
+                        .HasForeignKey("HamperId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Project_Infastructure.Models.CartInvoice", b =>
                 {
-                    b.HasOne("Project_Infastructure.Models.Hamper")
-                        .WithMany("Invoices")
-                        .HasForeignKey("HamperId");
-
                     b.HasOne("Project_Infastructure.Models.UserDeliveryAddress")
                         .WithMany("Invoices")
                         .HasForeignKey("UserDeliveryAddressId")
@@ -422,6 +417,11 @@ namespace Project_Infastructure.Migrations
 
             modelBuilder.Entity("Project_Infastructure.Models.Feedback", b =>
                 {
+                    b.HasOne("Project_Infastructure.Models.ApplicationUser")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Project_Infastructure.Models.Hamper")
                         .WithMany("Feedbacks")
                         .HasForeignKey("HamperId")
@@ -443,12 +443,12 @@ namespace Project_Infastructure.Migrations
 
             modelBuilder.Entity("Project_Infastructure.Models.HamperProduct", b =>
                 {
-                    b.HasOne("Project_Infastructure.Models.Hamper")
+                    b.HasOne("Project_Infastructure.Models.Hamper", "hamper")
                         .WithMany("HamperProducts")
                         .HasForeignKey("HamperId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Project_Infastructure.Models.Product")
+                    b.HasOne("Project_Infastructure.Models.Product", "Product")
                         .WithMany("HamperProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);

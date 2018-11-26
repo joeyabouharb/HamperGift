@@ -20,16 +20,10 @@ namespace ProjectUI
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<HamperDbContext>();
-                try
-                {
-                    SeedHampers.Initialize(services).Wait();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
+                var context = services.GetRequiredService<DesignDbContext>();
+
+				SeedHelper.Initialize(services).Wait();
+               
                 host.Run();
             }
         }

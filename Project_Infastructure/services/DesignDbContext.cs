@@ -14,6 +14,11 @@ namespace Project_Infastructure.services
     public class DesignDbContext :
 	   IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 	{
+		public DesignDbContext():base()
+		{
+
+		}
+
 		public DesignDbContext(DbContextOptions<DesignDbContext> options)
 	  : base(options)
 		{
@@ -40,8 +45,23 @@ namespace Project_Infastructure.services
             option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB ; Database= HamperGiftDb ; Integrated Security= True");
             //option.UseSqlServer( @"Data Source=192.168.0.10,1433;Initial Catalog=HamperGiftDb; User= SA ; Password= Ja-032083");
         }
+		
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+			
+			modelBuilder.Entity<HamperProduct>()
+				.HasKey(hp => new { hp.HamperId , hp.ProductId });
+			modelBuilder.Entity<HamperProduct>()
+				.HasOne(hp => hp.Product)
+				.WithMany(p => p.HamperProducts)
+				.HasForeignKey(hp => hp.ProductId);
+			modelBuilder.Entity<HamperProduct>()
+				.HasOne(hp => hp.hamper)
+				.WithMany(h => h.HamperProducts)
+				.HasForeignKey(hp => hp.HamperId);
+		}
 
-        
-    }
+	}
    
 }

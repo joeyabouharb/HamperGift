@@ -22,7 +22,7 @@
 
 			{
 				<li class="nav-item">
-					<form class="form-inline" asp-area="" asp-controller="User" asp-action="Logout" method="post">
+					<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
 						<button class="btn btn-dark" type="submit">Logout</button>
 					</form>
 				</li>
@@ -36,8 +36,8 @@
 
 			{
 
-				<li class="nav-item"> @Html.ActionLink("Login", "Login", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
-				<li class="nav-item">@Html.ActionLink("Register", "Register", "User", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+				<li class="nav-item"> @Html.ActionLink("Login", "Login", "Account", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
+				<li class="nav-item">@Html.ActionLink("Register", "Register", "Account", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
 				<li class="nav-item"> @Html.ActionLink("Contact", "Contact", "Home", new object { }, new { @class = "btn btn-transparent text-dark" })</li>
 
 

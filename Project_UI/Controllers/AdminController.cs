@@ -11,18 +11,17 @@ using Project_UI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Project_UI.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        
-
+    
          private UserManager<ApplicationUser> _userManagerService;
      
-        private SignInManager<ApplicationUser> _signInManagerService;
-
 		private IDataService<Category> _categoryService;
 
         private IDataService<Product> _productService;
@@ -40,7 +39,6 @@ namespace Project_UI.Controllers
          IDataService<Image> imageService,
          IDataService<Hamper> hamperService,
          IDataService<HamperProduct> HPService){
-             _signInManagerService = signInManager;
              _userManagerService = userManager;
             _categoryService = categoryService;
             _productService = productService;
@@ -62,66 +60,6 @@ namespace Project_UI.Controllers
 			};
             return View(vm);
         }
-          [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-           
-            await _signInManagerService.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-           [HttpGet] 
-          public IActionResult Register()
-
-        {
-
-            return View();
-        }
-            [HttpPost]
-
-         public async Task<IActionResult> Register(AdminRegisterViewModel vm)
-        {
-            if(ModelState.IsValid){
-                   var user = await _userManagerService.FindByNameAsync(vm.UserName);
-
-                if (user != null)
-                {
-                    ModelState.AddModelError("", "User Already Exists");
-                    return View(vm);
-                }
-                user = new ApplicationUser {
-                   
-                    UserName = vm.UserName,
-                    
-                };
-                
-                user.Email = vm.Email;
-               
-                user.PhoneNumber = vm.PhoneNumber;
-                
-
-
-                IdentityResult result = await _userManagerService.CreateAsync(user, vm.Password);
-                 
-                if(result.Succeeded)
-                {
-                    IdentityResult result2 = await _userManagerService.AddToRoleAsync(user, "Admin");
-                    //go to Home/Index
-                    return RedirectToAction("Index", "Admin");
-                }
-                else
-                {
-                    //show errors
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                        return View(vm);
-                    }
-                }
-            }
-            return View(vm);
-            }
-        
-
         public IActionResult AddCategory(){
             return View();
         }
@@ -205,7 +143,7 @@ namespace Project_UI.Controllers
             return View(vm);
         }
         [HttpPost]
-        public IActionResult AddHamper(AdminAddHamperViewModel vm)
+        public async  Task<IActionResult> AddHamper(AdminAddHamperViewModel vm)
         {
             if (ModelState.IsValid)
             {
@@ -227,26 +165,22 @@ namespace Project_UI.Controllers
                var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
                     .Select(it => it.ProductId);
 
+				IEnumerable<HamperProduct> hamperProducts = productids.Select(p => new HamperProduct
+				{
+					ProductId = p
+				});
 
-                _hamperService.Create(new Hamper
+				await _hamperService.Create(new Hamper
                 {
                     HamperName = vm.HamperName,
                     Cost = vm.Cost,
                     ImageId = imageid,
-                    CategoryId = categoryid
-
+                    CategoryId = categoryid,
+					HamperProducts = hamperProducts.ToList()
                 });
-				foreach(var pid in productids)
-				{
-					_HPService.Create(new HamperProduct
-					{
-						HamperId = _hamperService.GetSingle(h => h.HamperName == vm.HamperName).HamperId,
-						ProductId = pid
-				});
-				}
-				
 
-                    return RedirectToAction("Index", "Admin");
+
+				return RedirectToAction("Index", "Admin");
                 }
             return View();
 
@@ -345,28 +279,28 @@ namespace Project_UI.Controllers
 				{
 					return NotFound();
 				}
+				var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
+				var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
+					 .Select(it => it.ProductId);
 
+				IEnumerable<HamperProduct> hamperProducts = productids.Select(p => new HamperProduct
+				{
+					ProductId = p,
+
+				});
 				Hamper hamper = new Hamper
 				{
+					HamperId = vm.HamperId,
 					HamperName = vm.HamperName,
 					ImageId = imageid,
 					CategoryId = categoryid,
 					Cost = vm.Cost,
-					isDiscontinued = vm.IsDiscontinued
-
+					isDiscontinued = vm.IsDiscontinued,
+					HamperProducts = hamperProducts.ToList()
 				};
 				await _hamperService.Update(hamper);
 
-				var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
-				var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
-					 .Select(it => it.ProductId);
-				 await _HPService.RemoveMany(_HPService.Query(hh => hh.HamperId == vm.HamperId));
-
-				IEnumerable<HamperProduct> hamperProducts = productids.Select(p => new HamperProduct {
-					ProductId = p,
-					HamperId = vm.HamperId
-				});
-				await _HPService.AddMany(hamperProducts);
+			
 
 
 				return RedirectToAction("Index", "Admin");
@@ -439,6 +373,29 @@ namespace Project_UI.Controllers
 				Products = products
 			};
 			return View(vm);
+		}
+
+		public IActionResult BackupDb()
+		{
+			var hampers = _hamperService.GetAll();
+
+			string hamperData = JsonConvert.SerializeObject(hampers, Formatting.Indented);
+
+			using (StreamWriter file = System.IO.File.CreateText(@"..\Project_Infastructure\hampers.json"))
+			{
+				JsonSerializer serializer = new JsonSerializer();
+				serializer.Serialize(file, hampers);
+			}
+			var products = _productService.GetAll();
+			string productData = JsonConvert.SerializeObject(products, Formatting.Indented);
+			using (StreamWriter file = System.IO.File.CreateText(@"..\Project_Infastructure\products.json"))
+			{
+				JsonSerializer serializer = new JsonSerializer();
+				serializer.Serialize(file, products);
+			}
+
+			return Ok();
+
 		}
     }
 }
