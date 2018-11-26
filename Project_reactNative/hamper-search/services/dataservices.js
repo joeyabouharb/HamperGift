@@ -16,7 +16,9 @@ export function filterByCat(id){
     {
      hamps = response.Hamper
     });
-  
+  if(id == 0){
+      return hamps;
+  }
     hamps.map(hamp => {
         if(hamp.CategoryId == id){
         data.push(hamp);
@@ -24,4 +26,23 @@ export function filterByCat(id){
     });
     return data;
     
+}
+
+export function filterByQuery(q){
+    let hamps = [];
+    let data = [];
+    console.debug(q)
+    HamperData(response => 
+        {
+         hamps = response.Hamper
+        });
+
+        hamps.map(hamp => {
+            if(hamp.HamperName.toLowerCase().includes(q.toLowerCase())){
+                data.push(hamp)
+            }
+        })
+
+        return data;
+
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, Picker } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, Picker, Button } from 'react-native';
 
 class Header extends Component {
         renderPickers(categories){
@@ -12,20 +12,25 @@ class Header extends Component {
                 }
             )
         }
-
     render() {
         return (
+            <View>
+               <View style={styles.containerTitle}>
+                   <Image source={require('./logo.png')} resizeMode='contain'/>
+                   <Text style={{fontSize: 25, alignSelf: 'center'}}>Hamper Gift</Text>
+               </View>
             <View style={styles.container}>
                <Picker
-                style={{ height: 60, width: 200, marginLeft: 'auto', marginRight: 'auto' }}
+                style={{ height: 60, width: 180}}
                selectedValue={this.props.category}
-              
-               onValueChange={(itemValue, itemIndex) => this.props.pickerChanged(itemValue, itemIndex)}>
+               onValueChange={(itemValue, itemIndex) => this.props.pickerChanged(itemValue, itemIndex )}>
                <Picker.Item label="Filter By Category"/>
                 <Picker.Item value={0} label="Get All"/>
                 {this.renderPickers(this.props.categories)}
                
                </Picker>
+               <TextInput value={this.props.query}  placeholder='search for hampers' onChangeText={(text) => this.props.onSearchChange(text)}></TextInput>
+            </View>
             </View>
         );
     }
@@ -36,6 +41,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 15,
         backgroundColor: '#278e67',
+        borderColor: 'lightblue',
+        borderWidth: 1,
+        borderBottomWidth: 0,
+        margin: 5,
+        elevation: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2
+
+    },
+    containerTitle: {
+        flexDirection: 'row',
+       justifyContent: 'space-between',
+       marginRight: 10,
+       
     },
     input: {
         flex: 1,
