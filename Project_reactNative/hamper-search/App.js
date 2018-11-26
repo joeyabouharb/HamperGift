@@ -78,15 +78,22 @@ onSearchChange(text){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    paddingTop: 25,
     backgroundColor: '#FBF4D3',
+        paddingTop: 25,
+        flexDirection: 'column' ,
   },
   responsiveHeader: {
-    height: hp('10%')
+    width: wp('95%'),
+   height: hp('8%'),
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   responsiveBody: {
-    flex: 1,
+flex: 1,
+alignItems: 'center',
+justifyContent: 'space-between',
+  
+
   }
 });
 

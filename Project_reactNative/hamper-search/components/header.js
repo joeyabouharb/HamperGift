@@ -17,7 +17,7 @@ class Header extends Component {
         return (
             <View style={styles.flexibleContainer}>
                <View style={styles.containerTitle}>
-                   <Image source={require('./logo.png')} resizeMode='contain' style={{maxHeight: hp('15%')}}/>
+                   <Image source={require('./logo.png')} resizeMode='contain' style={{maxHeight: hp('14%')}}/>
                    <Text style={{fontSize: wp('6%')}}>Hamper Gift</Text>
                </View>
             <View style={styles.container}>
@@ -39,32 +39,36 @@ class Header extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        height: hp('15%'),
+        flex: 0.6,
+        height: hp('12.5%'),
         flexDirection: 'row',
         backgroundColor: '#278e67',
-        alignContent: 'space-between'
+        alignItems: 'center'
+      
     },
     flexibleContainer: {
-        flex: 1,
-        flexDirection: 'column'
+        flex: 0.6,
+        display: 'flex',
+        flexDirection: 'column',
     }
 
     ,
     picker: {
-        height: hp('16%'),
-        width: wp('35%')
+        height: hp('15%'),
+        width: wp('45%')
     },
     containerTitle: {
-        height: hp('14%'),
+        height: hp('10%'),
+       flex: 0.7,
+       justifyContent: 'space-between',
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center'
+  
         
     },
     searchInput:{
-        height: hp('16%'),
-        width: wp('50%')
+        height: hp('5%'),
+        width: wp('60%')
     },
 
 });

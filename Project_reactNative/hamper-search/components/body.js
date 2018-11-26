@@ -21,6 +21,7 @@ class Body extends Component {
             <ScrollView style={styles.container}>
 
                 {this.renderHampers(this.props.hampers)}
+                
             </ScrollView >
          
         );
@@ -29,7 +30,10 @@ class Body extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: hp('30%')
+        flex: 1 ,
+        height: hp('60%'),
+        flexDirection: 'column',
+
     },
   
 });
