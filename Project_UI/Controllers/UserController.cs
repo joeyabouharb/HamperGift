@@ -220,52 +220,7 @@ namespace Project_UI.Controllers
 
 			return View(vm);
         }
-		[HttpPost]
-		public IActionResult AddToCart(int id, int q)
-		{
-			if(q <= 0 || id <= 0)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-			
-			if (ModelState.IsValid)
-			{
-				var hamper = _hamperService.GetSingle(h => h.HamperId == id);
-				if (hamper == null)
-				{
-					return NotFound();
-				}
-
-				const string keyName = "cartData";
-				MapCartData cartData = new MapCartData
-				{
-					HamperId = id,
-					HamperName = hamper.HamperName,
-					Cost = hamper.Cost,
-					Quantity = q
-				};
-
-				List<MapCartData> cartDatas = new List<MapCartData>();
-				var data = HttpContext.Session.GetString(keyName);
-				if (string.IsNullOrEmpty(data))
-				{
-					cartDatas.Add(cartData);
-					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
-				}
-				else
-				{
-
-					var cache = HttpContext.Session.GetString(keyName);
-					cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
-					cartDatas.Add(cartData);
-					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
-				}
-				return RedirectToAction("Cart", "User");
-			}
-			
-			return RedirectToAction("Index", "Home");
-
-		}
+	
         [HttpGet]
         public IActionResult ChangePassword() {
 
@@ -354,8 +309,8 @@ namespace Project_UI.Controllers
 			MapCartData cartData = cartDatas.SingleOrDefault(c => c.HamperId == id);
 			if (cartData == null)
 			{
-				return NotFound();
-			}
+					return RedirectToAction("Cart", "User");
+				}
 			cartDatas.Remove(cartData);
 			cartData.Quantity = q;
 			cartDatas.Add(cartData);

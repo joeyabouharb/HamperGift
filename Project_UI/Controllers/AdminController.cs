@@ -182,7 +182,7 @@ namespace Project_UI.Controllers
 
 				return RedirectToAction("Index", "Admin");
                 }
-            return View();
+            return View(vm);
 
         }
            
@@ -193,7 +193,11 @@ namespace Project_UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upload(IFormFile image){
+        public IActionResult AddImage(IFormFile image){
+			if(image == null)
+			{
+				return View();
+			}
             BinaryReader binaryReader = new BinaryReader(image.OpenReadStream());
             byte[] fileData = binaryReader.ReadBytes((int)image.Length);
 
@@ -215,7 +219,7 @@ namespace Project_UI.Controllers
 			Hamper hamper = _hamperService.GetSingle(h => h.HamperId == id);
 			if(hamper == null)
 			{
-				return View();
+				return NotFound();
 
 			}
 			var product = _productService.GetAll().ToList();
