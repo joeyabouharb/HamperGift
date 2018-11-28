@@ -284,12 +284,14 @@ namespace Project_UI.Controllers
 					return NotFound();
 				}
 				var getnames = vm.ProductNamesList.Where(pl => pl.Checked == true).Select(p => p.ProductName);
-				var productids = _productService.Query(p => getnames.Any(g => g == p.ProductName))
-					 .Select(it => it.ProductId);
+                var productids = _productService.Query
+                    (p => getnames.Any(g => g == p.ProductName));
+				
 
 				IEnumerable<HamperProduct> hamperProducts = productids.Select(p => new HamperProduct
 				{
-					ProductId = p,
+                    HamperId = vm.HamperId,
+                    ProductId = p.ProductId,
 
 				});
 				Hamper hamper = new Hamper

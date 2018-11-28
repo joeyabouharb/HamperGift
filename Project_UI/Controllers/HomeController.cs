@@ -109,7 +109,7 @@ namespace Project_UI.Controllers
 			return RedirectToAction("Index", "Home");
 
 		}
-
+        [AllowAnonymous]
 		[HttpGet]
         public IActionResult Contact()
         {

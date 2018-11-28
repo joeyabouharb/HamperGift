@@ -61,17 +61,21 @@
             <div class="d-inline-flex flex-row">
 
                 <br />
-                @foreach (var feedback in Model.Feedbacks)
-                {
-                    <div class="d-flex flex-column flex-wrap text-center bg-white rounded shadow-sm p-3 m-2" style="flex: 1 0 22%">
-                        <div>Name: @feedback.Name</div>
-                        <div>Rating: @feedback.Rating</div>
-                        <div>Comment: @feedback.UserFeedBack</div>
-                    </div>
-                }
+                @{ if (Model.Feedbacks != null)
+                    {
+                        @foreach (var feedback in Model.Feedbacks)
+                        {
+                            <div class="d-flex flex-column flex-wrap text-center bg-white rounded shadow-sm p-3 m-2" style="flex: 1 0 22%">
+                                <div>Name: @feedback.Name</div>
+                                <div>Rating: @feedback.Rating</div>
+                                <div>Comment: @feedback.UserFeedBack</div>
+                            </div>
+                        }
+                        }
+                    }
 
 
-            </div>
+                </div>
         </div>
     </div>
 
