@@ -41,6 +41,15 @@ namespace Project_UI.Controllers
                 .Include(ha => ha.Feedbacks).
                 SingleOrDefault(h => h.HamperId == id);
 
+			HamperDetailsViewModel vm = new HamperDetailsViewModel();
+			if(hamper == null)
+			{
+				return NotFound();
+			}
+			if (hamper.isDiscontinued == true)
+			{
+				return View(vm);
+			}
 
             var products = _hamperProductService.GetAll().
                                                  Where(hps => hps.HamperId == id).
@@ -53,7 +62,7 @@ namespace Project_UI.Controllers
             
             
 
-            HamperDetailsViewModel vm = new HamperDetailsViewModel{
+             vm = new HamperDetailsViewModel{
                 Name = hamper.HamperName,
                 Cost = hamper.Cost,
                 ImageId = hamper.ImageId,

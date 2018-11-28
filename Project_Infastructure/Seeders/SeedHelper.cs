@@ -101,7 +101,7 @@ namespace Project_Infastructure.services
             if (!context.TblImage.Any())
             {
 				System.Drawing.Image image = System.Drawing.Image.FromFile(
-				"C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyhamper.jpg");
+				"C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyhamper.jpg");
 				
 				
 				MemoryStream ms = new MemoryStream();
@@ -110,75 +110,75 @@ namespace Project_Infastructure.services
                 byte[] img = ms.ToArray();
 
                 await context.TblImage.AddAsync(new Image {FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_clothes_hamper.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_clothes_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyclothes";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_hamper.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\baby_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyHamper2";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyboy_hamper.png");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\babyboy_hamper.png");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "babyHamperboy";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/png", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\christmas_hamper.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\christmas_hamper.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "christmas";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\disney_kids.jpeg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\disney_kids.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "disney_kids";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\hamper_for_her.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\hamper_for_her.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "hamper-for-her";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\happy_birthday1.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\happy_birthday1.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "birthdayHamper";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Healthy_fruits.jpeg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Healthy_fruits.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "FruitHamper";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Kids_Sweets.jpeg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Kids_Sweets.jpeg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "Sweets";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Men_Chocolates.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Men_Chocolates.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "chocolatesformen";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
 
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\male_hamper1.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\male_hamper1.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "male-hamper-1";
 				img = ms.ToArray();
 				await context.TblImage.AddAsync(new Image { FileName = image.Tag.ToString(), ContentType = "image/jpeg", Data = img });
 
-				image = System.Drawing.Image.FromFile("C:\\Users\\joseph\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Special_Wine_Cheese.jpg");
+				image = System.Drawing.Image.FromFile("C:\\Users\\joeha\\source\\repos\\FinalProject_Hamper\\Project_UI\\wwwroot\\static\\img\\Special_Wine_Cheese.jpg");
 				ms = new MemoryStream();
 				image.Save(ms, image.RawFormat);
 				image.Tag = "wine and cheese";

@@ -2,7 +2,14 @@
 @model HamperDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
-
-@{ await Html.RenderPartialAsync("_HamperDetails", Model);}
+@{ if (Model.Name != null)
+	{
+		await Html.RenderPartialAsync("_HamperDetails", Model);
+	}
+	else
+	{
+		<div><span> This Product is no longer available</span></div>
+	}
+}
