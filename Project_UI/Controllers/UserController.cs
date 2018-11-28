@@ -324,7 +324,10 @@ namespace Project_UI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> PurchaseCart(string AddressId)
 		{
-			if (ModelState.IsValid)
+
+            
+
+            if (ModelState.IsValid)
 			{
 				const string keyName = "cartData";
 				var data = HttpContext.Session.GetString(keyName);
@@ -373,8 +376,8 @@ namespace Project_UI.Controllers
 			var user = await _userManagerService.GetUserAsync(User);
 
 			var test = _addressService.GetAll()
-					.Include(x => x.CartInvoices)
-					.Where(ad => ad.ApplicationUserId == user.Id);
+					.Where(ad => ad.ApplicationUserId == user.Id)
+                        .Include(x => x.CartInvoices);
 
 			var t = test.SelectMany
 				(s => s.CartInvoices.SelectMany
@@ -410,15 +413,24 @@ namespace Project_UI.Controllers
 				}
 
 				var user = await _userManagerService.GetUserAsync(User);
-				Feedback feedback = new Feedback
+                var feedbacks = _feedBackService.Query(x => x.ApplicationUserId == user.Id)
+                  .SingleOrDefault(f => f.HamperId == id);
+                if (feedbacks != null)
+                {
+                    ModelState.AddModelError("", "Feedback alread exists");
+                    return View(vm);
+                }
+                Feedback feedback = new Feedback
 				{
 					HamperId = id,
 					Rating = vm.rating,
 					UserFeedBack = vm.comment,
 					ApplicationUserId = user.Id,
+                    Name = User.Identity.Name
 				};
+              
 
-				await _feedBackService.Create(feedback);
+                await _feedBackService.Create(feedback);
 		
 				return RedirectToAction("Index", "Home");
 			}

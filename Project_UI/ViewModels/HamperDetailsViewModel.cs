@@ -19,5 +19,7 @@ namespace Project_UI.ViewModels
         public string Category {get; set;}
 
         public IEnumerable<Product> Products { get; set; }
+
+        public IEnumerable<Feedback> Feedbacks { get; set; }
     }
 }

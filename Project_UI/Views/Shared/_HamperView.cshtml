@@ -48,7 +48,7 @@
 								//var user = await UserManager.GetUserAsync(User);
 								if (User.IsInRole("Customer"))
 								{
-									<form asp-controller="User" asp-action="AddToCart" asp-route-id="@hamper.HamperId" asp-route-q="@Model.Quantity" method="post">
+									<form asp-controller="Home" asp-action="Index" asp-route-id="@hamper.HamperId" asp-route-q="@Model.Quantity" method="post">
 										<div class="form-group row justify-content-center">
 											<input type="number" asp-for="@Model.Quantity" name="q" class="col-5 mr-2 form-control w-25" />
 											<button class="col-4 btn btn-primary form-control" type="submit"><i class="fa fa-cart-plus"></i></button>
