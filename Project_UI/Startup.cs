@@ -73,7 +73,7 @@ namespace ProjectUI
 			services.Configure<CookiePolicyOptions>(options =>
 			{
 				options.CheckConsentNeeded = context => false;
-				options.MinimumSameSitePolicy = SameSiteMode.Lax;
+				options.MinimumSameSitePolicy = SameSiteMode.None;
 			
 			});
 			services.ConfigureApplicationCookie(options =>
@@ -81,15 +81,20 @@ namespace ProjectUI
 				options.LoginPath = "/Account/Login";
 				options.AccessDeniedPath = "/Home/Error";
 				options.LogoutPath = "/Acount/Logout";
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+				options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+				options.Cookie.HttpOnly = true;
 			}
 			
 			);
 			
 			services.AddDistributedMemoryCache();
 
-			services.AddAuthentication()
-					.AddCookie();
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+				{
+					
+				});
+					
             
             services.AddMvc().AddSessionStateTempDataProvider();
 

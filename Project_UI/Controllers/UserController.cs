@@ -220,52 +220,7 @@ namespace Project_UI.Controllers
 
 			return View(vm);
         }
-		[HttpPost]
-		public IActionResult AddToCart(int id, int q)
-		{
-			if(q <= 0 || id <= 0)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-			
-			if (ModelState.IsValid)
-			{
-				var hamper = _hamperService.GetSingle(h => h.HamperId == id);
-				if (hamper == null)
-				{
-					return NotFound();
-				}
-
-				const string keyName = "cartData";
-				MapCartData cartData = new MapCartData
-				{
-					HamperId = id,
-					HamperName = hamper.HamperName,
-					Cost = hamper.Cost,
-					Quantity = q
-				};
-
-				List<MapCartData> cartDatas = new List<MapCartData>();
-				var data = HttpContext.Session.GetString(keyName);
-				if (string.IsNullOrEmpty(data))
-				{
-					cartDatas.Add(cartData);
-					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
-				}
-				else
-				{
-
-					var cache = HttpContext.Session.GetString(keyName);
-					cartDatas = JsonConvert.DeserializeObject<List<MapCartData>>(cache);
-					cartDatas.Add(cartData);
-					HttpContext.Session.SetString(keyName, JsonConvert.SerializeObject(cartDatas));
-				}
-				return RedirectToAction("Cart", "User");
-			}
-			
-			return RedirectToAction("Index", "Home");
-
-		}
+	
         [HttpGet]
         public IActionResult ChangePassword() {
 
@@ -354,8 +309,8 @@ namespace Project_UI.Controllers
 			MapCartData cartData = cartDatas.SingleOrDefault(c => c.HamperId == id);
 			if (cartData == null)
 			{
-				return NotFound();
-			}
+					return RedirectToAction("Cart", "User");
+				}
 			cartDatas.Remove(cartData);
 			cartData.Quantity = q;
 			cartDatas.Add(cartData);
@@ -369,7 +324,10 @@ namespace Project_UI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> PurchaseCart(string AddressId)
 		{
-			if (ModelState.IsValid)
+
+            
+
+            if (ModelState.IsValid)
 			{
 				const string keyName = "cartData";
 				var data = HttpContext.Session.GetString(keyName);
@@ -418,8 +376,8 @@ namespace Project_UI.Controllers
 			var user = await _userManagerService.GetUserAsync(User);
 
 			var test = _addressService.GetAll()
-					.Include(x => x.CartInvoices)
-					.Where(ad => ad.ApplicationUserId == user.Id);
+					.Where(ad => ad.ApplicationUserId == user.Id)
+                        .Include(x => x.CartInvoices);
 
 			var t = test.SelectMany
 				(s => s.CartInvoices.SelectMany
@@ -455,15 +413,24 @@ namespace Project_UI.Controllers
 				}
 
 				var user = await _userManagerService.GetUserAsync(User);
-				Feedback feedback = new Feedback
+                var feedbacks = _feedBackService.Query(x => x.ApplicationUserId == user.Id)
+                  .SingleOrDefault(f => f.HamperId == id);
+                if (feedbacks != null)
+                {
+                    ModelState.AddModelError("", "Feedback alread exists");
+                    return View(vm);
+                }
+                Feedback feedback = new Feedback
 				{
 					HamperId = id,
 					Rating = vm.rating,
 					UserFeedBack = vm.comment,
 					ApplicationUserId = user.Id,
+                    Name = User.Identity.Name
 				};
+              
 
-				await _feedBackService.Create(feedback);
+                await _feedBackService.Create(feedback);
 		
 				return RedirectToAction("Index", "Home");
 			}

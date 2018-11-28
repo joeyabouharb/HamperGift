@@ -15,6 +15,8 @@ namespace Project_Infastructure.Models
 
 		public int HamperId { get; set; }
 
+        public string Name { get; set; }
+
 		public Guid ApplicationUserId { get; set; }
 
 	}

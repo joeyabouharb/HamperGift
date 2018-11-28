@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Project_Infastructure.services;
 using Project_Infastructure.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project_UI.Controllers
 {
@@ -36,24 +37,39 @@ namespace Project_UI.Controllers
 
      [HttpGet]
         public IActionResult Details(int id){
-           Hamper hamper = _hamperDataService.GetSingle(h => h.HamperId == id);
+            Hamper hamper = _hamperDataService.GetAll()
+                .Include(ha => ha.Feedbacks).
+                SingleOrDefault(h => h.HamperId == id);
 
-            IEnumerable<HamperProduct> hamperProducts = _hamperProductService.Query(hp => hp.HamperId == hamper.HamperId);
+			HamperDetailsViewModel vm = new HamperDetailsViewModel();
+			if(hamper == null)
+			{
+				return NotFound();
+			}
+			if (hamper.isDiscontinued == true)
+			{
+				return View(vm);
+			}
 
-            IEnumerable<Product> products = _productDataService.Query(p => hamperProducts.Any(ids => ids.ProductId == p.ProductId));
-         
+            var products = _hamperProductService.GetAll().
+                                                 Where(hps => hps.HamperId == id).
+                                                 Include(hp => hp.Product).
+                                                 Select(pr => pr.Product);
+
+            IEnumerable<Feedback> feedbacks = hamper.Feedbacks;
 
          
             
             
 
-            HamperDetailsViewModel vm = new HamperDetailsViewModel{
+             vm = new HamperDetailsViewModel{
                 Name = hamper.HamperName,
                 Cost = hamper.Cost,
                 ImageId = hamper.ImageId,
                 Category = _catService.GetSingle
                 (cat => cat.CategoryId == hamper.CategoryId).CategoryName,
-               Products = products
+               Products = products,
+               Feedbacks = feedbacks
            };
             return View(vm);
             

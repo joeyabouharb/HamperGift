@@ -78,7 +78,7 @@ namespace Project_UI.Controllers
 						 {
 
 							 IsPersistent = vm.RememberMe,
-							 ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+							 ExpiresUtc = DateTime.UtcNow.AddMinutes(5),
 						 });
 						return RedirectToAction("Index", "Admin");
 					}

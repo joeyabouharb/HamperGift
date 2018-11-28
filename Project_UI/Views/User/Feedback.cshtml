@@ -5,26 +5,27 @@
 @model UserFeedbackViewModel
 <h2>Feedback</h2>
 <div class="container">
-	<form asp-controller="User" asp-action="Feedback" method="post">
-		<div class="form-group">
-			<label asp-for="hampers">Hampers: </label>
-			<select class="custom-select" asp-for="HamperId" asp-items="Model.hampers">
-				<option value="">Purchased Hampers: </option>
+    <form asp-controller="User" asp-action="Feedback" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="hampers">Hampers: </label>
+            <select class="custom-select" asp-for="HamperId" asp-items="Model.hampers">
+                <option value="">Purchased Hampers: </option>
 
-</select>
-		</div>
-		<div class="form-gorup">
-			<label asp-for="rating"></label>
-			<select class="custom-select" asp-for="rating" asp-items="@Html.GetEnumSelectList(typeof(ratings))"></select>
-		</div>
-		<div class="form-group">
-			<label asp-for="comment"></label>
-			<textarea class="form-control" maxlength="100" rows="20" asp-for="comment">
+            </select>
+        </div>
+        <div class="form-gorup">
+            <label asp-for="rating"></label>
+            <select class="custom-select" asp-for="rating" asp-items="@Html.GetEnumSelectList(typeof(ratings))"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="comment"></label>
+            <textarea class="form-control" maxlength="100" rows="20" asp-for="comment">
 
 			</textarea>
-		</div>
-		<button type="submit"> Submit</button>
+        </div>
+        <button type="submit"> Submit</button>
 
-	</form>
+    </form>
 
 </div>
