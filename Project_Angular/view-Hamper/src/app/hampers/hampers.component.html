@@ -1,30 +1,61 @@
 <div class="container bg-light shadow rounded justify-content-center p-3">
-<h1 class="text-center">
- Hamper Gift
-</h1>
+  <h1 class="text-center">
+    Hamper Gift
+  </h1>
 </div>
 <div class="container">
   <div>
     <span class="d-inline">Search: </span>
-    <input class="form-control" type="text"  [(ngModel)]="q" (change)="QueryLoad()"/>
+    <input class="form-control" type="text" [(ngModel)]="q" (change)="QueryLoad()" />
   </div>
 
 
-    <div class="form-group">
-        <span>or filter by: </span>
+  <div class="form-group">
+    <span>or filter by: </span>
     <select class="custom-select" [(ngModel)]="id" (change)="LoadHampers()">
-        <option [ngValue]="0" selected>Filter By Category</option>
-        <option *ngFor="let c of categories" [ngValue]="c.CategoryId"> {{c.CategoryName}} </option>
-      </select>
-    </div>
+      <option [ngValue]="0" selected>Filter By Category</option>
+      <option *ngFor="let c of categories" [ngValue]="c.CategoryId"> {{c.CategoryName}} </option>
+    </select>
+  </div>
+
+</div>
+<div class="container d-flex flex-row align-items-center bg-light rounded shadow flex-wrap p-2">
+  <div class="text-center d-flex flex-column flex-wrap bg-white rounded justify-content-center align-self-stretch" *ngFor="let h of hampers;" ng- style="flex:1 0 30%; margin: 10px; padding: 10px">
+
+    <span>Id: {{h.HamperId}}</span>
+    <span> {{h.HamperName}}</span>
+    <span> ${{h.Cost}}</span>
+    <form>
+      <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success rounded" (click)="getProductDetails(h.HamperId)">Hamper Details</button>
+    </form>
 
   </div>
-<div class="container d-flex flex-row align-items-center bg-light rounded shadow flex-wrap">
-  <div class="text-center d-flex flex-column flex-wrap" *ngFor="let h of hampers;"  style="flex:1 0 30%; max-width:200px; margin: 10px;">
-   
-      <span>Id: {{h.HamperId}}</span> 
-       <span> {{h.HamperName}}</span> 
-        <span> ${{h.Cost}}</span>
-       
+
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Products: </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ol>
+          <li *ngFor="let p of products">
+            <span>{{p.ProductName}} </span> <span>{{p.ProductSize}}</span>
+          </li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
   </div>
 </div>
