@@ -142,7 +142,12 @@ namespace Project_UI.Controllers
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             return View();
         }
-
+		[AllowAnonymous]
+		[HttpGet]
+		public IActionResult About()
+		{
+			return View();
+		}
 
 
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project_Infastructure.services;
 using Project_Infastructure.Models;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project_API.Controllers
 {
@@ -70,15 +71,25 @@ namespace Project_API.Controllers
 			return JsonConvert.SerializeObject(hamper);
 		}
 		[HttpGet("categories")]
-		public ActionResult<string> GetCats(string q)
+		public ActionResult<string> GetCats()
 		{
 			var cats = _categoryService.GetAll();
 
 			if (cats == null)
 			{
-				return NotFound(q);
+				return NotFound();
 			}
 			return JsonConvert.SerializeObject(cats);
+		}
+		[HttpGet("products/{id}")]
+		public ActionResult<string> GetProducts(int id)
+		{
+			var hps = _hpService.GetAll().
+				Include(p => p.Product)
+				.Where(prd => prd.HamperId == id)
+				.Select(pr => pr.Product);
+
+			return JsonConvert.SerializeObject(hps);
 		}
 	}
 }

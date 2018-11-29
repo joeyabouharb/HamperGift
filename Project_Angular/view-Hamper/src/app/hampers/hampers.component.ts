@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnInit,
+  ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
@@ -14,12 +16,15 @@ export class HampersComponent implements OnInit {
   categories:any [];
   hampersQ:any [];
   id = 0;
+  hid = 0;
   q = '';
+  products: any[];
   constructor(public rest:RestService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.getHampers();
     this.getCats();
+
   }
 
   LoadHampers(){
@@ -36,7 +41,17 @@ export class HampersComponent implements OnInit {
       this.hampers = data;
     });
   }
-
+  getProductsById(id: number) {
+    this.rest.getProds(id).subscribe((data: []) => {
+      this.products = data
+    });
+   
+  }
+ 
+  getProductDetails(id: number) {
+    this.getProductsById(id);
+    console.log(this.products);
+  }
   getCats(){
     this.rest.getCats().subscribe((data: []) => {
        
@@ -68,4 +83,5 @@ export class HampersComponent implements OnInit {
 
 
   }
+
   }
