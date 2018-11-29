@@ -36,7 +36,7 @@ namespace ProjectUI
         {
             //configure Identity Db Context
 
-            services.AddDbContext<DesignDbContext>();
+            services.AddDbContext<DesignDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                
                 .AddEntityFrameworkStores<DesignDbContext>()
@@ -63,12 +63,7 @@ namespace ProjectUI
                 
             });
             //session and authorization handlers
-            services.AddSession(options =>
-            {
-				options.Cookie.Name = "HamperSession";
-                options.IdleTimeout = TimeSpan.FromMinutes(5);
-			
-            });
+          
 
 			services.Configure<CookiePolicyOptions>(options =>
 			{
@@ -76,26 +71,26 @@ namespace ProjectUI
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			
 			});
-			services.ConfigureApplicationCookie(options =>
-			{
-				options.LoginPath = "/Account/Login";
-				options.AccessDeniedPath = "/Home/Error";
-				options.LogoutPath = "/Acount/Logout";
-				options.Cookie.Expiration = TimeSpan.FromMinutes(5);
-				options.Cookie.HttpOnly = true;
-			}
+		
 			
-			);
-			
-			services.AddDistributedMemoryCache();
 
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 				{
-					
+					options.LoginPath = "/Account/Login";
+					options.AccessDeniedPath = "/Error/AuthError";
+					options.LogoutPath = "/Acount/Logout";
+					options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+					options.Cookie.HttpOnly = true;
+					options.Cookie.Name = "usercontext";
 				});
-					
-            
+				  services.AddSession(options =>
+            {
+				options.Cookie.Name = "HamperSession";
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+			
+            });	
+            services.AddDistributedMemoryCache();
             services.AddMvc().AddSessionStateTempDataProvider();
 
 			
@@ -126,7 +121,7 @@ namespace ProjectUI
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/ApplicationError");
             }
             app.UseHttpsRedirection();
 

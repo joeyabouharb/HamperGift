@@ -29,8 +29,8 @@
 			<span asp-validation-for="State"></span>
 
 		</div>
-		<button type="submit">Add</button>
-
+		<button class="btn btn-dark" type="submit">Add</button>
+		@Html.ActionLink("Go back", "Details", "User", new object { }, new { @class = "btn btn-danger" })
 	</form>
 
 

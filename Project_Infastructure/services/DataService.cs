@@ -15,9 +15,9 @@ namespace Project_Infastructure.services
         private DbSet<T> _dbSet;
 
         //constructor
-        public DataService()
+        public DataService(DesignDbContext context)
         {
-            _context = new DesignDbContext();
+			_context = context;
             _dbSet = _context.Set<T>();
         }
 

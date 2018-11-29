@@ -5,3 +5,5 @@
 }
 
 @{ await Html.RenderPartialAsync("_HamperDetails", Model);}
+
+@Html.ActionLink("Go Back", "Index", "Admin", new object { }, new { @class = "btn btn-danger" })

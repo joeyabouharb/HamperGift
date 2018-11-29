@@ -42,9 +42,12 @@
 
 
 						<div class="row form-group justify-content-center">
-							<select class="custom-select w-50" asp-items="@Model.Addresses" asp-for="AddressId">
-								
-							</select>
+							@{ if (Model.Addresses != null)
+							{
+								<select class="custom-select w-50" asp-items="@Model.Addresses" asp-for="AddressId"></select>
+							}
+							}
+
 
 						</div>
 

@@ -8,10 +8,8 @@ namespace Project_Infastructure.Models
     public class HamperProduct
     {
        
-        [ForeignKey("TblHamper")]
         public int HamperId { get; set; }
 		public Hamper hamper { get; set; }
-        [ForeignKey("TblProduct")]
         public int ProductId { get; set; }
 		public Product Product { get; set; }
 

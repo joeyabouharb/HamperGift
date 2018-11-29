@@ -15,7 +15,7 @@ namespace Project_UI.ViewModels
 
         [Required(ErrorMessage = "Please Enter Your Password Here"),
         DataType(DataType.Password),
-        Display(Name = "Confirm Password")]
+        Display(Name = "New Password")]
         public string NewPassword { get; set; }
 
         [Required(ErrorMessage = "Please Enter Your Password Again to Confirm Password"),
