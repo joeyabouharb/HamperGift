@@ -6,7 +6,7 @@
 
 <div class="container">
 	<h2 class="text-center">@User.Identity.Name's Cart</h2>
-	<div class="d-flex flex-column">
+	<div class="d-flex flex-column flex-wrap">
 
 
 		@{
@@ -16,35 +16,37 @@
 				foreach (var item in Model.mapCartDatas)
 				{
 
-					<div class="d-flex flex-row justify-content-between bg-white rounded shadow m-2 p-3 align-items-center">
-						<div class="col">@item.HamperName</div>
-						<form class="form-inline col-auto" method="post" asp-controller="User" asp-action="UpdateCartItem">
-							<p class="pt-3">@{decimal price = (item.Cost * item.Quantity);} @price.ToString("C")</p>
+		<div class="d-flex flex-row flex-wrap justify-content-center bg-white rounded shadow m-2 p-3 align-items-center">
+			<p class="col-sm-auto text-center">@item.HamperName</p>
+			<form class="form-inline col-sm-auto" method="post" asp-controller="User" asp-action="UpdateCartItem">
+				<p class="col-sm-auto pt-3 text-center">@{decimal price = (item.Cost * item.Quantity);} @price.ToString("C")</p>
 
-					  <div class="d-flex flex-row justify-content-end">
+				<div class="d-flex flex-row align-content-center">
+					
+						<label class="pt-1 pr-2" asp-for="@Model.Quantity"></label>
+						<input hidden asp-for="@item.HamperId" name="id" />
+						<input class="form-control w-50 mr-2" asp-for="@item.Quantity" type="number" name="q" />
+						<button type="submit" name="edit" class="btn btn-primary">Edit Item</button>
+				
+				</div>	
 
-								<label asp-for="@Model.Quantity"></label>
-								<input hidden asp-for="@item.HamperId" name="id"/>
-								<input class="form-control w-50 ml-3" asp-for="@item.Quantity" type="number" name="q"/>
-
-							</div>
-							<button type="submit" name="edit" class="btn btn-primary ml-3">Edit Item</button>
-						</form>
-
-						<form asp-action="DeleteCartItem" asp-controller="User" asp-route-id="@item.HamperId">
-							<input hidden asp-for="@item.HamperId" />
-							<button class="btn btn-danger" type="submit">Delete</button>
-						</form>
+			</form>
+			<div class="d-flex flex-row justify-content-center m-sm-0 m-2">
+				<form class="ml-sm-2" asp-action="DeleteCartItem" asp-controller="User" asp-route-id="@item.HamperId">
+					<input hidden asp-for="@item.HamperId" />
+					<button class="btn btn-danger" type="submit">Delete</button>
+				</form>
+			</div>
 					</div>
 
 				}
-					<form asp-action="PurchaseCart" asp-controller="User" asp-route-id="@Model.AddressId" method="post">
+					<form class="ml-auto mr-auto" asp-action="PurchaseCart" asp-controller="User" asp-route-id="@Model.AddressId" method="post">
 
 
 						<div class="row form-group justify-content-center">
 							@{ if (Model.Addresses != null)
 							{
-								<select class="custom-select w-50" asp-items="@Model.Addresses" asp-for="AddressId"></select>
+								<select class="custom-select" asp-items="@Model.Addresses" asp-for="AddressId"></select>
 							}
 							}
 
