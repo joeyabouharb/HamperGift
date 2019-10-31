@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,8 @@ namespace Project_API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-			services.AddScoped<IDataService<Image>, DataService<Image>>();
+            services.AddDbContext<DesignDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IDataService<Image>, DataService<Image>>();
 			services.AddScoped<IDataService<CartInvoice>, DataService<CartInvoice>>();
 			services.AddScoped<IDataService<Hamper>, DataService<Hamper>>();
 			services.AddScoped<IDataService<Category>, DataService<Category>>();
